@@ -9,7 +9,7 @@ public class sell_history
 {
     @Column(name = "sell_history_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int sell_history_id;
 
 

@@ -9,7 +9,7 @@ public class provider
 {
     @Column(name = "provider_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int provider_id;
 
     @Column( name = "provider_name" )

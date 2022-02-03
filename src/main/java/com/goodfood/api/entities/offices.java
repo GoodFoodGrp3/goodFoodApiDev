@@ -11,7 +11,7 @@ public class offices
 {
     @Column(name = "office_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int office_id;
 
     @Column( name = "city" )

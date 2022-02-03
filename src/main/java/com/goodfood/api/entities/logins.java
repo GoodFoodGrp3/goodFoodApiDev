@@ -13,7 +13,7 @@ public class logins
 {
     @Column(name = "login_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int login_id;
 
     private int employee_id;

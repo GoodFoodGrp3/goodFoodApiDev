@@ -12,7 +12,7 @@ public class employees
 {
     @Column(name = "employee_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int employee_id;
 
     private int co_employee_id;

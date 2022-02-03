@@ -10,7 +10,7 @@ public class payments
 {
     @Column(name = "payment_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int payment_id;
 
     private int customer_id;

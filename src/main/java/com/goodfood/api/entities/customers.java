@@ -12,7 +12,7 @@ public class customers
 {
     @Column(name = "customer_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customer_id;
 
     private Long order_id;

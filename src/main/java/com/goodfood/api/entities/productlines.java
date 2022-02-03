@@ -9,7 +9,7 @@ public class productlines
 {
     @Column(name = "productline_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int productline_id;
 
     @Column(name = "text_description")

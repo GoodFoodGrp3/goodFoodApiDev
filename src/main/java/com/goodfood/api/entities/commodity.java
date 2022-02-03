@@ -11,7 +11,7 @@ public class commodity
 {
     @Column(name = "commodity_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long commodity_id;
 
     //private Long provider_id;

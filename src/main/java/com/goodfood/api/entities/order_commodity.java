@@ -10,7 +10,7 @@ public class order_commodity
 {
     @Column(name = "order_commodity_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int order_commodity_id;
 
     private int employee_id;

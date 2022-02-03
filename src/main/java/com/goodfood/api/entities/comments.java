@@ -11,7 +11,7 @@ public class comments
 {
     @Column(name = "comment_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int comment_id;
 
     private int customer_id;
