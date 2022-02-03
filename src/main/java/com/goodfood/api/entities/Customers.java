@@ -16,7 +16,10 @@ public class Customers
     private Long customer_id;
 
     private Long order_id;
-    private Long comment_id;
+
+    @OneToOne(mappedBy = "comments")
+    private Comments comment_id;
+
     private Long login_id;
     private Long employee_id;
 
