@@ -15,7 +15,7 @@ public class Comments
     private int comment_id;
 
     @OneToOne(cascade = CascadeType.REFRESH)
-    private Customers customer_id;
+    private Customers customers;
 
     @Column( name = "isActif" )
     private boolean isActif;
@@ -23,4 +23,51 @@ public class Comments
     @Column( name = "date" )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp date;
+
+    @Column( name = "content" )
+    private String content;
+
+    public Comments(int comment_id, Customers customers, boolean isActif, Timestamp date) {
+        super();
+        this.comment_id = comment_id;
+        this.customers = customers;
+        this.isActif = isActif;
+        this.date = date;
+    }
+
+    public Comments() {
+        super();
+    }
+
+    public int getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(int comment_id) {
+        this.comment_id = comment_id;
+    }
+
+    public Customers getCustomer_id() {
+        return customers;
+    }
+
+    public void setCustomer_id(Customers customers) {
+        this.customers = customers;
+    }
+
+    public boolean isActif() {
+        return isActif;
+    }
+
+    public void setActif(boolean actif) {
+        isActif = actif;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
 }
