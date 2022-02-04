@@ -17,7 +17,7 @@ public class Customers
 
     ///// RELATION /////
 
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "order_id")
     private Orders orders;
 
