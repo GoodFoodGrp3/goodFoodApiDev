@@ -9,6 +9,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 // se trouve à l'adresse suivante : */swagger-ui.html
+// ou celle la : http://localhost:8080/spring-security-rest/api/v2/api-docs
 
 @Configuration
 @EnableSwagger2
