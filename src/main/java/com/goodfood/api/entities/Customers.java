@@ -21,7 +21,7 @@ public class Customers
     @JoinColumn(name = "order_id")
     private Orders orders;
 
-    @OneToOne(mappedBy = "comments")
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "comment_id")
     private Comments comments;
 

@@ -3,18 +3,19 @@ package com.goodfood.api.entities;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
 @Table(name = "comments")
-public class Comments
-{
+public class Comments implements Serializable {
+
     @Column(name = "comment_id")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int comment_id;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy = "comments")
     private Customers customers;
 
     @Column( name = "isActif" )
