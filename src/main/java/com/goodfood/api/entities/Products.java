@@ -11,6 +11,7 @@ import java.util.Objects;
 public class Products implements Serializable
 {
     @Id
+    @org.springframework.data.annotation.Id
     @Column(name = "product_id")
 //  @GeneratedValue(strategy = GenerationType.AUTO)
     private int product_id;

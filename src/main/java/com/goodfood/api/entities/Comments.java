@@ -12,6 +12,7 @@ public class Comments implements Serializable {
 
     @Column(name = "comment_id")
     @Id
+    @org.springframework.data.annotation.Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int comment_id;
 
