@@ -19,8 +19,3 @@ jobs:
         heroku_email: ${{secrets.HEROKU_EMAIL}}
         # The appname to use for deploying/updating
         heroku_app_name: ${{secrets.HEROKU_APP}}
-
-        #Run test
-        #    - name: Run tests with Maven
-        #        run: mvn -B test --file pom.xml
-
