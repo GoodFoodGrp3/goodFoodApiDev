@@ -20,4 +20,5 @@ public class GoodFoodApiApplication extends SpringBootServletInitializer {
         SpringApplication.run(GoodFoodApiApplication.class, args);
     }
 
+
 }
