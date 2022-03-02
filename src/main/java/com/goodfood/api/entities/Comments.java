@@ -10,16 +10,18 @@ import java.sql.Timestamp;
 @Table(name = "comments")
 public class Comments implements Serializable {
 
-    @Column(name = "comment_id")
+
     @Id
     @org.springframework.data.annotation.Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "comment_id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int comment_id;
 
     @OneToOne(mappedBy = "comments")
+    @JoinColumn(name = "customer_id")
     private Customers customers;
 
-    @Column( name = "isActif" )
+    @Column(name = "is_actif")
     private boolean isActif;
 
     @Column( name = "date" )
@@ -71,5 +73,13 @@ public class Comments implements Serializable {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
