@@ -8,13 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class CommodityService {
+public interface CommodityService {
 
-    @Autowired
-    private CommodityRepository commodityRepository;
-
-    public List<Commodity> getAllCommoditys() {
-        return (List<Commodity>) commodityRepository.findAll();
-    }
+    List<Commodity> getAllCommoditys();
 }
