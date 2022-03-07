@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface CommentsRepository extends CrudRepository<Comments, Integer> {
-
-  // List<Comments> findAllByCommentId(int comment_id);
 }

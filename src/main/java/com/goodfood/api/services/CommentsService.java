@@ -14,6 +14,5 @@ import java.util.List;
 public interface CommentsService {
 
     List<Comments> getAllComments();
-    //List<Comments> getAllCommentsByCommentId( int comment_id );
 
 }

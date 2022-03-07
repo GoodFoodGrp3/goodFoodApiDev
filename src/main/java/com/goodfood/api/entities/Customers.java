@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 public class Customers
 {
     @Column(name = "customer_id")
+    @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int customer_id;

@@ -1,6 +1,8 @@
 package com.goodfood.api.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,7 +18,8 @@ public class Products implements Serializable
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int product_id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Categories categories;
 
@@ -47,6 +50,10 @@ public class Products implements Serializable
         this.buy_price = buy_price;
         this.msrp = msrp;
         this.type = type;
+    }
+
+    public Products() {
+
     }
 
     public int getProduct_id() {
