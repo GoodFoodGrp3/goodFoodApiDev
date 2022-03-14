@@ -35,36 +35,32 @@ public class Products implements Serializable
     @Column( name = "buy_price" )
     private double buy_price;
 
-    @Column( name = "msrp" )
-    private double msrp;
-
-    @Column( name = "type" )
-    private String type;
-
-    public Products(int product_id, Categories categories, String product_name, String product_description, int quantity_in_stock, double buy_price, double msrp, String type) {
+    public Products(int product_id, Categories categories, String product_name, String product_description, int quantity_in_stock, double buy_price) {
         this.product_id = product_id;
         this.categories = categories;
         this.product_name = product_name;
         this.product_description = product_description;
         this.quantity_in_stock = quantity_in_stock;
         this.buy_price = buy_price;
-        this.msrp = msrp;
-        this.type = type;
     }
 
-    public Products() {
+    public Products()
+    {
 
     }
 
-    public int getProduct_id() {
+    public int getProduct_id()
+    {
         return product_id;
     }
 
-    public void setProduct_id(int product_id) {
+    public void setProduct_id(int product_id)
+    {
         this.product_id = product_id;
     }
 
-    public Categories getCategories() {
+    public Categories getCategories()
+    {
         return categories;
     }
 
@@ -102,21 +98,5 @@ public class Products implements Serializable
 
     public void setBuy_price(double buy_price) {
         this.buy_price = buy_price;
-    }
-
-    public double getMsrp() {
-        return msrp;
-    }
-
-    public void setMsrp(double msrp) {
-        this.msrp = msrp;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

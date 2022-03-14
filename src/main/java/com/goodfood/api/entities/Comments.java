@@ -1,11 +1,12 @@
 package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
-
+//Ajout de jsonIgnore sur la relation customers -> comments (a voir pour plus tard)
 @Entity
 @Table(name = "comments")
 public class Comments implements Serializable {
@@ -17,12 +18,12 @@ public class Comments implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int comment_id;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "comments")
-    @JoinColumn(name = "customer_id")
     private Customers customers;
 
     @Column(name = "is_actif")
-    private boolean isActif;
+    private boolean is_actif;
 
     @Column( name = "date" )
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
@@ -35,7 +36,7 @@ public class Comments implements Serializable {
         super();
         this.comment_id = comment_id;
         this.customers = customers;
-        this.isActif = isActif;
+        this.is_actif = isActif;
         this.date = date;
     }
 
@@ -60,11 +61,11 @@ public class Comments implements Serializable {
     }
 
     public boolean isActif() {
-        return isActif;
+        return is_actif;
     }
 
     public void setActif(boolean actif) {
-        isActif = actif;
+        is_actif = actif;
     }
 
     public Timestamp getDate() {

@@ -11,30 +11,15 @@ import java.sql.Timestamp;
 public class Logins
 {
     @Column(name = "login_id")
+    @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int login_id;
 
-    private int employee_id;
-    private int customer_id;
+    @Column( name = "employee_id" )
+    private Integer employee_id;
 
-    @Column( name = "password" )
-    @NotNull( message = "Le champ doit contenir un mot de passe" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
-    private String password;
+    @Column( name = "customer_id" )
+    private Integer customer_id;
 
-    @Column( name = "creation_date" )
-    private Timestamp creation_date;
-
-    @Column( name = "update_date" )
-    private Timestamp update_date;
-
-    @Column( name = "enabled" )
-    private boolean enabled;
-
-    @Column( name = "login" )
-    private String login;
-
-    @Column( name = "isRecurring" )
-    private boolean isRecurring;
 }

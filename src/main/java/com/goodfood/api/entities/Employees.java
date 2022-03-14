@@ -11,14 +11,28 @@ import javax.validation.constraints.NotNull;
 public class Employees
 {
     @Column(name = "employee_id")
+    @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int employee_id;
 
+    @Column( name = "co_employee_id" )
     private int co_employee_id;
+
+    @Column( name = "office_id" )
     private int office_id;
+
+    @Column( name = "order_commodity" )
     private int order_commodity;
+
+    @Column( name = "login_id" )
     private int login_id;
+
+    @Column( name = "activated_account" )
+    private boolean activated_account;
+
+    @Column( name = "password" )
+    private String password;
 
     @Column( name = "lastname" )
     @NotNull( message = "Le champ doit avoir un nom" )
@@ -30,10 +44,10 @@ public class Employees
     @NotBlank( message = "le champ ne peut pas être vide" )
     private String firstname;
 
-    @Column( name = "extension" )
+    @Column( name = "private_number" )
     @NotNull( message = "Le champ doit avoir un nom" )
     @NotBlank( message = "le champ ne peut pas être vide" )
-    private String extension;
+    private String private_number;
 
     @Column( name = "email" )
     @NotNull( message = "Le champ doit avoir un email" )
@@ -41,9 +55,6 @@ public class Employees
     @Email( message = "L'adresse email n'est pas valide" )
     private String email;
 
-    @Column( name = "role" )
-    private String role;
-
     @Column( name = "reports_to" )
-    private int reports_to;
+    private Integer reports_to;
 }

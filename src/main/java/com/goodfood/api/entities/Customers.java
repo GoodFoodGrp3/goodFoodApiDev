@@ -1,10 +1,14 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+//Ajout de jsonIgnore sur la relation comments -> customers (a voir pour plus tard)
 @Entity
 @Table(name = "customers")
 //Classe à terminer (vérifier type et relation)
@@ -22,6 +26,7 @@ public class Customers
     @JoinColumn(name = "order_id")
     private Orders orders;
 
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comment_id")
     private Comments comments;
@@ -35,6 +40,12 @@ public class Customers
     private Employees employees;
 
     ///// RELATION /////
+
+    @Column( name = "activated_account" )
+    private boolean activated_account;
+
+    @Column( name = "password" )
+    private String password;
 
     @Column( name = "customer_name" )
     @NotNull( message = "La resource doit avoir un nom" )
@@ -56,15 +67,11 @@ public class Customers
     @NotBlank( message = "le champ ne peut pas être vide" )
     private String phone;
 
-    @Column( name = "addressLine1" )
-    @NotNull( message = "La resource doit contenir une adresse" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
-    private String addressLine1;
+    @Column( name = "addressline1" )
+    private String addressline1;
 
-    @Column( name = "addressLine2" )
-    @NotNull( message = "La resource doit contenir une adresse" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
-    private String addressLine2;
+    @Column( name = "addressline2" )
+    private String addressline2;
 
     @Column( name = "city" )
     @NotNull( message = "La resource doit contenir une ville" )
@@ -76,10 +83,10 @@ public class Customers
     @NotBlank( message = "le champ ne peut pas être vide" )
     private String state;
 
-    @Column( name = "postalCode" )
+    @Column( name = "postal_code" )
     @NotNull( message = "La resource doit contenir un code postal" )
     @NotBlank( message = "le champ ne peut pas être vide" )
-    private String postalCode;
+    private String postal_code;
 
     @Column( name = "country" )
     @NotNull( message = "La resource doit contenir un nom" )
@@ -92,17 +99,20 @@ public class Customers
     @Email( message = "L'adresse n'est pas valide" )
     private String email;
 
-    @Column( name = "token" )
-    private String token;
+    @Column( name = "is_customer_actif" )
+    private boolean is_customer_actif;
 
-    @Column( name = "isTokenValid" )
-    private boolean isTokenValid;
+    @Column( name = "creation_time" )
+    private Timestamp creation_time;
 
-    @Column( name = "isTokenDelete" )
-    private boolean isTokenDelete;
+  /*  @Column( name = "creation_time_utc" )
+    private Timestamp creation_time_utc;*/
 
-    @Column( name = "isCustomerActif" )
-    private boolean isCustomerActif;
+    @Column( name = "modification_time" )
+    private Timestamp modification_time;
+
+    @Column( name = "delete_time" )
+    private Timestamp delete_time;
 
     ///// CONSTRUCTOR /////
 
@@ -111,36 +121,37 @@ public class Customers
     }
 
     public Customers(int customer_id, Orders orders, Comments comments, Logins logins, Employees employees,
-                     String customer_name, String contact_lastname, String contact_firstname, String phone,
-                     String addressLine1, String addressLine2, String city, String state, String postalCode,
-                     String country, String email, String token, boolean isTokenValid, boolean isTokenDelete,
-                     boolean isCustomerActif) {
+                     boolean activated_account, String password, String customer_name, String contact_lastname,
+                     String contact_firstname, String phone, String addressline1, String addressline2, String city,
+                     String state, String postal_code, String country, String email, boolean is_customer_actif,
+                     Timestamp creation_time, Timestamp modification_time, Timestamp delete_time) {
         this.customer_id = customer_id;
         this.orders = orders;
         this.comments = comments;
         this.logins = logins;
         this.employees = employees;
+        this.activated_account = activated_account;
+        this.password = password;
         this.customer_name = customer_name;
         this.contact_lastname = contact_lastname;
         this.contact_firstname = contact_firstname;
         this.phone = phone;
-        this.addressLine1 = addressLine1;
-        this.addressLine2 = addressLine2;
+        this.addressline1 = addressline1;
+        this.addressline2 = addressline2;
         this.city = city;
         this.state = state;
-        this.postalCode = postalCode;
+        this.postal_code = postal_code;
         this.country = country;
         this.email = email;
-        this.token = token;
-        this.isTokenValid = isTokenValid;
-        this.isTokenDelete = isTokenDelete;
-        this.isCustomerActif = isCustomerActif;
+        this.is_customer_actif = is_customer_actif;
+        this.creation_time = creation_time;
+        this.modification_time = modification_time;
+        this.delete_time = delete_time;
     }
 
     ///// CONSTRUCTOR /////
 
     ///// GETTER AND SETTER /////
-
 
     public int getCustomer_id() {
         return customer_id;
@@ -182,6 +193,22 @@ public class Customers
         this.employees = employees;
     }
 
+    public boolean isActivated_account() {
+        return activated_account;
+    }
+
+    public void setActivated_account(boolean activated_account) {
+        this.activated_account = activated_account;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getCustomer_name() {
         return customer_name;
     }
@@ -214,20 +241,20 @@ public class Customers
         this.phone = phone;
     }
 
-    public String getAddressLine1() {
-        return addressLine1;
+    public String getAddressline1() {
+        return addressline1;
     }
 
-    public void setAddressLine1(String addressLine1) {
-        this.addressLine1 = addressLine1;
+    public void setAddressline1(String addressline1) {
+        this.addressline1 = addressline1;
     }
 
-    public String getAddressLine2() {
-        return addressLine2;
+    public String getAddressline2() {
+        return addressline2;
     }
 
-    public void setAddressLine2(String addressLine2) {
-        this.addressLine2 = addressLine2;
+    public void setAddressline2(String addressline2) {
+        this.addressline2 = addressline2;
     }
 
     public String getCity() {
@@ -246,12 +273,12 @@ public class Customers
         this.state = state;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getPostal_code() {
+        return postal_code;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setPostal_code(String postal_code) {
+        this.postal_code = postal_code;
     }
 
     public String getCountry() {
@@ -270,37 +297,38 @@ public class Customers
         this.email = email;
     }
 
-    public String getToken() {
-        return token;
+    public boolean isIs_customer_actif() {
+        return is_customer_actif;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setIs_customer_actif(boolean is_customer_actif) {
+        this.is_customer_actif = is_customer_actif;
     }
 
-    public boolean isTokenValid() {
-        return isTokenValid;
+    public Timestamp getCreation_time() {
+        return creation_time;
     }
 
-    public void setTokenValid(boolean tokenValid) {
-        isTokenValid = tokenValid;
+    public void setCreation_time(Timestamp creation_time) {
+        this.creation_time = creation_time;
     }
 
-    public boolean isTokenDelete() {
-        return isTokenDelete;
+    public Timestamp getModification_time() {
+        return modification_time;
     }
 
-    public void setTokenDelete(boolean tokenDelete) {
-        isTokenDelete = tokenDelete;
+    public void setModification_time(Timestamp modification_time) {
+        this.modification_time = modification_time;
     }
 
-    public boolean isCustomerActif() {
-        return isCustomerActif;
+    public Timestamp getDelete_time() {
+        return delete_time;
     }
 
-    public void setCustomerActif(boolean customerActif) {
-        isCustomerActif = customerActif;
+    public void setDelete_time(Timestamp delete_time) {
+        this.delete_time = delete_time;
     }
+
 
     ///// GETTER AND SETTER /////
 }
