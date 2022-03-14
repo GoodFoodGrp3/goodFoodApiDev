@@ -32,16 +32,15 @@ public class Comments implements Serializable {
     @Column( name = "content" )
     private String content;
 
-    public Comments(int comment_id, Customers customers, boolean isActif, Timestamp date) {
-        super();
-        this.comment_id = comment_id;
-        this.customers = customers;
-        this.is_actif = isActif;
-        this.date = date;
+    public Comments() {
     }
 
-    public Comments() {
-        super();
+    public Comments(int comment_id, Customers customers, boolean is_actif, Timestamp date, String content) {
+        this.comment_id = comment_id;
+        this.customers = customers;
+        this.is_actif = is_actif;
+        this.date = date;
+        this.content = content;
     }
 
     public int getComment_id() {
@@ -52,20 +51,20 @@ public class Comments implements Serializable {
         this.comment_id = comment_id;
     }
 
-    public Customers getCustomer_id() {
+    public Customers getCustomers() {
         return customers;
     }
 
-    public void setCustomer_id(Customers customers) {
+    public void setCustomers(Customers customers) {
         this.customers = customers;
     }
 
-    public boolean isActif() {
+    public boolean isIs_actif() {
         return is_actif;
     }
 
-    public void setActif(boolean actif) {
-        is_actif = actif;
+    public void setIs_actif(boolean is_actif) {
+        this.is_actif = is_actif;
     }
 
     public Timestamp getDate() {
