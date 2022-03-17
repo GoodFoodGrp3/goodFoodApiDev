@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table( name = "error_log" )
-public class Error_log {
+public class ErrorLog {
 
     @Column( name = "error_log_id" )
     @Id
@@ -29,11 +29,11 @@ public class Error_log {
     @Column( name = "message" )
     private String  message;
 
-    public Error_log() {
+    public ErrorLog() {
         this.date = new Timestamp( System.currentTimeMillis() );
     }
 
-    public Error_log(String source, HttpStatus errorStatus, String message ) {
+    public ErrorLog(String source, HttpStatus errorStatus, String message ) {
         super();
         this.date = new Timestamp( System.currentTimeMillis() );
         this.source = source;
