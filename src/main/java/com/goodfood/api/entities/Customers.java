@@ -26,9 +26,8 @@ public class Customers
     @JoinColumn(name = "order_id")
     private Orders orders;
 
-    @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "comment_id")
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name="comment_id")
     private Comments comments;
 
     @OneToOne(cascade = CascadeType.REFRESH)
@@ -48,23 +47,15 @@ public class Customers
     private String password;
 
     @Column( name = "customer_name" )
-    @NotNull( message = "La resource doit avoir un nom" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String customer_name;
 
     @Column( name = "contact_lastname" )
-    @NotNull( message = "La resource doit avoir un nom" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String contact_lastname;
 
     @Column( name = "contact_firstname" )
-    @NotNull( message = "La resource doit avoir un nom" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String contact_firstname;
 
     @Column( name = "phone" )
-    @NotNull( message = "La resource doit contenir un numéro" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String phone;
 
     @Column( name = "addressline1" )
@@ -74,29 +65,18 @@ public class Customers
     private String addressline2;
 
     @Column( name = "city" )
-    @NotNull( message = "La resource doit contenir une ville" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String city;
 
     @Column( name = "state" )
-    @NotNull( message = "La resource doit contenir un état" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String state;
 
     @Column( name = "postal_code" )
-    @NotNull( message = "La resource doit contenir un code postal" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String postal_code;
 
     @Column( name = "country" )
-    @NotNull( message = "La resource doit contenir un nom" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
     private String country;
 
     @Column( name = "email" )
-    @NotNull( message = "La resource doit contenir un email" )
-    @NotBlank( message = "le champ ne peut pas être vide" )
-    @Email( message = "L'adresse n'est pas valide" )
     private String email;
 
     @Column( name = "is_customer_actif" )
