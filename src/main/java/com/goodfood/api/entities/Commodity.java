@@ -11,8 +11,8 @@ public class Commodity
 {
     @Column(name = "commodity_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int commodity_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     ///// RELATION /////
 
@@ -55,7 +55,7 @@ public class Commodity
 
     public Commodity(int commodity_id, String commodity_name, String commodity_description, int quantity_in_stock,
                      double buy_price, String vendor_provider, int quantity) {
-        this.commodity_id = commodity_id;
+        this.id = commodity_id;
         this.commodity_name = commodity_name;
         this.commodity_description = commodity_description;
         this.quantity_in_stock = quantity_in_stock;
@@ -79,11 +79,11 @@ public class Commodity
     ///// GETTER AND SETTER /////
 
     public int getCommodity_id() {
-        return commodity_id;
+        return id;
     }
 
     public void setCommodity_id(int commodity_id) {
-        this.commodity_id = commodity_id;
+        this.id = commodity_id;
     }
 
     public String getCommodity_name() {

@@ -18,4 +18,9 @@ public class ProviderServicesImpl implements ProviderService {
     public List<Provider> getAllProviders() {
         return (List<Provider>) this.providerRepository.findAll();
     }
+
+    @Override
+    public Provider getProviderById(int id) {
+        return this.providerRepository.findById(id);
+    }
 }

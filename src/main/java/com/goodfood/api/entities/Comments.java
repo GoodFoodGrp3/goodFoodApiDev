@@ -15,8 +15,8 @@ public class Comments implements Serializable {
     @Id
     @org.springframework.data.annotation.Id
     @Column(name = "comment_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int comment_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @JsonIgnore
     @OneToOne(mappedBy = "comments")
@@ -36,7 +36,7 @@ public class Comments implements Serializable {
     }
 
     public Comments(int comment_id, Customers customers, boolean is_actif, Timestamp date, String content) {
-        this.comment_id = comment_id;
+        this.id = comment_id;
         this.customers = customers;
         this.is_actif = is_actif;
         this.date = date;
@@ -44,11 +44,11 @@ public class Comments implements Serializable {
     }
 
     public int getComment_id() {
-        return comment_id;
+        return id;
     }
 
     public void setComment_id(int comment_id) {
-        this.comment_id = comment_id;
+        this.id = comment_id;
     }
 
     public Customers getCustomers() {

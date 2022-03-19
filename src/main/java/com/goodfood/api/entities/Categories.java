@@ -10,8 +10,8 @@ public class Categories implements Serializable
 {
     @Column(name = "category_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int category_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "category_name")
     private String category_name;
@@ -30,7 +30,7 @@ public class Categories implements Serializable
 
     public Categories(int category_id, String category_name,
                       String text_description, String html_description, String image) {
-        this.category_id = category_id;
+        this.id = category_id;
         this.category_name = category_name;
         this.text_description = text_description;
         this.html_description = html_description;
@@ -38,11 +38,11 @@ public class Categories implements Serializable
     }
 
     public int getCategory_id() {
-        return category_id;
+        return id;
     }
 
     public void setCategory_id(int category_id) {
-        this.category_id = category_id;
+        this.id = category_id;
     }
 
     public String getCategory_name() {

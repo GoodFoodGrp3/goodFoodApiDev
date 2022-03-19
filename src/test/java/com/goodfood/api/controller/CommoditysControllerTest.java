@@ -22,4 +22,10 @@ public class CommoditysControllerTest {
         mockMvc.perform(get("/commoditys")).andExpect(status().isOk());
 
     }
+
+    @Test
+    public void testGetCommodityById() throws  Exception {
+
+        mockMvc.perform(get("/commoditys/1")).andExpect(status().isOk());
+    }
 }

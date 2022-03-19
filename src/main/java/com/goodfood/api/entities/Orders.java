@@ -10,8 +10,8 @@ public class Orders
 {
     @Column(name = "order_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int order_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     private int customer_id;
 
@@ -34,7 +34,7 @@ public class Orders
     }
 
     public Orders(int order_id, int customer_id, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
-        this.order_id = order_id;
+        this.id = order_id;
         this.customer_id = customer_id;
         this.order_date = order_date;
         this.delivery_date = delivery_date;
@@ -44,11 +44,11 @@ public class Orders
     }
 
     public int getOrder_id() {
-        return order_id;
+        return id;
     }
 
     public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+        this.id = order_id;
     }
 
     public int getCustomer_id() {

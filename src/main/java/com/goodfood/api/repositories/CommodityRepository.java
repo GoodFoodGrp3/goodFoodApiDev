@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface CommodityRepository extends CrudRepository<Commodity,Integer> {
 
-    //List<Commodity> getAllCommodity();
+    Commodity findById(int id);
 }

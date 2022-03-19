@@ -10,8 +10,8 @@ public class Provider
     @Column(name = "provider_id")
     @org.springframework.data.annotation.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int provider_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column( name = "provider_name" )
     private String provider_name;
@@ -38,7 +38,7 @@ public class Provider
     }
 
     public Provider(int provider_id, String provider_name, String addressLine, String email, String phone, String country, String postalCode, String state) {
-        this.provider_id = provider_id;
+        this.id = provider_id;
         this.provider_name = provider_name;
         this.addressLine = addressLine;
         this.email = email;
@@ -49,11 +49,11 @@ public class Provider
     }
 
     public int getProvider_id() {
-        return provider_id;
+        return id;
     }
 
     public void setProvider_id(int provider_id) {
-        this.provider_id = provider_id;
+        this.id = provider_id;
     }
 
     public String getProvider_name() {

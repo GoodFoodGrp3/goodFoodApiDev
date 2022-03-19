@@ -25,4 +25,10 @@ public class CommentsControllerTest {
 
     }
 
+    @Test
+    public void testGetCommentById() throws  Exception {
+
+        mockMvc.perform(get("/comments/1")).andExpect(status().isOk());
+    }
+
 }

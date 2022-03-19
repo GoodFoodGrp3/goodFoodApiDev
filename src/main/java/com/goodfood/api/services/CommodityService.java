@@ -11,4 +11,6 @@ import java.util.List;
 public interface CommodityService {
 
     List<Commodity> getAllCommoditys();
+
+    Commodity getCommodityById (int id);
 }

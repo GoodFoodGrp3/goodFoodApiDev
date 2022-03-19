@@ -22,4 +22,10 @@ public class ProvidersControllerTest {
         mockMvc.perform(get("/providers")).andExpect(status().isOk());
 
     }
+
+    @Test
+    public void testGetProviderById() throws  Exception {
+
+        mockMvc.perform(get("/providers/1")).andExpect(status().isOk());
+    }
 }

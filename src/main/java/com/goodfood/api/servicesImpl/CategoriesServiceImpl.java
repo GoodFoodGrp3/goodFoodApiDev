@@ -18,4 +18,9 @@ public class CategoriesServiceImpl implements CategoriesService {
     public List<Categories> getAllCategories() {
         return (List<Categories>) this.categoriesRepository.findAll();
     }
+
+    @Override
+    public Categories getCategorieById(int id) {
+        return this.categoriesRepository.findById(id);
+    }
 }

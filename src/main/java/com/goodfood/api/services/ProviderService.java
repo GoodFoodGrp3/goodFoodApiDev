@@ -7,4 +7,5 @@ import java.util.List;
 public interface ProviderService {
 
     List<Provider> getAllProviders();
+    Provider getProviderById (int id);
 }

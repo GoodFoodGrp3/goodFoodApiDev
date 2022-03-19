@@ -18,4 +18,11 @@ public class CommodityServicesImpl implements CommodityService {
     public List<Commodity> getAllCommoditys() {
         return (List<Commodity>) this.commodityRepository.findAll();
     }
+
+    @Override
+    public Commodity getCommodityById(int id) {
+        return this.commodityRepository.findById(id);
+    }
+
+
 }

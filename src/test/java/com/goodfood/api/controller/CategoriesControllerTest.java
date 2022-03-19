@@ -22,4 +22,10 @@ public class CategoriesControllerTest {
         mockMvc.perform(get("/categories")).andExpect(status().isOk());
 
     }
+
+    @Test
+    public void testGetCategorieById() throws  Exception {
+
+        mockMvc.perform(get("/categories/1")).andExpect(status().isOk());
+    }
 }

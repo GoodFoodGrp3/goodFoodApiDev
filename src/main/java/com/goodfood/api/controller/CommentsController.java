@@ -23,13 +23,9 @@ public class CommentsController {
         return this.commentsService.getAllComments();
     }
 
-  /*  @GetMapping( value = "/comments/{id}" )
-    public List<Comments> getCommentsByCommentId( @PathVariable( value = "id" ) int comment_id ) {
-        return this.commentsService.getAllCommentsByCommentId( id );
-    }*/
-
-    // ***************
-    // ERROR MANAGEMENT
-    // ***************
+    @GetMapping( value = "/{id}" )
+    public Comments getCommentById( @PathVariable int id ) {
+        return this.commentsService.getCommentById( id );
+    }
 
 }
