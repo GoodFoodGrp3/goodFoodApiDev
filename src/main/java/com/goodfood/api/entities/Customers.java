@@ -17,8 +17,8 @@ public class Customers
     @Column(name = "customer_id")
     @org.springframework.data.annotation.Id
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int customer_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     ///// RELATION /////
 
@@ -125,7 +125,7 @@ public class Customers
                      String contact_firstname, String phone, String addressline1, String addressline2, String city,
                      String state, String postal_code, String country, String email, boolean is_customer_actif,
                      Timestamp creation_time, Timestamp modification_time, Timestamp delete_time) {
-        this.customer_id = customer_id;
+        this.id = customer_id;
         this.orders = orders;
         this.comments = comments;
         this.logins = logins;
@@ -154,11 +154,11 @@ public class Customers
     ///// GETTER AND SETTER /////
 
     public int getCustomer_id() {
-        return customer_id;
+        return id;
     }
 
     public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+        this.id = customer_id;
     }
 
     public Orders getOrders() {
