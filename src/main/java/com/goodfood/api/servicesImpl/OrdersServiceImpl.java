@@ -1,6 +1,5 @@
 package com.goodfood.api.servicesImpl;
 
-import com.goodfood.api.entities.Commodity;
 import com.goodfood.api.entities.Orders;
 import com.goodfood.api.repositories.OrdersRepository;
 import com.goodfood.api.services.OrdersService;

@@ -1,7 +1,6 @@
 package com.goodfood.api.services;
 
 import com.goodfood.api.entities.Categories;
-import com.goodfood.api.entities.Comments;
 
 import java.util.List;
 
