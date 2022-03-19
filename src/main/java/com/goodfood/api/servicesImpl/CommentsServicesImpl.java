@@ -19,7 +19,6 @@ public class CommentsServicesImpl implements CommentsService {
         return (List<Comments>) this.commentsRepository.findAll();
     }
 
-
     @Override
     public Comments getCommentById(int id) {
         return this.commentsRepository.findById(id);

@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class ProductService {
 
-    @Autowired
-    private ProductsRepository productsRepository;
+public interface ProductService {
 
-    public List<Products> getAllProducts() {
-        return (List<Products>) productsRepository.findAll();
-    }
+    List<Products> getAllProducts();
+    Products getProductById (int id);
+
 }
