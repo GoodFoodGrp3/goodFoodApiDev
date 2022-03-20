@@ -2,18 +2,16 @@ package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Collection;
 
 @Entity
 @Table(name = "employees")
 //Classe à terminer (vérifier type et relation)
-public class Employees
+public class Employees implements UserDetails
 {
     @Column(name = "employee_id")
     @org.springframework.data.annotation.Id
@@ -21,26 +19,20 @@ public class Employees
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-
     @Column( name = "co_employee_id" )
     private int co_employee_id;
-
 
     @Column( name = "office_id" )
     private int office_id;
 
-
     @Column( name = "order_commodity" )
     private int order_commodity;
-
 
     @Column( name = "login_id" )
     private int login_id;
 
-
     @Column( name = "activated_account" )
     private boolean activated_account;
-
 
     @Column( name = "password" )
     private String password;
@@ -64,17 +56,22 @@ public class Employees
     @Enumerated( EnumType.STRING )
     private Status status;
 
+    @Column( name = "is_blocked" )
+    private boolean is_blocked;
+
+    @Column( name = "counter" )
+    private int counter;
+
+    @Column( name = "blocked_date" )
+    private Timestamp blocked_date;
+
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
-
-    private boolean isBlocked;
-    private int counter;
-    private Timestamp blockedDate;
 
     public Employees() {
         this.activated_account = true;
         this.status = Status.RESTAURATEUR;
-        this.isBlocked = false;
+        this.is_blocked = false;
         this.counter = 3;
     }
 
@@ -197,6 +194,33 @@ public class Employees
         this.status = status;
     }
 
+    @Override
+    public String getUsername() {
+        return firstname;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
     }
@@ -205,12 +229,12 @@ public class Employees
         this.authorities = authorities;
     }
 
-    public boolean isBlocked() {
-        return isBlocked;
+    public boolean isIs_blocked() {
+        return is_blocked;
     }
 
-    public void setBlocked( boolean isBlocked ) {
-        this.isBlocked = isBlocked;
+    public void setIs_blocked(boolean isBlocked ) {
+        this.is_blocked = isBlocked;
     }
 
     @JsonIgnore
@@ -218,16 +242,18 @@ public class Employees
         return counter;
     }
 
-    public Timestamp getBlockedDate() {
-        return blockedDate;
-    }
-
-    public void setBlockedDate( Timestamp blockedDate ) {
-        this.blockedDate = blockedDate;
-    }
-
     @JsonIgnore
     public void setCounter( int counter ) {
         this.counter = counter;
     }
+
+    public Timestamp getBlocked_date() {
+        return blocked_date;
+    }
+
+    public void setBlocked_date(Timestamp blockedDate ) {
+        this.blocked_date = blockedDate;
+    }
+
+
 }

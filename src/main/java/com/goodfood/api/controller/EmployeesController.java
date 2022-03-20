@@ -1,8 +1,6 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Employees;
-import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
 import com.goodfood.api.request.member.LoginForm;
@@ -61,10 +59,10 @@ public class EmployeesController {
 
             if ( employees != null ) {
 
-                if ( employees.isBlocked() ) {
+                if ( employees.isIs_blocked() ) {
 
                     Timestamp now = new Timestamp( new DateTime().getMillis() );
-                    long duration = now.getTime() - employees.getBlockedDate().getTime();
+                    long duration = now.getTime() - employees.getBlocked_date().getTime();
                     long timeLeft = 9999;
 
                     if ( duration < BLOCKED_ACCOUNT_DURATION ) {
@@ -73,8 +71,8 @@ public class EmployeesController {
 
                     else {
                         timeLeft = 0;
-                        employees.setBlockedDate( null );
-                        employees.setBlocked( false );
+                        employees.setBlocked_date( null );
+                        employees.setIs_blocked( false );
                         employees.setCounter( 3 );
                     }
 
@@ -102,8 +100,8 @@ public class EmployeesController {
 
                 if ( employees.getCounter() == 0 ) {
 
-                    employees.setBlocked( true );
-                    employees.setBlockedDate( new Timestamp( new DateTime().getMillis() ) );
+                    employees.setIs_blocked( true );
+                    employees.setBlocked_date( new Timestamp( new DateTime().getMillis() ) );
 
                 }
 

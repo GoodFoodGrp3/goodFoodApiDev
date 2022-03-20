@@ -24,10 +24,6 @@ import static com.goodfood.api.security.SecurityConstants.EXPIRATION_TIME;
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
-    public static final int SIZE_TMP_CODE = 10;
-
-    private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
-
     @Autowired
     private EmployeesService employeesService;
 
@@ -40,15 +36,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Authentication authentication(String username, String password) {
-        return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>())
-        );
+        return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>()));
     }
 
     @Override
-    public String login(Employees user) {
+    public String login(Employees employees) {
         return JWT.create()
-                .withSubject(user.getFirstname())
+                .withSubject(employees.getFirstname())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .sign(HMAC512(SecurityConstants.SECRET.getBytes()));
     }
