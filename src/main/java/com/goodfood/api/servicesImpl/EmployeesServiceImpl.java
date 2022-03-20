@@ -23,4 +23,9 @@ public class EmployeesServiceImpl implements EmployeesService {
     public Employees getEmployeeById(int id) {
         return this.employeesRepository.findById(id);
     }
+
+    @Override
+    public Employees getEmployeesByFirstName(String username) {
+        return this.employeesRepository.findByFirstname(username);
+    }
 }

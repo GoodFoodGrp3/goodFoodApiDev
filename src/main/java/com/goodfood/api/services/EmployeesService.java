@@ -8,4 +8,5 @@ public interface EmployeesService {
 
     List<Employees> getAllEmployees();
     Employees getEmployeeById( int id );
+    Employees getEmployeesByFirstName( String username );
 }

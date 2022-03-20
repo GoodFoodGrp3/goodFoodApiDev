@@ -9,5 +9,6 @@ public interface CommentsService {
 
     List<Comments> getAllComments();
     Comments getCommentById( int id );
+    //Comments createComment( String body );
 
 }

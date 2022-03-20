@@ -100,6 +100,12 @@ public class Customers
 
     }
 
+    public Customers(int customer_id) {
+
+        this.id = customer_id;
+
+    }
+
     public Customers(int customer_id, Orders orders, Comments comments, Logins logins, Employees employees,
                      boolean activated_account, String password, String customer_name, String contact_lastname,
                      String contact_firstname, String phone, String addressline1, String addressline2, String city,

@@ -2,6 +2,7 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.request.CreateCommentForm;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class CommentsController {
     public Comments getCommentById( @PathVariable int id ) {
         return this.commentsService.getCommentById( id );
     }
+
+    /*@PostMapping( value = "" )
+    public Comments createComment( @RequestBody CreateCommentForm createCommentForm ) {
+        return this.commentsService.createComment( createCommentForm.getContent());
+    }*/
 
 }

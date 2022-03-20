@@ -32,15 +32,27 @@ public class Comments implements Serializable {
     @Column( name = "content" )
     private String content;
 
-    public Comments() {
-    }
 
     public Comments(int comment_id, Customers customers, boolean is_actif, Timestamp date, String content) {
+        super();
         this.id = comment_id;
         this.customers = customers;
         this.is_actif = is_actif;
         this.date = date;
         this.content = content;
+    }
+
+
+    //Rajouter customer quand l'authentification sera faite
+    public Comments(Timestamp date, String content) {
+        super();
+        this.date = date;
+        this.content = content;
+    }
+
+
+    public Comments() {
+        super();
     }
 
     public int getComment_id() {
