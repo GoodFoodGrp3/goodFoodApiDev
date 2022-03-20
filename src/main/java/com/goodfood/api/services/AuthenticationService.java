@@ -9,4 +9,6 @@ public interface AuthenticationService {
 
     Authentication authentication(String username, String password);
 
+    String login(Employees user);
+
 }

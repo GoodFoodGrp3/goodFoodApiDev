@@ -1,11 +1,14 @@
 package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.sql.Timestamp;
+import java.util.Collection;
 
 @Entity
 @Table(name = "employees")
@@ -57,7 +60,22 @@ public class Employees
     @Column( name = "reports_to" )
     private Integer reports_to;
 
+    @Column( name = "status" )
+    @Enumerated( EnumType.STRING )
+    private Status status;
+
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
+
+    private boolean isBlocked;
+    private int counter;
+    private Timestamp blockedDate;
+
     public Employees() {
+        this.activated_account = true;
+        this.status = Status.RESTAURATEUR;
+        this.isBlocked = false;
+        this.counter = 3;
     }
 
     public Employees(int id, int co_employee_id, int office_id, int order_commodity, int login_id, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
@@ -169,5 +187,47 @@ public class Employees
 
     public void setReports_to(Integer reports_to) {
         this.reports_to = reports_to;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked( boolean isBlocked ) {
+        this.isBlocked = isBlocked;
+    }
+
+    @JsonIgnore
+    public int getCounter() {
+        return counter;
+    }
+
+    public Timestamp getBlockedDate() {
+        return blockedDate;
+    }
+
+    public void setBlockedDate( Timestamp blockedDate ) {
+        this.blockedDate = blockedDate;
+    }
+
+    @JsonIgnore
+    public void setCounter( int counter ) {
+        this.counter = counter;
     }
 }

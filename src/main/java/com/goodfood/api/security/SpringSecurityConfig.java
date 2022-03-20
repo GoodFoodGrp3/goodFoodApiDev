@@ -3,26 +3,33 @@ package com.goodfood.api.security;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /*@Bean
+    @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }*/
+    }
+
+    @Value( "${api.security.httpPatternMatcher.disabled:false}" )
+    private boolean        httpPatternMatcherDisabled;
 
     @Autowired
     private EmployeesService employeesService;
@@ -37,14 +44,40 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .cors()
-                .and()
-                .authorizeRequests()
-                .antMatchers("/").permitAll()
-                .and()
-                .httpBasic();
+        http.cors().and().csrf().disable().authorizeRequests().antMatchers( HttpMethod.OPTIONS, "/**" ).permitAll();
+        if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
+            http.authorizeRequests()
+                    .antMatchers( HttpMethod.POST,
+                            "/login",
+                            "/register" )
+                    .permitAll()
+                    .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
+                            "/swagger-resources/**", "/configuration/security","/swagger-ui/#/", "/swagger-ui.html", "/webjars/**", // swagger
+                            "/comments",
+                            "/products" ) // get all resources filtered by name
+                    .permitAll()
+                    .anyRequest().authenticated();
+        } else { // http pattern matcher disabled
+            http.authorizeRequests().anyRequest().permitAll(); // toutes les pages/requêtes sont accessibles
+        }
+
+        http.authorizeRequests().and().addFilter( new JWTAuthorizationFilter( authenticationManager() ) )
+                // this disables session creation on Spring Security
+                .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and().headers()
+                .frameOptions().disable();
+
+        // mise en place https
+        // http
+        // .requiresChannel()
+        // .anyRequest()
+        // .requiresSecure();
+
+        http.headers().contentTypeOptions();
+        http.headers().xssProtection();
+        http.headers().cacheControl();
+        http.headers().httpStrictTransportSecurity();
+        http.headers().frameOptions();
+        http.headers().addHeaderWriter( new StaticHeadersWriter( "X-Content-Security-Policy", "script-src 'self'" ) );
     }
 
     @Override
