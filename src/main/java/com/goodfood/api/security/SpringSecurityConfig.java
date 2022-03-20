@@ -23,13 +23,22 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    // ###########################################################################
+    // WebSecurity boolean toggle for HTTP Pattern Matcher enablement.
+    // To be modified in application.properties file :
+    // - for security enabled (default or empty/null/commented):
+    // api.security.httpPatternMatcher.disabled=false
+    // - for security disabled :
+    // api.security.httpPatternMatcher.disabled=true
+    // ###########################################################################
+
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-    @Value( "${api.security.httpPatternMatcher.disabled:false}" )
-    private boolean        httpPatternMatcherDisabled;
+    @Value( "${api.security.httpPatternMatcher.disabled:true}" )
+    private boolean httpPatternMatcherDisabled;
 
     @Autowired
     private EmployeesService employeesService;
@@ -48,8 +57,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
             http.authorizeRequests()
                     .antMatchers( HttpMethod.POST,
-                            "/login",
-                            "/register" )
+                            "/employees/login",
+                            "/employees/register" )
                     .permitAll()
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
                             "/swagger-resources/**", "/configuration/security","/swagger-ui/#/", "/swagger-ui.html", "/webjars/**", // swagger
@@ -71,7 +80,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         // .requiresChannel()
         // .anyRequest()
         // .requiresSecure();
-
         http.headers().contentTypeOptions();
         http.headers().xssProtection();
         http.headers().cacheControl();
