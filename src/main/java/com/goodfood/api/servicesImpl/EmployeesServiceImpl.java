@@ -2,20 +2,22 @@ package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Offices;
+import com.goodfood.api.entities.Order_commodity;
 import com.goodfood.api.exceptions.MemberValidationException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.member.RegisterForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
-import com.goodfood.api.utils.PasswordGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Order;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 
 @Service( value = "EmployeesService" )
@@ -27,7 +29,7 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
     // contructor
     public EmployeesServiceImpl() {
@@ -42,15 +44,21 @@ public class EmployeesServiceImpl implements EmployeesService {
 
         Employees employees = new Employees();
 
+        Offices offices = new Offices();
+
+        Order_commodity order_commodity = new Order_commodity();
+
         // validation des attributs
         validationEmail( registerForm.getEmail() );
         employees.setEmail(registerForm.getEmail());
         validationUsername(registerForm.getUsername());
         validationPasswords(registerForm.getPassword(), registerForm.getCpassword());
         employees.setFirstname(registerForm.getUsername());
-        employees.setPassword(this.bCryptPasswordEncoder.encode(registerForm.getPassword()));
-
-
+        offices.setId(registerForm.getSuccursale());
+        employees.setOffice_id(offices);
+        employees.setOrder_commodity(Collections.singleton(order_commodity));
+        employees.setStatus(registerForm.getStatus());
+        employees.setPassword(this.bcrypt.encode(registerForm.getPassword()));
 
         try {
             // save in database

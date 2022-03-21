@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "employees")
@@ -19,11 +20,12 @@ public class Employees implements UserDetails
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column( name = "office_id" )
-    private int office_id;
+    @ManyToOne
+    @JoinColumn(name ="office_id")
+    private Offices office_id;
 
-    @Column( name = "order_commodity" )
-    private int order_commodity;
+    @OneToMany(mappedBy = "employees")
+    private Set<Order_commodity> order_commodity;
 
     @Column( name = "activated_account" )
     private boolean activated_account;
@@ -69,7 +71,7 @@ public class Employees implements UserDetails
         this.counter = 3;
     }
 
-    public Employees(int id, int office_id, int order_commodity, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
+    public Employees(int id, Offices office_id, Set<Order_commodity> order_commodity, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
         this.id = id;
         this.office_id = office_id;
         this.order_commodity = order_commodity;
@@ -90,19 +92,19 @@ public class Employees implements UserDetails
         this.id = id;
     }
 
-    public int getOffice_id() {
+    public Offices getOffice_id() {
         return office_id;
     }
 
-    public void setOffice_id(int office_id) {
+    public void setOffice_id(Offices office_id) {
         this.office_id = office_id;
     }
 
-    public int getOrder_commodity() {
+    public Set<Order_commodity> getOrder_commodity() {
         return order_commodity;
     }
 
-    public void setOrder_commodity(int order_commodity) {
+    public void setOrder_commodity(Set<Order_commodity> order_commodity) {
         this.order_commodity = order_commodity;
     }
 

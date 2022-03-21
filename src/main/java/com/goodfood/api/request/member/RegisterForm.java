@@ -1,11 +1,19 @@
 package com.goodfood.api.request.member;
 
+import com.goodfood.api.entities.Status;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class RegisterForm {
+
+    @NotNull( message = "Un statut est requis" )
+    @Enumerated( EnumType.STRING )
+    private Status status;
 
     @NotNull( message = "Un pseudo est requis" )
     @NotBlank( message = "Un pseudo ne peut être vide" )
@@ -16,9 +24,8 @@ public class RegisterForm {
     @Email( message = "L'adresse n'est pas valide" )
     private String email;
 
-    @NotBlank( message = "le champ ne peut être vide" )
     @NotNull( message = "Une succursale est requise" )
-    private String succursale;
+    private int succursale;
 
     @NotNull( message = "le mot de passe est requis" )
     @Size( min = 7, message = "mot de passe trop court" )
@@ -31,13 +38,22 @@ public class RegisterForm {
 
     }
 
-    public RegisterForm(String username, String email, String succursale,String password, String cpassword ) {
+    public RegisterForm(Status status,String username, String email, int succursale,String password, String cpassword ) {
         super();
+        this.status = status;
         this.username = username;
         this.succursale = succursale;
         this.email = email;
         this.password = password;
         this.cpassword = cpassword;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public String getUsername() {
@@ -56,11 +72,11 @@ public class RegisterForm {
         this.email = email;
     }
 
-    public String getSuccursale() {
+    public int getSuccursale() {
         return succursale;
     }
 
-    public void setSuccursale(String succursale) {
+    public void setSuccursale(int succursale) {
         this.succursale = succursale;
     }
 
