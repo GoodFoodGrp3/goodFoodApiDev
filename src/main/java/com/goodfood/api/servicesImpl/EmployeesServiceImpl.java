@@ -7,6 +7,7 @@ import com.goodfood.api.entities.Order_commodity;
 import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.member.RegisterForm;
+import com.goodfood.api.request.member.UpdateMemberPasswordForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,29 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Override
     public Employees getMemberByUserName(String username) {
         return this.employeesRepository.findByFirstname(username);
+    }
+
+    @Override
+    public Employees updatePassword(int id, UpdateMemberPasswordForm updateMemberPasswordForm) {
+
+        // get member
+        Employees employees = this.getEmployeeById( id );
+
+        // validate password and encrypt it
+        try {
+            employees.setPassword( this.bcrypt.encode( updateMemberPasswordForm.getPassword() ) );
+        } catch ( Exception e ) {
+            errorLogServices
+                    .recordLog( new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR, "Password encoding failed" ) );
+            e.getMessage();
+            return null;
+        }
+
+        // update of password in database
+        employeesRepository.updatePassword( id, employees.getPassword() );
+        System.out.println( "Password correctly modified" );
+
+        return employees;
     }
 
 

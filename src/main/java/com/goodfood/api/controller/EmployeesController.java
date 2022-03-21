@@ -2,12 +2,14 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
 import com.goodfood.api.request.member.LoginForm;
 import com.goodfood.api.request.member.RegisterForm;
+import com.goodfood.api.request.member.UpdateMemberPasswordForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -152,6 +154,19 @@ public class EmployeesController {
     @GetMapping( value = "/profile/search/{username}" )
     public Employees getEmployeeByUsername( @PathVariable String username ) {
         return employeesService.getMemberByUserName( username );
+    }
+
+    // modify profile password
+    @PutMapping( value = "/profile/{id}/password" )
+    public Employees updateMemberPassword( @PathVariable int id,
+                                        @RequestBody UpdateMemberPasswordForm updateMemberPasswordForm ) {
+
+        Employees currentUser = authentificationService.getCurrentUser();
+        Status status = authentificationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf(
+                currentUser.getId() != id && status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+
+        return employeesService.updatePassword( id, updateMemberPasswordForm );
     }
 
     @GetMapping( "/current" )
