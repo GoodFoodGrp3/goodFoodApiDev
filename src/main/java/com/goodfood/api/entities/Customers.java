@@ -31,10 +31,6 @@ public class Customers
     private Comments comments;
 
     @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "login_id")
-    private Logins logins;
-
-    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "employee_id")
     private Employees employees;
 
@@ -106,7 +102,7 @@ public class Customers
 
     }
 
-    public Customers(int customer_id, Orders orders, Comments comments, Logins logins, Employees employees,
+    public Customers(int customer_id, Orders orders, Comments comments, Employees employees,
                      boolean activated_account, String password, String customer_name, String contact_lastname,
                      String contact_firstname, String phone, String addressline1, String addressline2, String city,
                      String state, String postal_code, String country, String email, boolean is_customer_actif,
@@ -114,7 +110,6 @@ public class Customers
         this.id = customer_id;
         this.orders = orders;
         this.comments = comments;
-        this.logins = logins;
         this.employees = employees;
         this.activated_account = activated_account;
         this.password = password;
@@ -161,14 +156,6 @@ public class Customers
 
     public void setComments(Comments comments) {
         this.comments = comments;
-    }
-
-    public Logins getLogins() {
-        return logins;
-    }
-
-    public void setLogins(Logins logins) {
-        this.logins = logins;
     }
 
     public Employees getEmployees() {

@@ -37,7 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Value( "${api.security.httpPatternMatcher.disabled:true}" )
+    @Value( "${api.security.httpPatternMatcher.disabled:false}" )
     private boolean httpPatternMatcherDisabled;
 
     @Autowired
@@ -58,10 +58,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             http.authorizeRequests()
                     .antMatchers( HttpMethod.POST,
                             "/employees/login",
-                            "/employees/register","customers/login","customers/register" )
+                            "/employees/register","customers/login","customers/register")
                     .permitAll()
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
-                            "/swagger-resources/**", "/configuration/security","/swagger-ui/#/", "/swagger-ui.html", "/webjars/**", // swagger
+                            "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger
                             "/comments",
                             "/products" ) // get all resources filtered by name
                     .permitAll()
@@ -91,6 +91,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure( AuthenticationManagerBuilder auth ) throws Exception {
         auth.userDetailsService( s -> (UserDetails) this.employeesService.getEmployeesByFirstName( s ))
-                .passwordEncoder( this.bCryptPasswordEncoder() );
+                .passwordEncoder(this.bCryptPasswordEncoder());
     }
 }

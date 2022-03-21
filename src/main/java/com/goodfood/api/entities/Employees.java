@@ -19,17 +19,11 @@ public class Employees implements UserDetails
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column( name = "co_employee_id" )
-    private int co_employee_id;
-
     @Column( name = "office_id" )
     private int office_id;
 
     @Column( name = "order_commodity" )
     private int order_commodity;
-
-    @Column( name = "login_id" )
-    private int login_id;
 
     @Column( name = "activated_account" )
     private boolean activated_account;
@@ -75,12 +69,10 @@ public class Employees implements UserDetails
         this.counter = 3;
     }
 
-    public Employees(int id, int co_employee_id, int office_id, int order_commodity, int login_id, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
+    public Employees(int id, int office_id, int order_commodity, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
         this.id = id;
-        this.co_employee_id = co_employee_id;
         this.office_id = office_id;
         this.order_commodity = order_commodity;
-        this.login_id = login_id;
         this.activated_account = activated_account;
         this.password = password;
         this.lastname = lastname;
@@ -98,14 +90,6 @@ public class Employees implements UserDetails
         this.id = id;
     }
 
-    public int getCo_employee_id() {
-        return co_employee_id;
-    }
-
-    public void setCo_employee_id(int co_employee_id) {
-        this.co_employee_id = co_employee_id;
-    }
-
     public int getOffice_id() {
         return office_id;
     }
@@ -120,14 +104,6 @@ public class Employees implements UserDetails
 
     public void setOrder_commodity(int order_commodity) {
         this.order_commodity = order_commodity;
-    }
-
-    public int getLogin_id() {
-        return login_id;
-    }
-
-    public void setLogin_id(int login_id) {
-        this.login_id = login_id;
     }
 
     public boolean isActivated_account() {

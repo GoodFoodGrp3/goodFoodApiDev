@@ -1,9 +1,11 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Employees;
+import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
 import com.goodfood.api.request.member.LoginForm;
+import com.goodfood.api.request.member.RegisterForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
 import org.joda.time.DateTime;
@@ -12,12 +14,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin( "*" )
@@ -39,6 +45,15 @@ public class EmployeesController {
     @GetMapping(value = "")
     public List<Employees> getAll(){
         return this.employeesService.getAllEmployees();
+    }
+
+    @PostMapping( value = "/register" )
+    public ResponseEntity<Employees> registerMember(@Valid @RequestBody RegisterForm registerForm, Errors errors,
+                                                    HttpServletRequest request ) {
+
+        constraintViolationCheck( errors, request );
+
+        return new ResponseEntity<Employees>( employeesService.registerMember( registerForm ), HttpStatus.OK );
     }
 
     @GetMapping( value = "/{id}" )
@@ -125,5 +140,25 @@ public class EmployeesController {
         user.setCounter( 3 );
         final String token = this.authentificationService.login( user );
         return new ResponseEntity<>( new JwtResponse( user, token, authentication.getAuthorities() ), HttpStatus.OK );
+    }
+
+    private void constraintViolationCheck( Errors errors, HttpServletRequest request ) {
+
+        if ( errors.hasErrors() ) {
+            List<ConstraintViolation<?>> violationsList = new ArrayList<>();
+            for ( ObjectError e : errors.getAllErrors() ) {
+                violationsList.add( e.unwrap( ConstraintViolation.class ) );
+            }
+            String exceptionMessage = "";
+            for ( ConstraintViolation<?> violation : violationsList ) {
+                if ( violationsList.indexOf( violation ) > 0 ) {
+                    exceptionMessage += " | ";
+                }
+                exceptionMessage += violation.getMessage();
+            }
+            /*errorLogServices
+                    .recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.BAD_REQUEST, exceptionMessage ) );*/
+            throw new ConstraintViolationException( exceptionMessage );
+        }
     }
 }
