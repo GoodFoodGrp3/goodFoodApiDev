@@ -7,9 +7,9 @@ import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
-import com.goodfood.api.request.member.LoginForm;
-import com.goodfood.api.request.member.RegisterForm;
-import com.goodfood.api.request.member.UpdateMemberPasswordForm;
+import com.goodfood.api.request.employee.LoginForm;
+import com.goodfood.api.request.employee.RegisterForm;
+import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -56,12 +56,12 @@ public class EmployeesController {
     }
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<Employees> registerMember(@Valid @RequestBody RegisterForm registerForm, Errors errors,
-                                                    HttpServletRequest request ) {
+    public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterForm registerForm, Errors errors,
+                                                      HttpServletRequest request ) {
 
         constraintViolationCheck( errors, request );
 
-        return new ResponseEntity<Employees>( employeesService.registerMember( registerForm ), HttpStatus.OK );
+        return new ResponseEntity<Employees>( employeesService.registerEmployee( registerForm ), HttpStatus.OK );
     }
 
     @GetMapping( value = "/{id}" )
@@ -153,20 +153,20 @@ public class EmployeesController {
     // Get a Member by its username
     @GetMapping( value = "/profile/search/{username}" )
     public Employees getEmployeeByUsername( @PathVariable String username ) {
-        return employeesService.getMemberByUserName( username );
+        return employeesService.getEmployeeByUserName( username );
     }
 
     // modify profile password
     @PutMapping( value = "/profile/{id}/password" )
-    public Employees updateMemberPassword( @PathVariable int id,
-                                        @RequestBody UpdateMemberPasswordForm updateMemberPasswordForm ) {
+    public Employees updateEmployeePassword(@PathVariable int id,
+                                            @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm) {
 
         Employees currentUser = authentificationService.getCurrentUser();
         Status status = authentificationService.getCurrentUser().getStatus();
         generatePrivilegeErrorIf(
                 currentUser.getId() != id && status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
-        return employeesService.updatePassword( id, updateMemberPasswordForm );
+        return employeesService.updatePassword( id, updateEmployeePasswordForm);
     }
 
     @GetMapping( "/current" )

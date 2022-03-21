@@ -1,16 +1,16 @@
-package com.goodfood.api.request.member;
+package com.goodfood.api.request.employee;
 
-public class UpdateMemberPasswordForm {
+public class UpdateEmployeePasswordForm {
 
     private String password;
 
     private String cpassword;
 
-    public UpdateMemberPasswordForm() {
+    public UpdateEmployeePasswordForm() {
 
     }
 
-    public UpdateMemberPasswordForm(String password, String cpassword ) {
+    public UpdateEmployeePasswordForm(String password, String cpassword ) {
         super();
         this.password = password;
         this.cpassword = cpassword;

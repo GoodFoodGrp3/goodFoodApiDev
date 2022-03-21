@@ -1,4 +1,4 @@
-package com.goodfood.api.request.member;
+package com.goodfood.api.request.employee;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -6,7 +6,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Past;
 import java.sql.Timestamp;
 
-public class UpdateMemberForm {
+public class UpdateEmployeeForm {
 
     @NotBlank( message = "Un pseudo ne peut être vide" )
     private String    username;
@@ -15,11 +15,11 @@ public class UpdateMemberForm {
     @Past
     private Timestamp birthDate;
 
-    public UpdateMemberForm() {
+    public UpdateEmployeeForm() {
 
     }
 
-    public UpdateMemberForm(String username, Timestamp birthDate ) {
+    public UpdateEmployeeForm(String username, Timestamp birthDate ) {
         super();
         this.username = username;
         this.birthDate = birthDate;
