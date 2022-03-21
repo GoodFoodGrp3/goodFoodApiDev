@@ -1,5 +1,7 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -13,6 +15,8 @@ public class Order_commodity
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int order_commodity_id;
 
+    //Warning jsonignore
+
     @ManyToOne
     @JoinColumn(name="employee_id")
     private Employees employees;
@@ -20,8 +24,8 @@ public class Order_commodity
     @Column( name = "order_date" )
     private Timestamp order_date;
 
-    @Column( name = "required_date" )
-    private Timestamp required_date;
+    @Column( name = "delivery_date" )
+    private Timestamp delivery_date;
 
     @Column( name = "shipped_date" )
     private Timestamp shipped_date;
@@ -57,12 +61,12 @@ public class Order_commodity
         this.order_date = order_date;
     }
 
-    public Timestamp getRequired_date() {
-        return required_date;
+    public Timestamp getDelivery_date() {
+        return delivery_date;
     }
 
-    public void setRequired_date(Timestamp required_date) {
-        this.required_date = required_date;
+    public void setRequired_date(Timestamp delivery_date) {
+        this.delivery_date = delivery_date;
     }
 
     public Timestamp getShipped_date() {

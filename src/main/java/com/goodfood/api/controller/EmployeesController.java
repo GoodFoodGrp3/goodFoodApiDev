@@ -1,13 +1,16 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Employees;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.exceptions.ConstraintViolationException;
+import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
 import com.goodfood.api.request.member.LoginForm;
 import com.goodfood.api.request.member.RegisterForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
+import com.goodfood.api.services.ErrorLogServices;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,10 +43,13 @@ public class EmployeesController {
     @Autowired
     private AuthenticationService authentificationService;
 
+    @Autowired
+    private ErrorLogServices errorLogServices;
+
     private static final long BLOCKED_ACCOUNT_DURATION = 30 * 60 * 1000L; // in milliseconds - 30 minutes
 
     @GetMapping(value = "")
-    public List<Employees> getAll(){
+    public List<Employees> getAllEmployees(){
         return this.employeesService.getAllEmployees();
     }
 
@@ -142,6 +148,21 @@ public class EmployeesController {
         return new ResponseEntity<>( new JwtResponse( user, token, authentication.getAuthorities() ), HttpStatus.OK );
     }
 
+    // Get a Member by its username
+    @GetMapping( value = "/profile/search/{username}" )
+    public Employees getEmployeeByUsername( @PathVariable String username ) {
+        return employeesService.getMemberByUserName( username );
+    }
+
+    @GetMapping( "/current" )
+    public ResponseEntity<Employees> getCurrentUser() {
+        return new ResponseEntity<>( this.authentificationService.getCurrentUser(), HttpStatus.OK );
+    }
+
+    // ***************
+    // ERROR MANAGEMENT
+    // ***************
+
     private void constraintViolationCheck( Errors errors, HttpServletRequest request ) {
 
         if ( errors.hasErrors() ) {
@@ -159,6 +180,14 @@ public class EmployeesController {
             /*errorLogServices
                     .recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.BAD_REQUEST, exceptionMessage ) );*/
             throw new ConstraintViolationException( exceptionMessage );
+        }
+    }
+
+    private void generatePrivilegeErrorIf( boolean test ) {
+        if ( test ) {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
+                    "You have not the right authorities." ) );
+            throw new EmployeeStatusException();
         }
     }
 }

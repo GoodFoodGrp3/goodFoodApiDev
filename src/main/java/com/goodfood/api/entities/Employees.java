@@ -24,6 +24,7 @@ public class Employees implements UserDetails
     @JoinColumn(name ="office_id")
     private Offices office_id;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employees")
     private Set<Order_commodity> order_commodity;
 

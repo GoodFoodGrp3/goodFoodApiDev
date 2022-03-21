@@ -16,6 +16,5 @@ public interface EmployeesService {
     List<Employees> getAllEmployees();
     Employees getEmployeeById( int id );
 
-
-
+    Employees getMemberByUserName(String username);
 }

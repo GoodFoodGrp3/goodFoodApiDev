@@ -37,7 +37,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Value( "${api.security.httpPatternMatcher.disabled:false}" )
+    @Value( "${api.security.httpPatternMatcher.disabled:true}" )
     private boolean httpPatternMatcherDisabled;
 
     @Autowired

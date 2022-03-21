@@ -4,7 +4,7 @@ import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Offices;
 import com.goodfood.api.entities.Order_commodity;
-import com.goodfood.api.exceptions.MemberValidationException;
+import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.member.RegisterForm;
 import com.goodfood.api.services.EmployeesService;
@@ -14,10 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.Order;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 
 @Service( value = "EmployeesService" )
@@ -29,7 +27,9 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+
+    private BCryptPasswordEncoder bcrypt;
+
 
     // contructor
     public EmployeesServiceImpl() {
@@ -86,46 +86,50 @@ public class EmployeesServiceImpl implements EmployeesService {
         return this.employeesRepository.findById(id);
     }
 
+    @Override
+    public Employees getMemberByUserName(String username) {
+        return this.employeesRepository.findByFirstname(username);
+    }
 
 
     // ***********************
     // DATA VALIDATION METHODS
     // ***********************
 
-    private void validationEmail( String email ) throws MemberValidationException {
+    private void validationEmail( String email ) throws EmployeeValidationException {
 
         if ( email != null && employeesRepository.findByEmail( email ) != null ) {
 
             errorLogServices
                     .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Cette adresse mail n'est pas valide, merci d'en choisir une autre." ) );
-            throw new MemberValidationException(
+            throw new EmployeeValidationException(
                     "Cette adresse mail n'est pas valide, merci d'en choisir une autre." );
 
         }
     }
 
-    private void validationUsername( String username ) throws MemberValidationException {
+    private void validationUsername( String username ) throws EmployeeValidationException {
 
         if ( username != null && employeesRepository.findByFirstname( username ) != null ) {
 
             errorLogServices
                     .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Ce pseudo n'est pas valide, merci d'en choisir un autre." ) );
-            throw new MemberValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
+            throw new EmployeeValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
 
         }
 
     }
 
-    private void validationPasswords( String password, String confirmation ) throws MemberValidationException {
+    private void validationPasswords( String password, String confirmation ) throws EmployeeValidationException {
 
         if ( !password.equals( confirmation ) ) {
 
             errorLogServices
                     .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Les deux mots de passe ne correspondent pas." ) );
-            throw new MemberValidationException( "Les deux mots de passe ne correspondent pas." );
+            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas." );
 
         }
 
