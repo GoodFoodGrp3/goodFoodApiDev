@@ -1,11 +1,20 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Customers;
+import com.goodfood.api.exceptions.ConstraintViolationException;
+import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.services.CustomersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin( "*" )
@@ -17,7 +26,7 @@ public class CustomersController {
     private CustomersService customersService;
 
     @GetMapping(value = "")
-    public List<Customers> getAll(){
+    public List<Customers> getAllCustomers(){
         return this.customersService.getAllCustomers();
     }
 
@@ -26,4 +35,36 @@ public class CustomersController {
         return this.customersService.getCustomerById( id );
     }
 
+    @PostMapping( value = "/register" )
+    public ResponseEntity<Customers> registerCustomer(@Valid @RequestBody RegisterCustomerForm registerCustomerForm, Errors errors,
+                                                      HttpServletRequest request ) {
+
+        constraintViolationCheck( errors, request );
+
+        return new ResponseEntity<Customers>( customersService.registerCustomer(registerCustomerForm), HttpStatus.OK );
+    }
+
+    // ***************
+    // ERROR MANAGEMENT
+    // ***************
+
+    private void constraintViolationCheck( Errors errors, HttpServletRequest request ) {
+
+        if ( errors.hasErrors() ) {
+            List<ConstraintViolation<?>> violationsList = new ArrayList<>();
+            for ( ObjectError e : errors.getAllErrors() ) {
+                violationsList.add( e.unwrap( ConstraintViolation.class ) );
+            }
+            String exceptionMessage = "";
+            for ( ConstraintViolation<?> violation : violationsList ) {
+                if ( violationsList.indexOf( violation ) > 0 ) {
+                    exceptionMessage += " | ";
+                }
+                exceptionMessage += violation.getMessage();
+            }
+            /*errorLogServices
+                    .recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.BAD_REQUEST, exceptionMessage ) );*/
+            throw new ConstraintViolationException( exceptionMessage );
+        }
+    }
 }

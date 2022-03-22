@@ -6,7 +6,7 @@ import com.goodfood.api.entities.Offices;
 import com.goodfood.api.entities.Order_commodity;
 import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.repositories.EmployeesRepository;
-import com.goodfood.api.request.employee.RegisterForm;
+import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -41,7 +41,7 @@ public class EmployeesServiceImpl implements EmployeesService {
     // ***********************
 
     @Override
-    public Employees registerEmployee(RegisterForm registerForm) {
+    public Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm) {
 
         Employees employees = new Employees();
 
@@ -50,16 +50,16 @@ public class EmployeesServiceImpl implements EmployeesService {
         Order_commodity order_commodity = new Order_commodity();
 
         // validation des attributs
-        validationEmail( registerForm.getEmail() );
-        employees.setEmail(registerForm.getEmail());
-        validationUsername(registerForm.getUsername());
-        validationPasswords(registerForm.getPassword(), registerForm.getCpassword());
-        employees.setFirstname(registerForm.getUsername());
-        offices.setId(registerForm.getSuccursale());
+        validationEmail( registerEmployeeForm.getEmail() );
+        employees.setEmail(registerEmployeeForm.getEmail());
+        validationUsername(registerEmployeeForm.getUsername());
+        validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
+        employees.setFirstname(registerEmployeeForm.getUsername());
+        offices.setId(registerEmployeeForm.getSuccursale());
         employees.setOffice_id(offices);
         employees.setOrder_commodity(Collections.singleton(order_commodity));
-        employees.setStatus(registerForm.getStatus());
-        employees.setPassword(this.bcrypt.encode(registerForm.getPassword()));
+        employees.setStatus(registerEmployeeForm.getStatus());
+        employees.setPassword(this.bcrypt.encode(registerEmployeeForm.getPassword()));
 
         try {
             // save in database

@@ -90,24 +90,23 @@ public class Customers
     @Column( name = "delete_time" )
     private Timestamp delete_time;
 
+    @Column( name = "is_blocked" )
+    private boolean is_blocked;
+
+    @Column( name = "counter" )
+    private int counter;
+
+    @Column( name = "blocked_date" )
+    private Timestamp blocked_date;
+
     ///// CONSTRUCTOR /////
 
     public Customers() {
 
     }
 
-    public Customers(int customer_id) {
-
-        this.id = customer_id;
-
-    }
-
-    public Customers(int customer_id, Orders orders, Comments comments, Employees employees,
-                     boolean activated_account, String password, String customer_name, String contact_lastname,
-                     String contact_firstname, String phone, String addressline1, String addressline2, String city,
-                     String state, String postal_code, String country, String email, boolean is_customer_actif,
-                     Timestamp creation_time, Timestamp modification_time, Timestamp delete_time) {
-        this.id = customer_id;
+    public Customers(int id, Orders orders, Comments comments, Employees employees, boolean activated_account, String password, String customer_name, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
+        this.id = id;
         this.orders = orders;
         this.comments = comments;
         this.employees = employees;
@@ -128,18 +127,22 @@ public class Customers
         this.creation_time = creation_time;
         this.modification_time = modification_time;
         this.delete_time = delete_time;
+        this.is_blocked = is_blocked;
+        this.counter = counter;
+        this.blocked_date = blocked_date;
     }
+
 
     ///// CONSTRUCTOR /////
 
     ///// GETTER AND SETTER /////
 
-    public int getCustomer_id() {
+    public int getId() {
         return id;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.id = customer_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Orders getOrders() {
@@ -300,6 +303,30 @@ public class Customers
 
     public void setDelete_time(Timestamp delete_time) {
         this.delete_time = delete_time;
+    }
+
+    public boolean isIs_blocked() {
+        return is_blocked;
+    }
+
+    public void setIs_blocked(boolean is_blocked) {
+        this.is_blocked = is_blocked;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    public Timestamp getBlocked_date() {
+        return blocked_date;
+    }
+
+    public void setBlocked_date(Timestamp blocked_date) {
+        this.blocked_date = blocked_date;
     }
 
 

@@ -33,8 +33,8 @@ public class Orders
     public Orders() {
     }
 
-    public Orders(int order_id, int customer_id, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
-        this.id = order_id;
+    public Orders(int id, int customer_id, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
+        this.id = id;
         this.customer_id = customer_id;
         this.order_date = order_date;
         this.delivery_date = delivery_date;
@@ -43,11 +43,11 @@ public class Orders
         this.comments = comments;
     }
 
-    public int getOrder_id() {
+    public int getId() {
         return id;
     }
 
-    public void setOrder_id(int order_id) {
+    public void setId(int order_id) {
         this.id = order_id;
     }
 

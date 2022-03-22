@@ -8,7 +8,7 @@ import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.JwtResponse;
 import com.goodfood.api.request.employee.LoginForm;
-import com.goodfood.api.request.employee.RegisterForm;
+import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
@@ -56,12 +56,12 @@ public class EmployeesController {
     }
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterForm registerForm, Errors errors,
+    public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterEmployeeForm registerEmployeeForm, Errors errors,
                                                       HttpServletRequest request ) {
 
         constraintViolationCheck( errors, request );
 
-        return new ResponseEntity<Employees>( employeesService.registerEmployee( registerForm ), HttpStatus.OK );
+        return new ResponseEntity<Employees>( employeesService.registerEmployee(registerEmployeeForm), HttpStatus.OK );
     }
 
     @GetMapping( value = "/{id}" )

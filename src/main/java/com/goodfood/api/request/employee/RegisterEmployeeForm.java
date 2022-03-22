@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class RegisterForm {
+public class RegisterEmployeeForm {
 
     @NotNull( message = "Un statut est requis" )
     @Enumerated( EnumType.STRING )
@@ -24,7 +24,6 @@ public class RegisterForm {
     @Email( message = "L'adresse n'est pas valide" )
     private String email;
 
-    @NotNull( message = "Une succursale est requise" )
     private int succursale;
 
     @NotNull( message = "le mot de passe est requis" )
@@ -34,11 +33,11 @@ public class RegisterForm {
     @NotNull( message = "le mot de passe est requis" )
     private String cpassword;
 
-    public RegisterForm() {
+    public RegisterEmployeeForm() {
 
     }
 
-    public RegisterForm(Status status,String username, String email, int succursale,String password, String cpassword ) {
+    public RegisterEmployeeForm(Status status, String username, String email, int succursale, String password, String cpassword ) {
         super();
         this.status = status;
         this.username = username;

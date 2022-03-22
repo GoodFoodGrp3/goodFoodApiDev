@@ -1,7 +1,7 @@
 package com.goodfood.api.services;
 
 import com.goodfood.api.entities.Employees;
-import com.goodfood.api.request.employee.RegisterForm;
+import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public interface EmployeesService {
 
     //Register
-    Employees registerEmployee(RegisterForm registerForm);
+    Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm);
 
     //Login
     Employees getEmployeesByFirstName( String username );
