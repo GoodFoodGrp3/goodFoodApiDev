@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
+
 //Ajout de jsonIgnore sur la relation customers -> comments (a voir pour plus tard)
 @Entity
 @Table(name = "comments")
@@ -18,8 +20,9 @@ public class Comments implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "comments")
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customers customers;
 
     @Column(name = "is_actif")

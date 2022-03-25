@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,17 +23,12 @@ public class Customers
 
     ///// RELATION /////
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "order_id")
-    private Orders orders;
+    @OneToMany(mappedBy = "customers")
+    private Set<Orders> orders;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name="comment_id")
-    private Comments comments;
+    @OneToMany(mappedBy = "customers")
+    private Set<Comments> comments;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "employee_id")
-    private Employees employees;
 
     ///// RELATION /////
 
@@ -105,11 +101,10 @@ public class Customers
 
     }
 
-    public Customers(int id, Orders orders, Comments comments, Employees employees, boolean activated_account, String password, String customer_name, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
+    public Customers(int id, Set<Orders> orders, Set<Comments> comments, boolean activated_account, String password, String customer_name, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
         this.id = id;
         this.orders = orders;
         this.comments = comments;
-        this.employees = employees;
         this.activated_account = activated_account;
         this.password = password;
         this.customer_name = customer_name;
@@ -145,28 +140,20 @@ public class Customers
         this.id = id;
     }
 
-    public Orders getOrders() {
+    public Set<Orders> getOrders() {
         return orders;
     }
 
-    public void setOrders(Orders orders) {
+    public void setOrders(Set<Orders> orders) {
         this.orders = orders;
     }
 
-    public Comments getComments() {
+    public Set<Comments> getComments() {
         return comments;
     }
 
-    public void setComments(Comments comments) {
+    public void setComments(Set<Comments> comments) {
         this.comments = comments;
-    }
-
-    public Employees getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(Employees employees) {
-        this.employees = employees;
     }
 
     public boolean isActivated_account() {

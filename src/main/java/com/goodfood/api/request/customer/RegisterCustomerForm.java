@@ -2,8 +2,6 @@ package com.goodfood.api.request.customer;
 
 import com.goodfood.api.entities.Status;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -51,16 +49,14 @@ public class RegisterCustomerForm {
     @NotNull( message = "la ville est requise" )
     private String city;
 
-    @NotBlank( message = "le pays ne peut être vide" )
-    @NotNull( message = "le pays est requise" )
     private String state;
 
     @NotBlank( message = "le code postal ne peut être vide" )
     @NotNull( message = "le code postal est requise" )
     private String postalCode;
 
-    @NotBlank( message = "la région ne peut être vide" )
-    @NotNull( message = "la région postal est requise" )
+    @NotBlank( message = "le pays ne peut être vide" )
+    @NotNull( message = "le pays est requis" )
     private String country;
 
     @NotBlank( message = "l'adresse mail ne peut être vide" )

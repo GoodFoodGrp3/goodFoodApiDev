@@ -47,14 +47,11 @@ public class CustomersServicesImpl implements CustomersService {
 
         // validation des attributs
 
-        orders.setId(registerCustomerForm.getOrder());
-        customers.setOrders(orders);
-        comments.setComment_id(registerCustomerForm.getComment());
-        employees.setId(registerCustomerForm.getEmployee());
-        customers.setEmployees(employees);
+        customers.setOrders(Collections.singleton(orders));
+        customers.setComments(Collections.singleton(comments));
 
         validationPasswords(registerCustomerForm.getPassword(), registerCustomerForm.getCpassword());
-        registerCustomerForm.getUsername();
+        customers.setCustomer_name(registerCustomerForm.getUsername());
         customers.setContact_lastname(registerCustomerForm.getLastname());
         customers.setContact_firstname(registerCustomerForm.getFirstname());
         customers.setPhone(registerCustomerForm.getPhone());

@@ -13,7 +13,9 @@ public class Orders
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int customer_id;
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
+    private Customers customers;
 
     @Column( name = "order_date" )
     private Timestamp order_date;
@@ -33,9 +35,9 @@ public class Orders
     public Orders() {
     }
 
-    public Orders(int id, int customer_id, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
+    public Orders(int id, Customers customers, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
         this.id = id;
-        this.customer_id = customer_id;
+        this.customers = customers;
         this.order_date = order_date;
         this.delivery_date = delivery_date;
         this.shipped_date = shipped_date;
@@ -47,16 +49,16 @@ public class Orders
         return id;
     }
 
-    public void setId(int order_id) {
-        this.id = order_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getCustomer_id() {
-        return customer_id;
+    public Customers getCustomers() {
+        return customers;
     }
 
-    public void setCustomer_id(int customer_id) {
-        this.customer_id = customer_id;
+    public void setCustomers(Customers customers) {
+        this.customers = customers;
     }
 
     public Timestamp getOrder_date() {
