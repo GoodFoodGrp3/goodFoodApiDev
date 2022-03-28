@@ -1,13 +1,8 @@
 package com.goodfood.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 //Ajout de jsonIgnore sur la relation comments -> customers (a voir pour plus tard)
 @Entity
@@ -38,8 +33,8 @@ public class Customers
     @Column( name = "password" )
     private String password;
 
-    @Column( name = "customer_name" )
-    private String customer_name;
+    @Column( name = "customername" )
+    private String customername;
 
     @Column( name = "contact_lastname" )
     private String contact_lastname;
@@ -101,13 +96,13 @@ public class Customers
 
     }
 
-    public Customers(int id, Set<Orders> orders, Set<Comments> comments, boolean activated_account, String password, String customer_name, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
+    public Customers(int id, Set<Orders> orders, Set<Comments> comments, boolean activated_account, String password, String customername, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
         this.id = id;
         this.orders = orders;
         this.comments = comments;
         this.activated_account = activated_account;
         this.password = password;
-        this.customer_name = customer_name;
+        this.customername = customername;
         this.contact_lastname = contact_lastname;
         this.contact_firstname = contact_firstname;
         this.phone = phone;
@@ -172,12 +167,12 @@ public class Customers
         this.password = password;
     }
 
-    public String getCustomer_name() {
-        return customer_name;
+    public String getCustomername() {
+        return customername;
     }
 
-    public void setCustomer_name(String customer_name) {
-        this.customer_name = customer_name;
+    public void setCustomername(String customer_name) {
+        this.customername = customer_name;
     }
 
     public String getContact_lastname() {

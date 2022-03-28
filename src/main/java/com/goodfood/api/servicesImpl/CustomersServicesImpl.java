@@ -51,7 +51,7 @@ public class CustomersServicesImpl implements CustomersService {
         customers.setComments(Collections.singleton(comments));
 
         validationPasswords(registerCustomerForm.getPassword(), registerCustomerForm.getCpassword());
-        customers.setCustomer_name(registerCustomerForm.getUsername());
+        customers.setCustomername(registerCustomerForm.getUsername());
         customers.setContact_lastname(registerCustomerForm.getLastname());
         customers.setContact_firstname(registerCustomerForm.getFirstname());
         customers.setPhone(registerCustomerForm.getPhone());
@@ -85,6 +85,11 @@ public class CustomersServicesImpl implements CustomersService {
     @Override
     public Customers getCustomerById(int id) {
         return this.customersRepository.findById(id);
+    }
+
+    @Override
+    public Customers getCustomerByUserName(String username) {
+        return this.customersRepository.findByCustomername(username);
     }
 
 
