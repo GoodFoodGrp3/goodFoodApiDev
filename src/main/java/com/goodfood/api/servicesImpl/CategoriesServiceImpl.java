@@ -30,7 +30,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public Categories createCategories(int id, String categoryName, String textDescription, String htmlDescription, String image) {
-        final Categories categories = new Categories(authenticationService.getCurrentUser(),categoryName,textDescription,htmlDescription,image);
+        final Categories categories = new Categories(categoryName,textDescription,htmlDescription,image);
 
         return this.categoriesRepository.save(categories);
     }

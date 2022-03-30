@@ -25,8 +25,11 @@ public class Categories implements Serializable
     @Column(name = "image")
     private String image;
 
-    public Categories(Employees currentUser, String categoryName, String textDescription, String htmlDescription, String image) {
-
+    public Categories(String categoryName, String textDescription, String htmlDescription, String image) {
+        this.category_name = categoryName;
+        this.text_description=textDescription;
+        this.html_description = htmlDescription;
+        this.image = image;
     }
 
     public Categories(int category_id, String category_name,
@@ -38,6 +41,9 @@ public class Categories implements Serializable
         this.image = image;
     }
 
+    public Categories() {
+
+    }
 
 
     public int getCategory_id() {

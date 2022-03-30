@@ -6,7 +6,7 @@ import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
-import com.goodfood.api.request.JwtResponse;
+import com.goodfood.api.request.employee.JwtResponse;
 import com.goodfood.api.request.employee.LoginForm;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
@@ -74,7 +74,7 @@ public class EmployeesController {
 
         final Authentication authentication;
 
-        Employees employees = new Employees();
+        Employees employees;
         employees = null;
 
         try {
@@ -146,7 +146,7 @@ public class EmployeesController {
         employees.setCounter( 3 );
         final Employees user = (Employees) authentication.getPrincipal();
         user.setCounter( 3 );
-        final String token = this.authentificationService.login( user );
+        final String token = this.authentificationService.loginEmployees( user );
         return new ResponseEntity<>( new JwtResponse( user, token, authentication.getAuthorities() ), HttpStatus.OK );
     }
 

@@ -1,9 +1,11 @@
 package com.goodfood.api.servicesImpl;
 
 import com.auth0.jwt.JWT;
+import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.security.SecurityConstants;
 import com.goodfood.api.services.AuthenticationService;
+import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.EmployeesService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private EmployeesService employeesService;
 
     @Autowired
+    private CustomersService customersService;
+
+    @Autowired
     private BCryptPasswordEncoder encoder;
 
     @Autowired
@@ -40,7 +45,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String login(Employees employees) {
+    public String loginEmployees(Employees employees) {
         return JWT.create()
                 .withSubject(employees.getFirstname())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
@@ -48,10 +53,28 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
 
-	@Override
+    @Override
 	public Employees getCurrentUser() {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return this.employeesService.getEmployeesByFirstName((String) authentication.getPrincipal());
 		
 	}
+
+
+    @Override
+    public String loginCustomers(Customers customers) {
+        return JWT.create()
+                .withSubject(customers.getCustomername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .sign(HMAC512(SecurityConstants.SECRET.getBytes()));
+    }
+
+
+    @Override
+    public Customers getCurrentCustomer() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return this.customersService.getCustomerByUserName((String) authentication.getPrincipal());
+    }
+
+
 }

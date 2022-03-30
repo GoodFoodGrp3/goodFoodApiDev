@@ -63,7 +63,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
                             "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger
                             "/comments",
-                            "/products" ) // get all resources filtered by name
+                            "/products" ) // get all products filtered by name
                     .permitAll()
                     .anyRequest().authenticated();
         } else { // http pattern matcher disabled

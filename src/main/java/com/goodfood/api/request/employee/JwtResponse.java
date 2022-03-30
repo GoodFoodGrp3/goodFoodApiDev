@@ -1,4 +1,4 @@
-package com.goodfood.api.request;
+package com.goodfood.api.request.employee;
 
 import com.goodfood.api.entities.Employees;
 import org.springframework.security.core.GrantedAuthority;

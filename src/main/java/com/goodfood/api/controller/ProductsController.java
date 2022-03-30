@@ -4,10 +4,7 @@ import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Products;
 import com.goodfood.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,4 +25,9 @@ public class ProductsController {
     public Products getCProductById(@PathVariable int id ) {
         return this.productService.getProductById( id );
     }
+
+   /* @PostMapping( value = "" )
+    public Products createProducts(@RequestBody CreateProductsForm createProductsForm ) {
+        return this.productService.createCategories( createCategoriesForm.getId(), createCategoriesForm.getCategoryName(), createCategoriesForm.getTextDescription(), createCategoriesForm.getHtmlDescription(), createCategoriesForm.getImage());
+    }*/
 }
