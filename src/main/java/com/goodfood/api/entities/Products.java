@@ -15,7 +15,7 @@ public class Products implements Serializable
     @Id
     @org.springframework.data.annotation.Id
     @Column(name = "product_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
 
@@ -37,6 +37,14 @@ public class Products implements Serializable
 
     public Products(int product_id, Categories categories, String product_name, String product_description, int quantity_in_stock, double buy_price) {
         this.id = product_id;
+        this.categories = categories;
+        this.product_name = product_name;
+        this.product_description = product_description;
+        this.quantity_in_stock = quantity_in_stock;
+        this.buy_price = buy_price;
+    }
+
+    public Products(Categories categories, String product_name, String product_description, int quantity_in_stock, double buy_price) {
         this.categories = categories;
         this.product_name = product_name;
         this.product_description = product_description;

@@ -1,12 +1,11 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Products;
+import com.goodfood.api.request.employee.CreateProductsForm;
 import com.goodfood.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,8 +25,8 @@ public class ProductsController {
         return this.productService.getProductById( id );
     }
 
-   /* @PostMapping( value = "" )
+    @PostMapping( value = "" )
     public Products createProducts(@RequestBody CreateProductsForm createProductsForm ) {
-        return this.productService.createCategories( createCategoriesForm.getId(), createCategoriesForm.getCategoryName(), createCategoriesForm.getTextDescription(), createCategoriesForm.getHtmlDescription(), createCategoriesForm.getImage());
-    }*/
+        return this.productService.createProducts( createProductsForm.getId(), createProductsForm.getCategories(), createProductsForm.getProductName(), createProductsForm.getProductDescription(), createProductsForm.getQuantityInStock(), createProductsForm.getBuyPrice());
+    }
 }
