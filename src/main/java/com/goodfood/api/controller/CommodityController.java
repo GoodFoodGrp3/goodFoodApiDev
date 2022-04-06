@@ -1,13 +1,10 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Commodity;
+import com.goodfood.api.request.employee.CreateCommoditiesForm;
 import com.goodfood.api.services.CommodityService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +25,8 @@ public class CommodityController {
         return this.commodityService.getCommodityById( id );
     }
 
+    @PostMapping( value = "" )
+    public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm ) {
+        return this.commodityService.createCommodities( createCommoditiesForm.getId(), createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(), createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(), createCommoditiesForm.getQuantityinStock(),createCommoditiesForm.getBuyPrice(),createCommoditiesForm.getVendorProvider(),createCommoditiesForm.getQuantity());
+    }
 }

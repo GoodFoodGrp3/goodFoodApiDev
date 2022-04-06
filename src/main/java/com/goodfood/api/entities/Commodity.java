@@ -64,15 +64,19 @@ public class Commodity
         this.quantity = quantity;
     }
 
-    public Commodity(String commodity_name, String commodity_description, int quantity_in_stock, double buy_price,
-                     String vendor_provider, int quantity) {
-        this.commodity_name = commodity_name;
-        this.commodity_description = commodity_description;
-        this.quantity_in_stock = quantity_in_stock;
-        this.buy_price = buy_price;
-        this.vendor_provider = vendor_provider;
-        this.quantity = quantity;
+    public Commodity(Provider providerId, Employees employeeId, String commodityName, String commodityDescription, int quantityinStock, double buyPrice, String vendorProvider, int quantity)
+    {
+        this.provider = providerId;
+        this.employees = employeeId;
+        this.commodity_name = commodityName;
+        this.commodity_description = commodityDescription;
+        this.quantity_in_stock = quantityinStock;
+        this.buy_price = buyPrice;
+        this.vendor_provider=vendorProvider;
+        this.quantity= quantity;
     }
+
+
 
     ///// CONSTRUCTOR /////
 
