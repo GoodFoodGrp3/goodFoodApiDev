@@ -3,6 +3,7 @@ package com.goodfood.api.servicesImpl;
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Customers;
 import com.goodfood.api.repositories.CommentsRepository;
+import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ public class CommentsServicesImpl implements CommentsService {
 
     @Autowired
     CommentsRepository commentsRepository;
+    @Autowired
+    AuthenticationService authenticationService;
 
     @Override
     public List<Comments> getAllComments() {
@@ -26,13 +29,11 @@ public class CommentsServicesImpl implements CommentsService {
         return this.commentsRepository.findById(id);
     }
 
-    /*@Override
-    public Comments createComment(String content) {
+   /* @Override
+    public Comments createComment(int id, String body) {
+        final Comments comment = new Comments( authenticationService.getCurrentUser(),body, new Timestamp( System.currentTimeMillis()));
 
-        final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), content);
-
-        return this.commentsRepository.save(comment);
-    }*/
-
+    }
+*/
 
 }

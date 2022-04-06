@@ -9,4 +9,6 @@ public interface CategoriesService {
     List<Categories> getAllCategories();
     Categories getCategorieById(int id );
     Categories createCategories( int id, String categoryName, String textDescription, String htmlDescription , String image );
+
+    void deleteCategoriesById( int id );
 }
