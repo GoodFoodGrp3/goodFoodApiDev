@@ -23,4 +23,10 @@ public class OfficesServiceImpl implements OfficesService {
     public Offices getOfficeById(int id) {
         return this.officesRepository.findById(id);
     }
+
+    @Override
+    public Offices createOffices(int id, String city, String phone, String addressline1, String addressline2, String state, String country, String postal_code) {
+        final Offices offices = new Offices(city,phone,addressline1,addressline2,state,country,postal_code);
+        return  this.officesRepository.save(offices);
+    }
 }

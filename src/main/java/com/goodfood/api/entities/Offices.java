@@ -49,6 +49,16 @@ public class Offices
         this.postalCode = postalCode;
     }
 
+    public Offices(String city, String phone, String addressLine1, String addressLine2, String state, String country, String postalCode) {
+        this.city = city;
+        this.phone = phone;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.state = state;
+        this.country = country;
+        this.postalCode = postalCode;
+    }
+
     public int getId() {
         return id;
     }

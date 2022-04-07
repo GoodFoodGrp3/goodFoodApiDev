@@ -10,5 +10,4 @@ public interface CategoriesService {
     Categories getCategorieById(int id );
     Categories createCategories( int id, String categoryName, String textDescription, String htmlDescription , String image );
 
-    void deleteCategoriesById( int id );
 }

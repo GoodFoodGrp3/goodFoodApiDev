@@ -1,15 +1,12 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Categories;
-import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.repositories.CategoriesRepository;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CategoriesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -40,20 +37,6 @@ public class CategoriesServiceImpl implements CategoriesService {
         final Categories categories = new Categories(categoryName,textDescription,htmlDescription,image);
 
         return this.categoriesRepository.save(categories);
-    }
-
-    @Override
-    public void deleteCategoriesById(int id) {
-
-        Categories categories = this.categoriesRepository.findById( id );
-        if ( categories == null ) {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) ) );
-            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) );
-        }
-
-        this.categoriesRepository.deleteById( id );
     }
 
 

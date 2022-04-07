@@ -48,6 +48,16 @@ public class Provider
         this.state = state;
     }
 
+    public Provider(String provider_name, String addressLine, String email, String phone, String country, String postalCode, String state) {
+        this.provider_name = provider_name;
+        this.addressLine = addressLine;
+        this.email = email;
+        this.phone = phone;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.state = state;
+    }
+
     public int getProvider_id() {
         return id;
     }

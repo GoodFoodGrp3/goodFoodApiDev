@@ -8,4 +8,5 @@ public interface OfficesService {
 
     List<Offices> getAllOffices();
     Offices getOfficeById( int id );
+    Offices createOffices(int id, String city, String phone, String addressline1 , String addressline2, String state, String country, String postal_code );
 }

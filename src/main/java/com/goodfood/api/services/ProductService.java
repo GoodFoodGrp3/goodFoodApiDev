@@ -9,6 +9,7 @@ import java.util.List;
 public interface ProductService {
 
     List<Products> getAllProducts();
+    void deleteProductById( int id );
     Products getProductById (int id);
     Products createProducts(int id, Categories categories, String productName, String productDescription , int quantityInStock, int buyPrice );
 }

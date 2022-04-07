@@ -1,14 +1,11 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
-import com.goodfood.api.entities.Commodity;
+
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.request.employee.CreateProvidersForm;
 import com.goodfood.api.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,13 @@ public class ProviderController {
         return this.providerService.getProviderById( id );
     }
 
+    @PostMapping( value = "" )
+    public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm ) {
+        return this.providerService.createProviders( createProvidersForm.getId(),
+                createProvidersForm.getProvider_name(), createProvidersForm.getAddressline(),
+                createProvidersForm.getEmail(), createProvidersForm.getPhone(),
+                createProvidersForm.getCountry(), createProvidersForm.getPostal_code(),
+                createProvidersForm.getState());
+    }
 
 }
