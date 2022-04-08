@@ -5,8 +5,11 @@ import com.goodfood.api.entities.Provider;
 import com.goodfood.api.request.employee.CreateProvidersForm;
 import com.goodfood.api.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -33,6 +36,12 @@ public class ProviderController {
                 createProvidersForm.getEmail(), createProvidersForm.getPhone(),
                 createProvidersForm.getCountry(), createProvidersForm.getPostal_code(),
                 createProvidersForm.getState());
+    }
+
+    @PutMapping( value = "/{id}" )
+    @Transactional
+    public ResponseEntity<Provider> update( @PathVariable( value = "id" ) int id, String provider_name, String addressline, String email, String phone, String country, String postal_code, String state ) {
+        return new ResponseEntity<>( this.providerService.updateProvider( id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK );
     }
 
 }
