@@ -1,7 +1,6 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Offices;
-import com.goodfood.api.entities.Products;
 import com.goodfood.api.request.employee.CreateOfficesForm;
 import com.goodfood.api.services.OfficesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +40,6 @@ public class OfficesController {
     @PutMapping( value = "/{id}" )
     @Transactional
     public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postal_code ) {
-        return new ResponseEntity<>( this.officesService.updateProvider( id, city, phone, addressLine1, addressLine2,state,country,postal_code), HttpStatus.OK );
+        return new ResponseEntity<>( this.officesService.updateOffice( id, city, phone, addressLine1, addressLine2,state,country,postal_code), HttpStatus.OK );
     }
 }

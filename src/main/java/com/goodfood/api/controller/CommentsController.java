@@ -2,6 +2,7 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Products;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.request.CreateCommentForm;
@@ -10,9 +11,11 @@ import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.sql.Timestamp;
 import java.util.List;
 
 @CrossOrigin( "*" )
@@ -53,6 +56,12 @@ public class CommentsController {
 
         this.commentsService.deleteCommentById( id );
     }*/
+
+    @PutMapping( value = "/{id}" )
+    @Transactional
+    public ResponseEntity<Comments> updateComment(@PathVariable( value = "id" ) int id, String newContent ) {
+        return new ResponseEntity<>( this.commentsService.updateComment( id, newContent), HttpStatus.OK );
+    }
 
     // ***************
     // ERROR MANAGEMENT

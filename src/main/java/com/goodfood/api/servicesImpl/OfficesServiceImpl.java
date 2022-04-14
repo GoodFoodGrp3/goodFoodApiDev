@@ -38,7 +38,7 @@ public class OfficesServiceImpl implements OfficesService {
     }
 
     @Override
-    public Offices updateProvider(int id, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postal_code) {
+    public Offices updateOffice(int id, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postal_code) {
         Offices offices = this.officesRepository.findById( id );
         if ( offices == null ) {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,

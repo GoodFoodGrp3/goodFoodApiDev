@@ -3,7 +3,6 @@ package com.goodfood.api.servicesImpl;
 import com.goodfood.api.entities.Categories;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Products;
-import com.goodfood.api.entities.Provider;
 import com.goodfood.api.repositories.ProductsRepository;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProductService;
@@ -55,7 +54,7 @@ public class ProductsServicesImpl implements ProductService {
     }
 
     @Override
-    public Products updateProvider(int id, int category_id, String product_name, String product_description, int quantity_in_stock, double buy_price) {
+    public Products updateProduct(int id, int category_id, String product_name, String product_description, int quantity_in_stock, double buy_price) {
         Products products = this.productsRepository.findById( id );
         if ( products == null ) {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,

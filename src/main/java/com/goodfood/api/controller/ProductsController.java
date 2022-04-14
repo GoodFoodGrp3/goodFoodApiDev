@@ -1,6 +1,5 @@
 package com.goodfood.api.controller;
 import com.goodfood.api.entities.Products;
-import com.goodfood.api.entities.Provider;
 import com.goodfood.api.request.employee.CreateProductsForm;
 import com.goodfood.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class ProductsController {
     @PutMapping( value = "/{id}" )
     @Transactional
     public ResponseEntity<Products> updateProduct(@PathVariable( value = "id" ) int id, int category_id, String product_name, String product_description, int quantity_in_stock, double buy_price ) {
-        return new ResponseEntity<>( this.productService.updateProvider( id, category_id, product_name, product_description, quantity_in_stock,buy_price), HttpStatus.OK );
+        return new ResponseEntity<>( this.productService.updateProduct( id, category_id, product_name, product_description, quantity_in_stock,buy_price), HttpStatus.OK );
     }
 
 }

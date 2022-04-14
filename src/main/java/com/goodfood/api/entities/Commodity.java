@@ -82,6 +82,23 @@ public class Commodity
 
     ///// GETTER AND SETTER /////
 
+
+    public Provider getProvider() {
+        return provider;
+    }
+
+    public void setProvider(Provider provider) {
+        this.provider = provider;
+    }
+
+    public Employees getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Employees employees) {
+        this.employees = employees;
+    }
+
     public int getCommodity_id() {
         return id;
     }
