@@ -43,7 +43,7 @@ public class ProviderServicesImpl implements ProviderService {
                     String.format( "None provider could be found with the id %d", id ) );
         }
         provider.setProvider_name( provider_name );
-        provider.setAddressLine(addressline );
+        provider.setAddressLine(addressline);
         provider.setEmail(email);
         provider.setPhone(phone);
         provider.setCountry(country);

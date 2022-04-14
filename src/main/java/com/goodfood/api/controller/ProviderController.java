@@ -40,7 +40,7 @@ public class ProviderController {
 
     @PutMapping( value = "/{id}" )
     @Transactional
-    public ResponseEntity<Provider> update( @PathVariable( value = "id" ) int id, String provider_name, String addressline, String email, String phone, String country, String postal_code, String state ) {
+    public ResponseEntity<Provider> updateProvider( @PathVariable( value = "id" ) int id, String provider_name, String addressline, String email, String phone, String country, String postal_code, String state ) {
         return new ResponseEntity<>( this.providerService.updateProvider( id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK );
     }
 

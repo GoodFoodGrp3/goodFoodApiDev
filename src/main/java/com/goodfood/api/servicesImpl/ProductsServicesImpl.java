@@ -3,6 +3,7 @@ package com.goodfood.api.servicesImpl;
 import com.goodfood.api.entities.Categories;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Products;
+import com.goodfood.api.entities.Provider;
 import com.goodfood.api.repositories.ProductsRepository;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProductService;
@@ -51,6 +52,24 @@ public class ProductsServicesImpl implements ProductService {
     public Products createProducts(int id, Categories categories, String productName, String productDescription, int quantityInStock, int buyPrice) {
         final Products products = new Products(categories,productName,productDescription,quantityInStock,buyPrice);
         return  this.productsRepository.save(products);
+    }
+
+    @Override
+    public Products updateProvider(int id, int category_id, String product_name, String product_description, int quantity_in_stock, double buy_price) {
+        Products products = this.productsRepository.findById( id );
+        if ( products == null ) {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format( "None provider could be found with the id %d", id ) ) );
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
+                    String.format( "None provider could be found with the id %d", id ) );
+        }
+        //products.get;
+        products.setProduct_name(product_name);
+        products.setProduct_description(product_description);
+        products.setQuantity_in_stock(quantity_in_stock);
+        products.setBuy_price(buy_price);
+        productsRepository.save(products);
+        return products;
     }
 
 
