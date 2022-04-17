@@ -6,10 +6,7 @@ import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
-import com.goodfood.api.request.employee.JwtResponse;
-import com.goodfood.api.request.employee.LoginForm;
-import com.goodfood.api.request.employee.RegisterEmployeeForm;
-import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
+import com.goodfood.api.request.employee.*;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -167,6 +164,19 @@ public class EmployeesController {
                 currentUser.getId() != id && status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         return employeesService.updatePassword( id, updateEmployeePasswordForm);
+    }
+
+    // modify profile member attributes
+    @PutMapping( value = "/profile/{id}" )
+    public Employees updateEmployeeById( @PathVariable int id, @Valid @RequestBody UpdateEmployeeForm updateEmployeeForm,
+                                    Errors errors,
+                                    HttpServletRequest request ) {
+        constraintViolationCheck( errors, request );
+
+       /* Employees currentUser = authentificationService.getCurrentUser();
+        generatePrivilegeErrorIf( currentUser.getId() != id );*/
+
+        return employeesService.updateEmployeeProfile( id, updateEmployeeForm );
     }
 
     @GetMapping( "/current" )

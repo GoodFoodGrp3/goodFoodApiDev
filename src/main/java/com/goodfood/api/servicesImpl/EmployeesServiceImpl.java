@@ -7,6 +7,7 @@ import com.goodfood.api.entities.Order_commodity;
 import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
+import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -121,6 +122,23 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Override
     public void deleteById(int id) {
         employeesRepository.deleteById(id);
+    }
+
+    @Override
+    public Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm) {
+        Employees employees = this.getEmployeeById( id );
+
+        // SQL query needs strings -> null values management
+        if ( updateEmployeeForm.getUsername() != null )
+            employees.setFirstname(updateEmployeeForm.getUsername());
+        if ( updateEmployeeForm.getPrivate_number() != null )
+            employees.setPrivate_number(updateEmployeeForm.getPrivate_number());
+        if ( updateEmployeeForm.getEmail() != null )
+            employees.setEmail(updateEmployeeForm.getEmail());
+
+        employeesRepository.updateProfile( id);
+
+        return employees;
     }
 
 
