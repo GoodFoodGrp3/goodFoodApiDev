@@ -1,6 +1,8 @@
 package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,6 +12,8 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
+@SQLDelete(sql = "UPDATE employees SET deleted = true WHERE employee_id= ?")
+@Where(clause = "deleted=false")
 @Table(name = "employees")
 //Classe à terminer (vérifier type et relation)
 public class Employees implements UserDetails
@@ -62,6 +66,9 @@ public class Employees implements UserDetails
     @Column( name = "blocked_date" )
     private Timestamp blocked_date;
 
+    @Column(name = "deleted")
+    private boolean deleted = Boolean.FALSE;
+
     @Transient
     private Collection<? extends GrantedAuthority> authorities;
 
@@ -72,7 +79,7 @@ public class Employees implements UserDetails
         this.counter = 3;
     }
 
-    public Employees(int id, Offices office_id, Set<Order_commodity> order_commodity, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to) {
+    public Employees(int id, Offices office_id, Set<Order_commodity> order_commodity, boolean activated_account, String password, String lastname, String firstname, String private_number, String email, Integer reports_to, Status status, boolean is_blocked, int counter, Timestamp blocked_date, boolean deleted, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.office_id = office_id;
         this.order_commodity = order_commodity;
@@ -83,6 +90,12 @@ public class Employees implements UserDetails
         this.private_number = private_number;
         this.email = email;
         this.reports_to = reports_to;
+        this.status = status;
+        this.is_blocked = is_blocked;
+        this.counter = counter;
+        this.blocked_date = blocked_date;
+        this.deleted = deleted;
+        this.authorities = authorities;
     }
 
     public int getId() {
@@ -234,5 +247,11 @@ public class Employees implements UserDetails
         this.blocked_date = blockedDate;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
 
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 }

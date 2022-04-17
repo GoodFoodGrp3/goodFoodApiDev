@@ -174,6 +174,16 @@ public class EmployeesController {
         return new ResponseEntity<>( this.authentificationService.getCurrentUser(), HttpStatus.OK );
     }
 
+    // Delete member
+    @DeleteMapping( value = "/profile/{id}" )
+    public void deleteEmployeeById( @PathVariable int id ) {
+
+        /*Status status = authentificationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status != Status.ADMINISTRATOR );*/
+
+        employeesService.deleteById( id );
+    }
+
     // ***************
     // ERROR MANAGEMENT
     // ***************

@@ -77,6 +77,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         return this.employeesRepository.findByFirstname(username);
     }
 
+
     @Override
     public List<Employees> getAllEmployees() {
         return (List<Employees>) this.employeesRepository.findAll();
@@ -91,6 +92,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     public Employees getEmployeeByUserName(String username) {
         return this.employeesRepository.findByFirstname(username);
     }
+
+
 
     @Override
     public Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm) {
@@ -113,6 +116,11 @@ public class EmployeesServiceImpl implements EmployeesService {
         System.out.println( "Password correctly modified" );
 
         return employees;
+    }
+
+    @Override
+    public void deleteById(int id) {
+        employeesRepository.deleteById(id);
     }
 
 

@@ -20,4 +20,8 @@ public interface EmployeesService {
     Employees getEmployeeByUserName(String username);
 
     Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm);
+
+    void deleteById(int id);
+
+
 }
