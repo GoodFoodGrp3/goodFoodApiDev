@@ -56,5 +56,17 @@ public class CommodityServicesImpl implements CommodityService {
         return commodity;
     }
 
+    @Override
+    public void deleteCommentById(int id) {
+        Commodity commodity = this.commodityRepository.findById( id );
+        if ( commodity == null ) {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format( "None commodity could be found with the id %d", id ) ) );
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
+                    String.format( "None commodity could be found with the id %d", id ) );
+        }
+
+        this.commodityRepository.deleteById( id );
+    }
 
 }

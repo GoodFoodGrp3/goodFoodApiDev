@@ -15,4 +15,6 @@ public interface CommodityService {
     Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName, String commodityDescription, int quantityinStock, double buyPrice, String vendorProvider, int quantity);
 
     Commodity updateCommodity(int id, int provider, int employees, String commodity_name, int quantity_in_stock, double buy_price, String vendor_provider);
+
+    void deleteCommentById(int id);
 }

@@ -38,4 +38,14 @@ public class CommodityController {
     public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id, int employee_id, String commodity_name, int quantity_in_stock, double buy_price, String vendor_provider, int quantity ) {
         return new ResponseEntity<>( this.commodityService.updateCommodity( id, provider_id, employee_id, commodity_name, quantity_in_stock,buy_price, vendor_provider), HttpStatus.OK );
     }
+
+    @DeleteMapping( value = "/{id}" )
+    @Transactional
+    public void delete( @PathVariable( value = "id" ) int id ) {
+
+        /*Status status = authenticationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status == Status.RESTAURATEUR || status == Status.ADMINISTRATEUR  );*/
+
+        this.commodityService.deleteCommentById( id );
+    }
 }

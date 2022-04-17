@@ -1,7 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Comments;
-import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.repositories.CommentsRepository;
 import com.goodfood.api.services.AuthenticationService;
