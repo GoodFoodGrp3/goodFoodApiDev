@@ -37,6 +37,19 @@ public class CommentsServicesImpl implements CommentsService {
     }
 
     @Override
+    public void deleteCommentById(int id) {
+        Comments comment = this.commentsRepository.findById( id );
+        if ( comment == null ) {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format( "None Comment could be found with the id %d", id ) ) );
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
+                    String.format( "None Comment could be found with the id %d", id ) );
+        }
+
+        this.commentsRepository.deleteById( id );
+    }
+
+    @Override
     public Comments updateComment(int id, String newContent) {
         Comments comment = this.commentsRepository.findById( id );
         if ( comment == null ) {
@@ -50,6 +63,13 @@ public class CommentsServicesImpl implements CommentsService {
         commentsRepository.save( comment );
 
         return comment;
+    }
+
+    @Override
+    public Comments createComment(int id, String body) {
+        final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body);
+
+        return this.commentsRepository.save( comment );
     }
 
    /* @Override

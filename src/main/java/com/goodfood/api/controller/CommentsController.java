@@ -42,20 +42,20 @@ public class CommentsController {
         return this.commentsService.getCommentById( id );
     }
 
-   /* @PostMapping( value = "" )
+    @PostMapping( value = "" )
     public Comments createComment( @RequestBody CreateCommentForm createCommentForm ) {
         return this.commentsService.createComment( createCommentForm.getId(),createCommentForm.getContent());
-    }*/
+    }
 
-   /* @DeleteMapping( value = "/{id}" )
+    @DeleteMapping( value = "/{id}" )
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id ) {
 
-        Status status = authenticationService.getCurrentUser().getStatus();
-        generatePrivilegeErrorIf( status == Status.RESTAURATEUR || status == Status.ADMINISTRATEUR  );
+        /*Status status = authenticationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status == Status.RESTAURATEUR || status == Status.ADMINISTRATEUR  );*/
 
         this.commentsService.deleteCommentById( id );
-    }*/
+    }
 
     @PutMapping( value = "/{id}" )
     @Transactional
