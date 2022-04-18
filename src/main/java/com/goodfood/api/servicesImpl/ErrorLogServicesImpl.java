@@ -12,10 +12,18 @@ import java.util.List;
 @Service(value = "ErrorLogService")
 public class ErrorLogServicesImpl implements ErrorLogServices
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     private ErrorLogRepository errorLogRepository;
 
-    // contructor
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
     public ErrorLogServicesImpl()
     {
 
@@ -26,6 +34,11 @@ public class ErrorLogServicesImpl implements ErrorLogServices
     {
         errorLogRepository.save( errorLog );
     }
+
+
+    // ***************
+    // GET
+    // ***************
 
     @Override
     public List<ErrorLog> getErrorLogs()

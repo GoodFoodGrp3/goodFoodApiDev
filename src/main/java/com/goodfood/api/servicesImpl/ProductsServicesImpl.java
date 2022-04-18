@@ -17,17 +17,37 @@ import java.util.List;
 @Service(value = "ProductService")
 public class ProductsServicesImpl implements ProductService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     private ProductsRepository productsRepository;
 
     @Autowired
     private ErrorLogServices errorLogServices;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @Override
     public List<Products> getAllProducts()
     {
         return (List<Products>) this.productsRepository.findAll();
     }
+
+    @Override
+    public Products getProductById(int id)
+    {
+        return this.productsRepository.findById(id);
+    }
+
+
+    // ***************
+    // DELETE
+    // ***************
 
     @Override
     public void deleteProductById(int id)
@@ -45,11 +65,10 @@ public class ProductsServicesImpl implements ProductService
         this.productsRepository.deleteById(id);
     }
 
-    @Override
-    public Products getProductById(int id)
-    {
-        return this.productsRepository.findById(id);
-    }
+
+    // ***************
+    // POST/CREATE
+    // ***************
 
     @Override
     public Products createProducts(int id, Categories categories, String productName, String productDescription,
@@ -59,18 +78,23 @@ public class ProductsServicesImpl implements ProductService
         return  this.productsRepository.save(products);
     }
 
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
+
     @Override
     public Products updateProduct(int id, int category_id, String product_name, String product_description,
                                   int quantity_in_stock, double buy_price)
     {
-        Products products = this.productsRepository.findById( id );
+        Products products = this.productsRepository.findById(id);
 
         if (products == null)
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id ) ) );
+                    String.format( "None provider could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id ) );
+                    String.format( "None provider could be found with the id %d", id));
         }
 
         products.setProduct_name(product_name);

@@ -9,21 +9,12 @@ import java.util.List;
 
 public interface EmployeesService
 {
-    //Register
     Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm);
-
-    //Login
     Employees getEmployeesByFirstName(String username);
-
     List<Employees> getAllEmployees();
-
     Employees getEmployeeById(int id);
-
     Employees getEmployeeByUserName(String username);
-
     Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm);
-
     void deleteById(int id);
-
     Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm);
 }

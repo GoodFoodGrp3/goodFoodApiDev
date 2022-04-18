@@ -20,6 +20,10 @@ import java.util.List;
 @Service(value = "CustomersService")
 public class CustomersServicesImpl implements CustomersService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     CustomersRepository customersRepository;
 
@@ -40,7 +44,7 @@ public class CustomersServicesImpl implements CustomersService
 
 
     // ***********************
-    // DATA PROCESSING
+    // POST/REGISTER
     // ***********************
 
     @Override
@@ -87,6 +91,10 @@ public class CustomersServicesImpl implements CustomersService
     }
 
 
+    // ***************
+    // GET
+    // ***************
+
     @Override
     public List<Customers> getAllCustomers()
     {
@@ -105,11 +113,21 @@ public class CustomersServicesImpl implements CustomersService
         return this.customersRepository.findByCustomername(username);
     }
 
+
+    // ***************
+    // DELETE
+    // ***************
+
     @Override
     public void deleteById(int id)
     {
         customersRepository.deleteById(id);
     }
+
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
 
     @Override
     public Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm)

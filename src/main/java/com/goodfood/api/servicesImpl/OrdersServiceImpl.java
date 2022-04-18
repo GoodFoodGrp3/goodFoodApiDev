@@ -11,6 +11,10 @@ import java.util.List;
 @Service(value = "OrdersService")
 public class OrdersServiceImpl implements OrdersService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     OrdersRepository ordersRepository;
 
@@ -19,6 +23,11 @@ public class OrdersServiceImpl implements OrdersService
     {
         return (List<Orders>) this.ordersRepository.findAll();
     }
+
+
+    // ***************
+    // GET
+    // ***************
 
     @Override
     public Orders getOrderById(int id)

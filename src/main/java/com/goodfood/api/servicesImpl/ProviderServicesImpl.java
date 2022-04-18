@@ -15,11 +15,20 @@ import java.util.List;
 @Service(value = "ProviderService")
 public class ProviderServicesImpl implements ProviderService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     ProviderRepository providerRepository;
 
     @Autowired
     ErrorLogServices errorLogServices;
+
+
+    // ***************
+    // GET
+    // ***************
 
     @Override
     public List<Provider> getAllProviders()
@@ -32,6 +41,11 @@ public class ProviderServicesImpl implements ProviderService
     {
         return this.providerRepository.findById(id);
     }
+
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
 
     @Override
     public Provider updateProvider(int id, String provider_name, String addressline, String email, String phone,
@@ -58,6 +72,11 @@ public class ProviderServicesImpl implements ProviderService
 
         return provider;
     }
+
+
+    // ***************
+    // POST/CREATE
+    // ***************
 
     @Override
     public Provider createProviders(int id, String provider_name, String addressline, String email, String phone,

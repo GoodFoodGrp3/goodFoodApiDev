@@ -13,8 +13,17 @@ import java.util.List;
 @Service(value = "CategoriesService")
 public class CategoriesServiceImpl implements CategoriesService
 {
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
+
     @Autowired
     CategoriesRepository categoriesRepository;
+
+
+    // ***************
+    // GET
+    // ***************
 
     @Override
     public List<Categories> getAllCategories()
@@ -27,6 +36,11 @@ public class CategoriesServiceImpl implements CategoriesService
     {
         return this.categoriesRepository.findById(id);
     }
+
+
+    // ***************
+    // POST/CREATE
+    // ***************
 
     @Override
     public Categories createCategories(int id, String categoryName, String textDescription, String htmlDescription, String image)

@@ -9,16 +9,10 @@ import java.util.List;
 
 public interface CustomersService
 {
-    //Register
     Customers registerCustomer(RegisterCustomerForm registerCustomerForm);
-
     List<Customers> getAllCustomers();
-
     Customers getCustomerById(int id);
-
     Customers getCustomerByUserName(String username);
-
     void deleteById(int id);
-
     Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm);
 }

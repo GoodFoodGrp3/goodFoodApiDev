@@ -23,6 +23,10 @@ import java.util.List;
 @Service( value = "EmployeesService" )
 public class EmployeesServiceImpl implements EmployeesService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     private EmployeesRepository employeesRepository;
 
@@ -41,9 +45,10 @@ public class EmployeesServiceImpl implements EmployeesService
 
     }
 
-    // ***********************
-    // DATA PROCESSING
-    // ***********************
+
+    // ***************
+    // PUT/REGISTER
+    // ***************
 
     @Override
     public Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm)
@@ -71,6 +76,7 @@ public class EmployeesServiceImpl implements EmployeesService
             // save in database
             employeesRepository.save(employees);
         }
+
         catch (Exception e)
         {
             e.getMessage();
@@ -80,12 +86,15 @@ public class EmployeesServiceImpl implements EmployeesService
         return employees;
     }
 
+    // ***************
+    // GET
+    // ***************
+
     @Override
     public Employees getEmployeesByFirstName(String username)
     {
         return this.employeesRepository.findByFirstname(username);
     }
-
 
     @Override
     public List<Employees> getAllEmployees()
@@ -106,6 +115,9 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
 
+    // ***************
+    // PUT/UPDATE
+    // ***************
 
     @Override
     public Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm)
@@ -134,16 +146,6 @@ public class EmployeesServiceImpl implements EmployeesService
         return employees;
     }
 
-
-    // ***************
-    // DELETE
-    // ***************
-    @Override
-    public void deleteById(int id)
-    {
-        employeesRepository.deleteById(id);
-    }
-
     @Override
     public Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm)
     {
@@ -160,6 +162,17 @@ public class EmployeesServiceImpl implements EmployeesService
         employeesRepository.updateProfile( id);
 
         return employees;
+    }
+
+
+    // ***************
+    // DELETE
+    // ***************
+
+    @Override
+    public void deleteById(int id)
+    {
+        employeesRepository.deleteById(id);
     }
 
 

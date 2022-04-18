@@ -15,11 +15,20 @@ import java.util.List;
 @Service(value = "OfficesService")
 public class OfficesServiceImpl implements OfficesService
 {
+    // ***************
+    // VARIABLE DE CLASS
+    // ***************
+
     @Autowired
     OfficesRepository officesRepository;
 
     @Autowired
     ErrorLogServices errorLogServices;
+
+
+    // ***************
+    // GET
+    // ***************
 
     @Override
     public List<Offices> getAllOffices()
@@ -33,6 +42,11 @@ public class OfficesServiceImpl implements OfficesService
         return this.officesRepository.findById(id);
     }
 
+
+    // ***************
+    // POST/CREATE
+    // ***************
+
     @Override
     public Offices createOffices(int id, String city, String phone, String addressline1, String addressline2,
                                  String state, String country, String postal_code)
@@ -40,6 +54,11 @@ public class OfficesServiceImpl implements OfficesService
         final Offices offices = new Offices(city,phone,addressline1,addressline2,state,country,postal_code);
         return  this.officesRepository.save(offices);
     }
+
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
 
     @Override
     public Offices updateOffice(int id, String city, String phone, String addressLine1, String addressLine2,

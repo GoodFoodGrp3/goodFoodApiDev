@@ -7,6 +7,5 @@ import java.util.List;
 public interface ErrorLogServices
 {
     public void recordLog(ErrorLog errorLog);
-
     public List<ErrorLog> getErrorLogs();
 }

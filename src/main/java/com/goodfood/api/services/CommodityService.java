@@ -9,8 +9,8 @@ import java.util.List;
 public interface CommodityService
 {
     List<Commodity> getAllCommoditys();
-
     Commodity getCommodityById (int id);
+    void deleteCommodityById(int id);
 
     Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
                                 String commodityDescription, int quantityinStock, double buyPrice,
@@ -18,6 +18,4 @@ public interface CommodityService
 
     Commodity updateCommodity(int id, int provider, int employees, String commodity_name, int quantity_in_stock,
                               double buy_price, String vendor_provider);
-
-    void deleteCommodityById(int id);
 }
