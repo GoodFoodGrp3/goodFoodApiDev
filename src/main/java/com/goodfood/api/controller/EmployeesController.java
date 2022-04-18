@@ -6,6 +6,7 @@ import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
+import com.goodfood.api.request.LoginForm;
 import com.goodfood.api.request.employee.*;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
@@ -53,10 +54,9 @@ public class EmployeesController {
     }
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterEmployeeForm registerEmployeeForm, Errors errors,
-                                                      HttpServletRequest request ) {
+    public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterEmployeeForm registerEmployeeForm ) {
 
-        constraintViolationCheck( errors, request );
+        //constraintViolationCheck( errors, request );
 
         return new ResponseEntity<Employees>( employeesService.registerEmployee(registerEmployeeForm), HttpStatus.OK );
     }
@@ -166,12 +166,10 @@ public class EmployeesController {
         return employeesService.updatePassword( id, updateEmployeePasswordForm);
     }
 
-    // modify profile member attributes
+
     @PutMapping( value = "/profile/{id}" )
-    public Employees updateEmployeeById( @PathVariable int id, @Valid @RequestBody UpdateEmployeeForm updateEmployeeForm,
-                                    Errors errors,
-                                    HttpServletRequest request ) {
-        constraintViolationCheck( errors, request );
+    public Employees updateEmployeeById( @PathVariable int id, @Valid @RequestBody UpdateEmployeeForm updateEmployeeForm) {
+        //constraintViolationCheck( errors, request );
 
        /* Employees currentUser = authentificationService.getCurrentUser();
         generatePrivilegeErrorIf( currentUser.getId() != id );*/

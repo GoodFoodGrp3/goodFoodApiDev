@@ -23,8 +23,6 @@ public class CategoriesController {
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    AuthenticationService authenticationService;
 
     @GetMapping(value = "")
     public List<Categories> getAllCategories() {

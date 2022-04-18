@@ -26,8 +26,6 @@ public class CommentsController {
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @GetMapping(value = "")
     public List<Comments> getAll(){

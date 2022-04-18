@@ -5,6 +5,8 @@ import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
+import com.goodfood.api.request.customer.UpdateCustomerForm;
+import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,8 +45,6 @@ public class CustomersServicesImpl implements CustomersService {
         Orders orders = new Orders();
 
         Comments comments = new Comments();
-
-        Employees employees = new Employees();
 
         // validation des attributs
 
@@ -90,6 +91,45 @@ public class CustomersServicesImpl implements CustomersService {
     @Override
     public Customers getCustomerByUserName(String username) {
         return this.customersRepository.findByCustomername(username);
+    }
+
+    @Override
+    public void deleteById(int id) {
+        customersRepository.deleteById(id);
+    }
+
+    @Override
+    public Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm) {
+        Customers customers = this.getCustomerById( id );
+
+        if ( updateCustomerForm.getCustomername() != null )
+            customers.setCustomername(updateCustomerForm.getCustomername());
+        if ( updateCustomerForm.getContact_lastname() != null )
+            customers.setContact_lastname(updateCustomerForm.getContact_lastname());
+        if ( updateCustomerForm.getContact_firstname() != null )
+            customers.setContact_firstname(updateCustomerForm.getContact_firstname());
+        if ( updateCustomerForm.getPhone() != null )
+            customers.setPhone(updateCustomerForm.getPhone());
+        if ( updateCustomerForm.getAddressline1() != null )
+            customers.setAddressline1(updateCustomerForm.getAddressline1());
+        if ( updateCustomerForm.getAddressline2() != null )
+            customers.setAddressline2(updateCustomerForm.getAddressline2());
+        if ( updateCustomerForm.getCity() != null )
+            customers.setCity(updateCustomerForm.getCity());
+        if ( updateCustomerForm.getState() != null )
+            customers.setState(updateCustomerForm.getState());
+        if ( updateCustomerForm.getPostal_code() != null )
+            customers.setPostal_code(updateCustomerForm.getPostal_code());
+        if ( updateCustomerForm.getCountry() != null )
+            customers.setCountry(updateCustomerForm.getCountry());
+        if ( updateCustomerForm.getEmail() != null )
+            customers.setEmail(updateCustomerForm.getEmail());
+
+        customers.setModification_time(new Timestamp(System.currentTimeMillis()));
+
+        customersRepository.updateCustomerProfile( id);
+
+        return customers;
     }
 
 

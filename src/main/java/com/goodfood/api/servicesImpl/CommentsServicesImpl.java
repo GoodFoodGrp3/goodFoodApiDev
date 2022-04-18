@@ -19,8 +19,6 @@ public class CommentsServicesImpl implements CommentsService {
 
     @Autowired
     CommentsRepository commentsRepository;
-    @Autowired
-    AuthenticationService authenticationService;
 
     @Autowired
     ErrorLogServices errorLogServices;

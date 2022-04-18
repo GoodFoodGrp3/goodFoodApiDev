@@ -1,11 +1,16 @@
 package com.goodfood.api.entities;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
 //Ajout de jsonIgnore sur la relation comments -> customers (a voir pour plus tard)
 @Entity
+@SQLDelete(sql = "UPDATE customers SET deleted = true WHERE customer_id= ?")
+@Where(clause = "deleted=false")
 @Table(name = "customers")
 //Classe à terminer (vérifier type et relation)
 public class Customers
@@ -90,13 +95,21 @@ public class Customers
     @Column( name = "blocked_date" )
     private Timestamp blocked_date;
 
+    @Column(name = "deleted")
+    private boolean deleted = Boolean.FALSE;
+
     ///// CONSTRUCTOR /////
 
     public Customers() {
 
     }
 
-    public Customers(int id, Set<Orders> orders, Set<Comments> comments, boolean activated_account, String password, String customername, String contact_lastname, String contact_firstname, String phone, String addressline1, String addressline2, String city, String state, String postal_code, String country, String email, boolean is_customer_actif, Timestamp creation_time, Timestamp modification_time, Timestamp delete_time, boolean is_blocked, int counter, Timestamp blocked_date) {
+    public Customers(int id, Set<Orders> orders, Set<Comments> comments, boolean activated_account,
+                     String password, String customername, String contact_lastname, String contact_firstname,
+                     String phone, String addressline1, String addressline2, String city, String state,
+                     String postal_code, String country, String email, boolean is_customer_actif,
+                     Timestamp creation_time, Timestamp modification_time, Timestamp delete_time,
+                     boolean is_blocked, int counter, Timestamp blocked_date, boolean deleted) {
         this.id = id;
         this.orders = orders;
         this.comments = comments;
@@ -120,8 +133,8 @@ public class Customers
         this.is_blocked = is_blocked;
         this.counter = counter;
         this.blocked_date = blocked_date;
+        this.deleted = deleted;
     }
-
 
     ///// CONSTRUCTOR /////
 
@@ -311,6 +324,13 @@ public class Customers
         this.blocked_date = blocked_date;
     }
 
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
+    }
 
     ///// GETTER AND SETTER /////
 }

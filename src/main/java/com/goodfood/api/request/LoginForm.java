@@ -1,4 +1,4 @@
-package com.goodfood.api.request.employee;
+package com.goodfood.api.request;
 
 import com.sun.istack.NotNull;
 

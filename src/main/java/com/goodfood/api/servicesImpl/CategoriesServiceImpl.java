@@ -19,8 +19,6 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    AuthenticationService authenticationService;
 
     @Override
     public List<Categories> getAllCategories() {
