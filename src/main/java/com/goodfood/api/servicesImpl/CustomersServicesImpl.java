@@ -2,6 +2,7 @@ package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.EmployeeValidationException;
+import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
@@ -96,15 +97,39 @@ public class CustomersServicesImpl implements CustomersService
     // ***************
 
     @Override
-    public List<Customers> getAllCustomers()
+    public List<Customers> getAllCustomers() throws CustomersNotFoundException
     {
-        return (List<Customers>) this.customersRepository.findAll();
+        List<Customers> getAllCustomers = (List<Customers>) customersRepository.findAll();
+
+        if (getAllCustomers == null || getAllCustomers.isEmpty())
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    "Aucun customers trouvé"));
+            throw new CustomersNotFoundException( "Aucun customers trouvé" );
+        }
+
+        else
+        {
+            return (List<Customers>) this.customersRepository.findAll();
+        }
     }
 
     @Override
-    public Customers getCustomerById(int id)
+    public Customers getCustomerById(int id) throws CustomersNotFoundException
     {
-        return this.customersRepository.findById(id);
+        Customers customers = customersRepository.findById(id);
+
+        if (customers == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
+                    " est introuvable"));
+            throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
+        }
+
+        else
+        {
+            return this.customersRepository.findById(id);
+        }
     }
 
     @Override
@@ -175,7 +200,7 @@ public class CustomersServicesImpl implements CustomersService
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Cette adresse mail n'est pas valide, merci d'en choisir une autre."));
-            throw new EmployeeValidationException(
+            throw new CustomersValidationException(
                     "Cette adresse mail n'est pas valide, merci d'en choisir une autre.");
         }
     }
@@ -199,7 +224,7 @@ public class CustomersServicesImpl implements CustomersService
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Les deux mots de passe ne correspondent pas."));
-            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas.");
+            throw new CustomersValidationException( "Les deux mots de passe ne correspondent pas.");
         }
     }
 }

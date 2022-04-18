@@ -3,6 +3,7 @@ package com.goodfood.api.servicesImpl;
 import com.goodfood.api.entities.Categories;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Products;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.ProductsRepository;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProductService;
@@ -33,15 +34,38 @@ public class ProductsServicesImpl implements ProductService
     // ***************
 
     @Override
-    public List<Products> getAllProducts()
+    public List<Products> getAllProducts() throws ProductsNotFoundException
     {
-        return (List<Products>) this.productsRepository.findAll();
+        List<Products> getAllProducts = (List<Products>) productsRepository.findAll();
+
+        if (getAllProducts == null || getAllProducts.isEmpty())
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun produits trouvé"));
+            throw new ProductsNotFoundException( "Aucun produits trouvé" );
+        }
+
+        else
+        {
+            return getAllProducts;
+        }
     }
 
     @Override
-    public Products getProductById(int id)
+    public Products getProductById(int id) throws ProductsNotFoundException
     {
-        return this.productsRepository.findById(id);
+        Products products = productsRepository.findById(id);
+
+        if (products == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le produit n° " + id
+                    + " est introuvable" ) );
+            throw new ProductsNotFoundException( "Le produit n° " + id + " est introuvable" );
+        }
+
+        else
+        {
+            return products;
+        }
     }
 
 

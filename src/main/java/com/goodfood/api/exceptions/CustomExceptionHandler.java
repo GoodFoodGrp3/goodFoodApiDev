@@ -1,5 +1,7 @@
 package com.goodfood.api.exceptions;
 
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -41,4 +43,25 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
         ErrorResponse error = new ErrorResponse(ex.getStatus(), "", details);
         return new ResponseEntity(error, error.getStatus());
     }
+
+    @ExceptionHandler(EmployeeValidationException.class)
+    public final ResponseEntity<Object> handleEmployeeValidationException(EmployeeValidationException ex,
+                                                                         WebRequest request )
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Employee not validated", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
+    @ExceptionHandler(ProductsValidationException.class)
+    public final ResponseEntity<Object> handleProductsValidationException(ProductsValidationException ex,
+                                                                          WebRequest request )
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Product not validated", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
 }

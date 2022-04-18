@@ -1,8 +1,13 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Commodity;
+import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Status;
+import com.goodfood.api.exceptions.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCommoditiesForm;
+import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommodityService;
+import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +27,11 @@ public class CommodityController
     @Autowired
     private CommodityService commodityService;
 
+    @Autowired
+    private ErrorLogServices errorLogServices;
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -47,6 +57,9 @@ public class CommodityController
     @PostMapping( value = "" )
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
+        Status status = authenticationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
                 createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(),
                 createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(),
@@ -77,9 +90,24 @@ public class CommodityController
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )
     {
-        /*Status status = authenticationService.getCurrentUser().getStatus();
-        generatePrivilegeErrorIf( status == Status.RESTAURATEUR || status == Status.ADMINISTRATEUR  );*/
+        Status status = authenticationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status != Status.RESTAURATEUR || status != Status.RESTAURATEUR || status != Status.ADMINISTRATEUR);
 
         this.commodityService.deleteCommodityById(id);
+    }
+
+
+    // ***************
+    // ERROR MANAGEMENT
+    // ***************
+
+    private void generatePrivilegeErrorIf( boolean test )
+    {
+        if ( test )
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
+                    "You have not the right authorities." ) );
+            throw new EmployeeStatusException();
+        }
     }
 }

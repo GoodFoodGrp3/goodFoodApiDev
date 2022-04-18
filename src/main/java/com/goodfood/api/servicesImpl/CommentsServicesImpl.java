@@ -2,6 +2,8 @@ package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.CommentsRepository;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -32,15 +34,35 @@ public class CommentsServicesImpl implements CommentsService
     // ***************
 
     @Override
-    public List<Comments> getAllComments()
+    public List<Comments> getAllComments() throws ProductsNotFoundException
     {
+        List<Comments> getAllComments = (List<Comments>) commentsRepository.findAll();
+
+        if (getAllComments == null || getAllComments.isEmpty())
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun commentaires trouvé"));
+            throw new ProductsNotFoundException( "Aucun commentaires trouvé" );
+        }
+
         return (List<Comments>) this.commentsRepository.findAll();
     }
 
     @Override
-    public Comments getCommentById(int id)
+    public Comments getCommentById(int id) throws CommentsNotFoundException
     {
-        return this.commentsRepository.findById(id);
+        Comments comments = commentsRepository.findById(id);
+
+        if(comments == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le commentaire n° " + id
+                    + " est introuvable"));
+            throw new CommentsNotFoundException( "Le commentaire n° " + id + " est introuvable");
+        }
+
+        else
+        {
+            return comments;
+        }
     }
 
 
@@ -94,7 +116,7 @@ public class CommentsServicesImpl implements CommentsService
     // ***************
 
     @Override
-    public Comments createComment(int id, String body)
+    public Comments createComment(int id, String body) throws CommentsNotFoundException
     {
         final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body);
 
