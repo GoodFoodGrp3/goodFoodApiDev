@@ -6,8 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
-public class JwtResponse {
-
+public class JwtResponse
+{
     private Employees user;
 
     private String token;
@@ -16,34 +16,47 @@ public class JwtResponse {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtResponse() {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public JwtResponse()
+    {
+
     }
 
-    public JwtResponse(Employees user, String token, Collection<? extends GrantedAuthority> authorities) {
+    public JwtResponse(Employees user, String token, Collection<? extends GrantedAuthority> authorities)
+    {
         this.user = user;
         this.token = token;
         this.authorities = authorities;
     }
 
-    public JwtResponse(Customers customers,String token, Collection<? extends GrantedAuthority> authorities) {
+    public JwtResponse(Customers customers,String token, Collection<? extends GrantedAuthority> authorities)
+    {
         this.token = token;
         this.customers = customers;
         this.authorities = authorities;
     }
 
-    public Employees getUser() {
+    public Employees getUser()
+    {
         return user;
     }
 
-    public String getToken() {
+    public String getToken()
+    {
         return token;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
         return authorities;
     }
 
-    public Customers getCustomers() {
+    public Customers getCustomers()
+    {
         return customers;
     }
 }

@@ -15,10 +15,9 @@ public class Payments
 
     private int customer_id;
 
-    @Column( name = "payment_date" )
+    @Column(name = "payment_date")
     private Timestamp payment_date;
 
-    @Column( name = "amount" )
+    @Column(name = "amount")
     private double amount;
-
 }

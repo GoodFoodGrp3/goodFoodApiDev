@@ -1,4 +1,6 @@
 package com.goodfood.api.exceptions.products;
 
-public class ProductsValidationException {
+public class ProductsValidationException
+{
+
 }

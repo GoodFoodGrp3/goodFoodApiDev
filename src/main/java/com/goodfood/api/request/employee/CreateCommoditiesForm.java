@@ -3,8 +3,8 @@ package com.goodfood.api.request.employee;
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.Provider;
 
-public class CreateCommoditiesForm {
-
+public class CreateCommoditiesForm
+{
     private int id;
     private Provider providerId;
     private Employees employeeId;
@@ -15,7 +15,15 @@ public class CreateCommoditiesForm {
     private String vendorProvider;
     private int quantity;
 
-    public CreateCommoditiesForm(int id, Provider providerId, Employees employeeId, String commodityName, String commodityDescription, int quantityinStock, double buyPrice, String vendorProvider, int quantity) {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public CreateCommoditiesForm(int id, Provider providerId, Employees employeeId, String commodityName,
+                                 String commodityDescription, int quantityinStock, double buyPrice,
+                                 String vendorProvider, int quantity)
+    {
         this.id = id;
         this.providerId = providerId;
         this.employeeId = employeeId;
@@ -27,75 +35,98 @@ public class CreateCommoditiesForm {
         this.quantity = quantity;
     }
 
-    public int getId() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public Provider getProviderId() {
+    public Provider getProviderId()
+    {
         return providerId;
     }
 
-    public void setProviderId(Provider providerId) {
+    public void setProviderId(Provider providerId)
+    {
         this.providerId = providerId;
     }
 
-    public Employees getEmployeeId() {
+    public Employees getEmployeeId()
+    {
         return employeeId;
     }
 
-    public void setEmployeeId(Employees employeeId) {
+    public void setEmployeeId(Employees employeeId)
+    {
         this.employeeId = employeeId;
     }
 
-    public String getCommodityName() {
+    public String getCommodityName()
+    {
         return commodityName;
     }
 
-    public void setCommodityName(String commodityName) {
+    public void setCommodityName(String commodityName)
+    {
         this.commodityName = commodityName;
     }
 
-    public String getCommodityDescription() {
+    public String getCommodityDescription()
+    {
         return commodityDescription;
     }
 
-    public void setCommodityDescription(String commodityDescription) {
+    public void setCommodityDescription(String commodityDescription)
+    {
         this.commodityDescription = commodityDescription;
     }
 
-    public int getQuantityinStock() {
+    public int getQuantityinStock()
+    {
         return quantityinStock;
     }
 
-    public void setQuantityinStock(int quantityinStock) {
+    public void setQuantityinStock(int quantityinStock)
+    {
         this.quantityinStock = quantityinStock;
     }
 
-    public double getBuyPrice() {
+    public double getBuyPrice()
+    {
         return buyPrice;
     }
 
-    public void setBuyPrice(double buyPrice) {
+    public void setBuyPrice(double buyPrice)
+    {
         this.buyPrice = buyPrice;
     }
 
-    public String getVendorProvider() {
+    public String getVendorProvider()
+    {
         return vendorProvider;
     }
 
-    public void setVendorProvider(String vendorProvider) {
+    public void setVendorProvider(String vendorProvider)
+    {
         this.vendorProvider = vendorProvider;
     }
 
-    public int getQuantity() {
+    public int getQuantity()
+    {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(int quantity)
+    {
         this.quantity = quantity;
     }
 }

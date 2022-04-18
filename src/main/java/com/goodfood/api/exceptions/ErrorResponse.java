@@ -7,8 +7,8 @@ import java.sql.Timestamp;
 import java.util.List;
 import org.joda.time.DateTime;
 
-public class ErrorResponse {
-
+public class ErrorResponse
+{
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "Europe/Paris" )
     private Timestamp date;
 
@@ -20,7 +20,13 @@ public class ErrorResponse {
     // Specific errors in API request processing
     private List<String> details;
 
-    public ErrorResponse( HttpStatus status, String message, List<String> details ) {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public ErrorResponse( HttpStatus status, String message, List<String> details )
+    {
         super();
         this.date = new Timestamp( new DateTime().getMillis() );
         this.status = status;
@@ -28,37 +34,49 @@ public class ErrorResponse {
         this.details = details;
     }
 
-    public Timestamp getDate() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public Timestamp getDate()
+    {
         return date;
     }
 
-    public void setDate( Timestamp date ) {
+    public void setDate( Timestamp date )
+    {
         this.date = date;
     }
 
-    public HttpStatus getStatus() {
+    public HttpStatus getStatus()
+    {
         return status;
     }
 
-    public void setStatus( HttpStatus status ) {
+    public void setStatus( HttpStatus status )
+    {
         this.status = status;
     }
 
-    public String getMessage() {
+    public String getMessage()
+    {
         return message;
     }
 
-    public void setMessage( String message ) {
+    public void setMessage( String message )
+    {
         this.message = message;
     }
 
-    public List<String> getDetails() {
+    public List<String> getDetails()
+    {
         return details;
     }
 
-    public void setDetails( List<String> details ) {
+    public void setDetails( List<String> details )
+    {
         this.details = details;
     }
-
 }
 

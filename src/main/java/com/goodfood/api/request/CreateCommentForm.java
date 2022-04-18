@@ -1,29 +1,43 @@
 package com.goodfood.api.request;
 
-public class CreateCommentForm {
-
+public class CreateCommentForm
+{
     private int id;
     private String content;
 
 
-    public CreateCommentForm(int id, String content) {
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public CreateCommentForm(int id, String content)
+    {
         this.id = id;
         this.content = content;
     }
 
-    public int getId() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public String getContent() {
+    public String getContent()
+    {
         return content;
     }
 
-    public void setContent(String content) {
+    public void setContent(String content)
+    {
         this.content = content;
     }
 }

@@ -5,7 +5,6 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "orders")
-//Classe à terminer (vérifier type et relation)
 public class Orders
 {
     @Column(name = "order_id")
@@ -17,87 +16,103 @@ public class Orders
     @JoinColumn(name = "customer_id")
     private Customers customers;
 
-    @Column( name = "order_date" )
+    @Column(name = "order_date")
     private Timestamp order_date;
 
-    @Column( name = "delivery_date" )
+    @Column(name = "delivery_date")
     private Timestamp delivery_date;
 
-    @Column( name = "shipped_date" )
+    @Column(name = "shipped_date")
     private Timestamp shipped_date;
 
-    @Column( name = "status" )
+    @Column(name = "status")
     private String status;
 
-    @Column( name = "comments" )
+    @Column(name = "comments")
     private String comments;
 
-    public Orders() {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public Orders()
+    {
+
     }
 
-    public Orders(int id, Customers customers, Timestamp order_date, Timestamp delivery_date, Timestamp shipped_date, String status, String comments) {
-        this.id = id;
-        this.customers = customers;
-        this.order_date = order_date;
-        this.delivery_date = delivery_date;
-        this.shipped_date = shipped_date;
-        this.status = status;
-        this.comments = comments;
-    }
 
-    public int getId() {
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public Customers getCustomers() {
+    public Customers getCustomers()
+    {
         return customers;
     }
 
-    public void setCustomers(Customers customers) {
+    public void setCustomers(Customers customers)
+    {
         this.customers = customers;
     }
 
-    public Timestamp getOrder_date() {
+    public Timestamp getOrder_date()
+    {
         return order_date;
     }
 
-    public void setOrder_date(Timestamp order_date) {
+    public void setOrder_date(Timestamp order_date)
+    {
         this.order_date = order_date;
     }
 
-    public Timestamp getDelivery_date() {
+    public Timestamp getDelivery_date()
+    {
         return delivery_date;
     }
 
-    public void setDelivery_date(Timestamp delivery_date) {
+    public void setDelivery_date(Timestamp delivery_date)
+    {
         this.delivery_date = delivery_date;
     }
 
-    public Timestamp getShipped_date() {
+    public Timestamp getShipped_date()
+    {
         return shipped_date;
     }
 
-    public void setShipped_date(Timestamp shipped_date) {
+    public void setShipped_date(Timestamp shipped_date)
+    {
         this.shipped_date = shipped_date;
     }
 
-    public String getStatus() {
+    public String getStatus()
+    {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(String status)
+    {
         this.status = status;
     }
 
-    public String getComments() {
+    public String getComments()
+    {
         return comments;
     }
 
-    public void setComments(String comments) {
+    public void setComments(String comments)
+    {
         this.comments = comments;
     }
 }

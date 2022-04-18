@@ -2,28 +2,43 @@ package com.goodfood.api.request;
 
 import com.sun.istack.NotNull;
 
-public class LoginForm {
+public class LoginForm
+{
 	@NotNull
 	private String username;
 	
 	@NotNull
 	private String password;
 
-	public LoginForm() {
+
+	// ***************
+	// CONSTRUCTOR
+	// ***************
+
+	public LoginForm()
+	{
+
 	}
 
-	public LoginForm(String username, String password) {
+	public LoginForm(String username, String password)
+	{
 		this.username = username;
 		this.password = password;
 	}
-	
-	public String getUsername() {
+
+
+	// ***************
+	// GETTER AND SETTER
+	// ***************
+
+	public String getUsername()
+	{
 		return username;
 	}
 	
-	public String getPassword() {
+	public String getPassword()
+	{
 		return password;
 	}
-
 	
 }

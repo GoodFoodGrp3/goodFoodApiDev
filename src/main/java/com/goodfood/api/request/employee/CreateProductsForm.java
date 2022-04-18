@@ -2,8 +2,8 @@ package com.goodfood.api.request.employee;
 
 import com.goodfood.api.entities.Categories;
 
-public class CreateProductsForm {
-
+public class CreateProductsForm
+{
     private int id;
     private Categories categories;
     private String productName;
@@ -12,7 +12,13 @@ public class CreateProductsForm {
     private int buyPrice;
 
 
-    public CreateProductsForm(int id, Categories categories, String productName, String productDescription, int quantityInStock, int buyPrice) {
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public CreateProductsForm(int id, Categories categories, String productName, String productDescription,
+                              int quantityInStock, int buyPrice)
+    {
         this.id = id;
         this.categories = categories;
         this.productName = productName;
@@ -21,51 +27,68 @@ public class CreateProductsForm {
         this.buyPrice = buyPrice;
     }
 
-    public int getId() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public Categories getCategories() {
+    public Categories getCategories()
+    {
         return categories;
     }
 
-    public void setCategories(Categories categories) {
+    public void setCategories(Categories categories)
+    {
         this.categories = categories;
     }
 
-    public String getProductName() {
+    public String getProductName()
+    {
         return productName;
     }
 
-    public void setProductName(String productName) {
+    public void setProductName(String productName)
+    {
         this.productName = productName;
     }
 
-    public String getProductDescription() {
+    public String getProductDescription()
+    {
         return productDescription;
     }
 
-    public void setProductDescription(String productDescription) {
+    public void setProductDescription(String productDescription)
+    {
         this.productDescription = productDescription;
     }
 
-    public int getQuantityInStock() {
+    public int getQuantityInStock()
+    {
         return quantityInStock;
     }
 
-    public void setQuantityInStock(int quantityInStock) {
+    public void setQuantityInStock(int quantityInStock)
+    {
         this.quantityInStock = quantityInStock;
     }
 
-    public int getBuyPrice() {
+    public int getBuyPrice()
+    {
         return buyPrice;
     }
 
-    public void setBuyPrice(int buyPrice) {
+    public void setBuyPrice(int buyPrice)
+    {
         this.buyPrice = buyPrice;
     }
 }

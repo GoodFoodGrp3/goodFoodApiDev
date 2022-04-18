@@ -11,12 +11,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings( { "unchecked", "rawtypes" } )
+@SuppressWarnings({ "unchecked", "rawtypes" })
 @ControllerAdvice
-public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
-
+public class CustomExceptionHandler extends ResponseEntityExceptionHandler
+{
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
+    public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request)
+    {
         List<String> details = new ArrayList<>();
         details.add(ex.getMessage());
         ErrorResponse error = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error", details);
@@ -24,7 +25,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
-    public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleConstraintViolationException(ConstraintViolationException ex, WebRequest request)
+    {
         List<String> details = new ArrayList<>();
         details.add(ex.getReason());
         ErrorResponse error = new ErrorResponse(ex.getStatus(), "Constraint violation", details);
@@ -32,7 +34,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ResponseStatusException.class)
-    public final ResponseEntity<Object> handleStatusException(ResponseStatusException ex, WebRequest request) {
+    public final ResponseEntity<Object> handleStatusException(ResponseStatusException ex, WebRequest request)
+    {
         List<String> details = new ArrayList<>();
         details.add(ex.getReason());
         ErrorResponse error = new ErrorResponse(ex.getStatus(), "", details);

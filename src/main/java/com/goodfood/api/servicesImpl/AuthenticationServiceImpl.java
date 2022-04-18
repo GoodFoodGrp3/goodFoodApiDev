@@ -7,8 +7,6 @@ import com.goodfood.api.security.SecurityConstants;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.EmployeesService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,11 +19,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
-import static com.goodfood.api.security.SecurityConstants.EXPIRATION_TIME;
 
 @Service
-public class AuthenticationServiceImpl implements AuthenticationService {
-
+public class AuthenticationServiceImpl implements AuthenticationService
+{
     @Autowired
     private EmployeesService employeesService;
 
@@ -40,12 +37,14 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public Authentication authentication(String username, String password) {
+    public Authentication authentication(String username, String password)
+    {
         return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password, new ArrayList<>()));
     }
 
     @Override
-    public String loginEmployees(Employees employees) {
+    public String loginEmployees(Employees employees)
+    {
         return JWT.create()
                 .withSubject(employees.getFirstname())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
@@ -54,7 +53,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-	public Employees getCurrentUser() {
+	public Employees getCurrentUser()
+    {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return this.employeesService.getEmployeesByFirstName((String) authentication.getPrincipal());
 		
@@ -62,7 +62,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public String loginCustomers(Customers customers) {
+    public String loginCustomers(Customers customers)
+    {
         return JWT.create()
                 .withSubject(customers.getCustomername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
@@ -71,10 +72,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
 
     @Override
-    public Customers getCurrentCustomer() {
+    public Customers getCurrentCustomer()
+    {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return this.customersService.getCustomerByUserName((String) authentication.getPrincipal());
     }
-
-
 }

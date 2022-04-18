@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CommodityRepository extends CrudRepository<Commodity,Integer> {
-
+public interface CommodityRepository extends CrudRepository<Commodity,Integer>
+{
     Commodity findById(int id);
 }

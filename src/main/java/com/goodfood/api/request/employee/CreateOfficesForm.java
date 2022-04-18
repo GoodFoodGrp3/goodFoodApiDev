@@ -1,7 +1,7 @@
 package com.goodfood.api.request.employee;
 
-public class CreateOfficesForm {
-
+public class CreateOfficesForm
+{
     private int id;
     private String city;
     private String phone;
@@ -11,7 +11,14 @@ public class CreateOfficesForm {
     private String country;
     private String postal_code;
 
-    public CreateOfficesForm(int id, String city, String phone, String addressline1, String addressline2, String state, String country, String postal_code) {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public CreateOfficesForm(int id, String city, String phone, String addressline1, String addressline2, String state,
+                             String country, String postal_code)
+    {
         this.id = id;
         this.city = city;
         this.phone = phone;
@@ -22,67 +29,88 @@ public class CreateOfficesForm {
         this.postal_code = postal_code;
     }
 
-    public int getId() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public int getId()
+    {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
-    public String getCity() {
+    public String getCity()
+    {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city)
+    {
         this.city = city;
     }
 
-    public String getPhone() {
+    public String getPhone()
+    {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(String phone)
+    {
         this.phone = phone;
     }
 
-    public String getAddressline1() {
+    public String getAddressline1()
+    {
         return addressline1;
     }
 
-    public void setAddressline1(String addressline1) {
+    public void setAddressline1(String addressline1)
+    {
         this.addressline1 = addressline1;
     }
 
-    public String getAddressline2() {
+    public String getAddressline2()
+    {
         return addressline2;
     }
 
-    public void setAddressline2(String addressline2) {
+    public void setAddressline2(String addressline2)
+    {
         this.addressline2 = addressline2;
     }
 
-    public String getState() {
+    public String getState()
+    {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(String state)
+    {
         this.state = state;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         this.country = country;
     }
 
-    public String getPostal_code() {
+    public String getPostal_code()
+    {
         return postal_code;
     }
 
-    public void setPostal_code(String postal_code) {
+    public void setPostal_code(String postal_code)
+    {
         this.postal_code = postal_code;
     }
 }

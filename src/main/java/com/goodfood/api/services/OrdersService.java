@@ -4,8 +4,8 @@ import com.goodfood.api.entities.Orders;
 
 import java.util.List;
 
-public interface OrdersService {
-
+public interface OrdersService
+{
     List<Orders> getAllOrders();
     Orders getOrderById(int id);
 }

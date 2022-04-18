@@ -1,35 +1,50 @@
 package com.goodfood.api.request.employee;
 
-public class UpdateEmployeePasswordForm {
-
+public class UpdateEmployeePasswordForm
+{
     private String password;
 
     private String cpassword;
 
-    public UpdateEmployeePasswordForm() {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public UpdateEmployeePasswordForm()
+    {
 
     }
 
-    public UpdateEmployeePasswordForm(String password, String cpassword ) {
+    public UpdateEmployeePasswordForm(String password, String cpassword )
+    {
         super();
         this.password = password;
         this.cpassword = cpassword;
     }
 
-    public String getPassword() {
+
+    // ***************
+    // GETTER AND SETTER
+    // ***************
+
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setPassword( String password ) {
+    public void setPassword( String password )
+    {
         this.password = password;
     }
 
-    public String getCpassword() {
+    public String getCpassword()
+    {
         return cpassword;
     }
 
-    public void setCpassword( String cpassword ) {
+    public void setCpassword( String cpassword )
+    {
         this.cpassword = cpassword;
     }
-
 }

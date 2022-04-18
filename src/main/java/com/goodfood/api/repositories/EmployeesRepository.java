@@ -7,13 +7,10 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-
-public interface EmployeesRepository extends CrudRepository<Employees, Integer> {
-
-    Employees findById (int id);
+public interface EmployeesRepository extends CrudRepository<Employees, Integer>
+{
+    Employees findById(int id);
     Employees findByFirstname(String username);
-
     Employees findByEmail(String email);
 
     @Modifying
@@ -23,6 +20,7 @@ public interface EmployeesRepository extends CrudRepository<Employees, Integer> 
 
     @Modifying
     @Transactional
-    @Query(nativeQuery = true, value = "UPDATE employees SET username = :username, private_number = :private_number, email = :email WHERE id = :id")
+    @Query(nativeQuery = true, value = "UPDATE employees SET username = :username, private_number = :private_number, " +
+            "email = :email WHERE id = :id")
     void updateProfile(@Param(value = "id") int id);
 }

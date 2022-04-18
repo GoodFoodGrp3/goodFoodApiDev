@@ -21,8 +21,8 @@ import org.springframework.security.web.header.writers.StaticHeadersWriter;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
+{
     // ###########################################################################
     // WebSecurity boolean toggle for HTTP Pattern Matcher enablement.
     // To be modified in application.properties file :
@@ -33,11 +33,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     // ###########################################################################
 
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
         return super.authenticationManagerBean();
     }
 
-    @Value( "${api.security.httpPatternMatcher.disabled:true}" )
+    @Value("${api.security.httpPatternMatcher.disabled:true}")
     private boolean httpPatternMatcherDisabled;
 
     @Autowired
@@ -47,12 +48,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private CustomersService customersService;
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder bCryptPasswordEncoder()
+    {
         return new BCryptPasswordEncoder();
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception
+    {
         http.cors().and().csrf().disable().authorizeRequests().antMatchers( HttpMethod.OPTIONS, "/**" ).permitAll();
         if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
             http.authorizeRequests()
@@ -63,16 +66,19 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
                             "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger
                             "/comments",
-                            "/products" ) // get all products filtered by name
+                            "/products") // get all products filtered by name
                     .permitAll()
                     .anyRequest().authenticated();
-        } else { // http pattern matcher disabled
+        }
+
+        else
+        { // http pattern matcher disabled
             http.authorizeRequests().anyRequest().permitAll(); // toutes les pages/requêtes sont accessibles
         }
 
-        http.authorizeRequests().and().addFilter( new JWTAuthorizationFilter( authenticationManager() ) )
+        http.authorizeRequests().and().addFilter( new JWTAuthorizationFilter( authenticationManager()))
                 // this disables session creation on Spring Security
-                .sessionManagement().sessionCreationPolicy( SessionCreationPolicy.STATELESS ).and().headers()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers()
                 .frameOptions().disable();
 
         // mise en place https
@@ -85,11 +91,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().cacheControl();
         http.headers().httpStrictTransportSecurity();
         http.headers().frameOptions();
-        http.headers().addHeaderWriter( new StaticHeadersWriter( "X-Content-Security-Policy", "script-src 'self'" ) );
+        http.headers().addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'" ));
     }
 
     @Override
-    public void configure( AuthenticationManagerBuilder auth ) throws Exception {
+    public void configure( AuthenticationManagerBuilder auth ) throws Exception
+    {
         auth.userDetailsService( s -> (UserDetails) this.employeesService.getEmployeesByFirstName( s ))
                 .passwordEncoder(this.bCryptPasswordEncoder());
     }

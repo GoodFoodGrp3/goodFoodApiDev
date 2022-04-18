@@ -7,13 +7,14 @@ import com.goodfood.api.request.customer.UpdateCustomerForm;
 
 import java.util.List;
 
-public interface CustomersService {
-
+public interface CustomersService
+{
     //Register
     Customers registerCustomer(RegisterCustomerForm registerCustomerForm);
 
     List<Customers> getAllCustomers();
-    Customers getCustomerById( int id );
+
+    Customers getCustomerById(int id);
 
     Customers getCustomerByUserName(String username);
 

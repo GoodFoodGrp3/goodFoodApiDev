@@ -17,19 +17,22 @@ import java.util.ArrayList;
 import static com.goodfood.api.security.SecurityConstants.*;
 
 
-public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-
-    public JWTAuthorizationFilter(AuthenticationManager authManager) {
+public class JWTAuthorizationFilter extends BasicAuthenticationFilter
+{
+    public JWTAuthorizationFilter(AuthenticationManager authManager)
+    {
         super(authManager);
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
+                                    FilterChain chain) throws IOException, ServletException
+    {
         String header = req.getHeader(HEADER_STRING);
 
-        if (header == null || !header.startsWith(TOKEN_PREFIX)) {
+        if (header == null || !header.startsWith(TOKEN_PREFIX))
+        {
             chain.doFilter(req, res);
             return;
         }
@@ -40,7 +43,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
+    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request)
+    {
         String token = request.getHeader(HEADER_STRING);
 
         if (token != null) {
