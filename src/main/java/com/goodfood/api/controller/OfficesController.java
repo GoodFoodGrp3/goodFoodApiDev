@@ -14,32 +14,53 @@ import java.util.List;
 @CrossOrigin( "*" )
 @RestController
 @RequestMapping("/offices")
-public class OfficesController {
+public class OfficesController
+{
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
 
     @Autowired
     private OfficesService officesService;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @GetMapping(value = "")
-    public List<Offices> getAll(){
+    public List<Offices> getAll()
+    {
         return this.officesService.getAllOffices();
     }
 
-    @GetMapping( value = "/{id}" )
-    public Offices getOfficeById( @PathVariable int id ) {
-        return this.officesService.getOfficeById( id );
+    @GetMapping(value = "/{id}")
+    public Offices getOfficeById(@PathVariable int id)
+    {
+        return this.officesService.getOfficeById(id);
     }
 
-    @PostMapping( value = "" )
-    public Offices createOffices(@RequestBody CreateOfficesForm createOfficesForm ) {
-        return this.officesService.createOffices( createOfficesForm.getId(), createOfficesForm.getCity(),
+
+    // ***************
+    // POST/CREATE
+    // ***************
+
+    @PostMapping(value = "")
+    public Offices createOffices(@RequestBody CreateOfficesForm createOfficesForm)
+    {
+        return this.officesService.createOffices(createOfficesForm.getId(), createOfficesForm.getCity(),
                 createOfficesForm.getPhone(), createOfficesForm.getAddressline1(),
                 createOfficesForm.getAddressline2(), createOfficesForm.getState(),
                 createOfficesForm.getCountry(),createOfficesForm.getPostal_code());
     }
 
-    @PutMapping( value = "/{id}" )
+    @PutMapping(value = "/{id}")
     @Transactional
-    public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postal_code ) {
-        return new ResponseEntity<>( this.officesService.updateOffice( id, city, phone, addressLine1, addressLine2,state,country,postal_code), HttpStatus.OK );
+    public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String city, String phone,
+                                                String addressLine1, String addressLine2, String state,
+                                                String country, String postal_code )
+    {
+        return new ResponseEntity<>( this.officesService.updateOffice(id, city, phone, addressLine1, addressLine2,state,
+                country,postal_code), HttpStatus.OK);
     }
 }

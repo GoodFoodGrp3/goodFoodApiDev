@@ -32,7 +32,18 @@ import java.util.List;
 @CrossOrigin( "*" )
 @RestController
 @RequestMapping("/customers")
-public class CustomersController {
+public class CustomersController
+{
+    // ***************
+    // CONSTANTS
+    // ***************
+
+    private static final long BLOCKED_ACCOUNT_DURATION = 30 * 60 * 1000L; // in milliseconds - 30 minutes
+
+
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
 
     @Autowired
     private CustomersService customersService;
@@ -46,66 +57,79 @@ public class CustomersController {
     @Autowired
     private AuthenticationService authentificationService;
 
-    // Get a Member by its username
+
+    // ***************
+    // GET
+    // ***************
+
     @GetMapping( value = "/profile/search/{username}" )
-    public Customers getCustomerByUsername(@PathVariable String username ) {
-        return customersService.getCustomerByUserName( username );
+    public Customers getCustomerByUsername(@PathVariable String username )
+    {
+        return customersService.getCustomerByUserName(username);
     }
 
     @GetMapping(value = "")
-    public List<Customers> getAllCustomers(){
+    public List<Customers> getAllCustomers()
+    {
         return this.customersService.getAllCustomers();
     }
 
     @GetMapping( value = "/{id}" )
-    public Customers getCustomerById( @PathVariable int id ) {
-        return this.customersService.getCustomerById( id );
+    public Customers getCustomerById( @PathVariable int id )
+    {
+        return this.customersService.getCustomerById(id);
     }
+
+    // ***************
+    // POST/REGISTER/LOGIN
+    // ***************
 
     @PostMapping( value = "/register" )
-    public ResponseEntity<Customers> registerCustomer(@Valid @RequestBody RegisterCustomerForm registerCustomerForm) {
-
+    public ResponseEntity<Customers> registerCustomer(@Valid @RequestBody RegisterCustomerForm registerCustomerForm)
+    {
         //constraintViolationCheck( errors, request );
 
-        return new ResponseEntity<Customers>( customersService.registerCustomer(registerCustomerForm), HttpStatus.OK );
+        return new ResponseEntity<Customers>(customersService.registerCustomer(registerCustomerForm), HttpStatus.OK);
     }
 
-    private static final long BLOCKED_ACCOUNT_DURATION = 30 * 60 * 1000L; // in milliseconds - 30 minutes
-
     @PostMapping( value = "/login" )
-    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginForm credentials, HttpServletRequest request ) {
-
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginForm credentials, HttpServletRequest request )
+    {
         final Authentication authentication;
 
         Customers customers;
         customers = null;
 
-        try {
+        try
+        {
             customers = this.customersService.getCustomerByUserName(credentials.getUsername());
 
-            if ( customers != null ) {
-
-                if ( customers.isIs_blocked() ) {
-
-                    Timestamp now = new Timestamp( new DateTime().getMillis() );
+            if (customers != null)
+            {
+                if (customers.isIs_blocked())
+                {
+                    Timestamp now = new Timestamp(new DateTime().getMillis());
                     long duration = now.getTime() - customers.getBlocked_date().getTime();
                     long timeLeft = 9999;
 
-                    if ( duration < BLOCKED_ACCOUNT_DURATION ) {
+                    if (duration < BLOCKED_ACCOUNT_DURATION)
+                    {
                         timeLeft = BLOCKED_ACCOUNT_DURATION - duration;
                     }
 
-                    else {
+                    else
+                    {
                         timeLeft = 0;
-                        customers.setBlocked_date( null );
-                        customers.setIs_blocked( false );
-                        customers.setCounter( 3 );
+                        customers.setBlocked_date(null);
+                        customers.setIs_blocked(false);
+                        customers.setCounter(3);
                     }
 
-                    if ( timeLeft > 0 ) {
+                    if (timeLeft > 0)
+                    {
                         timeLeft = timeLeft / 1000 / 60;
-                        /*errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min." ) );*/
+                        errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min." ) );
                         throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
                                 "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min." );
                     }
@@ -113,86 +137,107 @@ public class CustomersController {
             }
 
             authentication = this.authentificationService.authentication( credentials.getUsername(),
-                    credentials.getPassword() );
+                    credentials.getPassword());
 
-            customers.setCounter( 3 );
-            customersRepository.save( customers ); // update of counter
+            customers.setCounter(3);
 
-        } catch ( AuthenticationException e ) {
-
-            if ( customers != null ) {
-
-                customers.setCounter( customers.getCounter() - 1 );
-
-                if ( customers.getCounter() == 0 ) {
-
-                    customers.setIs_blocked( true );
-                    customers.setBlocked_date( new Timestamp( new DateTime().getMillis() ) );
-
-                }
-
-                errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + customers.getCounter() ) );
-                throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + customers.getCounter() );
-            }
-
-            errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator." ) );
-            throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator." );
+            // update of counter
+            customersRepository.save(customers);
 
         }
 
-        customers.setCounter( 3 );
+        catch (AuthenticationException e)
+        {
+            if (customers != null)
+            {
+                customers.setCounter(customers.getCounter() - 1);
+
+                if (customers.getCounter() == 0)
+                {
+                    customers.setIs_blocked(true);
+                    customers.setBlocked_date(new Timestamp(new DateTime().getMillis()));
+                }
+
+                errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
+                                + customers.getCounter()));
+                throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
+                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
+                                + customers.getCounter());
+            }
+
+            errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                    "Wrong credentials, please try again or contact an administrator."));
+            throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
+                    "Wrong credentials, please try again or contact an administrator.");
+        }
+
+        customers.setCounter(3);
         final Customers customer = (Customers) authentication.getPrincipal();
-        customer.setCounter( 3 );
-        final String token = this.authentificationService.loginCustomers( customer );
-        return new ResponseEntity<>( new JwtResponse( customer, token, authentication.getAuthorities() ), HttpStatus.OK );
+        customer.setCounter(3);
+        final String token = this.authentificationService.loginCustomers(customer);
+        return new ResponseEntity<>( new JwtResponse(customer, token, authentication.getAuthorities()), HttpStatus.OK);
     }
 
-    // Delete member
-    @DeleteMapping( value = "/profile/{id}" )
-    public void deleteCustomerById( @PathVariable int id ) {
 
+    // ***************
+    // DELETE
+    // ***************
+
+    @DeleteMapping(value = "/profile/{id}")
+    public void deleteCustomerById(@PathVariable int id)
+    {
         /*Status status = authentificationService.getCurrentUser().getStatus();
         generatePrivilegeErrorIf( status != Status.ADMINISTRATOR );*/
 
-        customersService.deleteById( id );
+        customersService.deleteById(id);
     }
 
-    @PutMapping( value = "/profile/{id}" )
-    public Customers updateCustomerById(@PathVariable int id, @Valid @RequestBody UpdateCustomerForm updateCustomerForm) {
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
+
+    @PutMapping(value = "/profile/{id}")
+    public Customers updateCustomerById(@PathVariable int id, @Valid @RequestBody UpdateCustomerForm updateCustomerForm)
+    {
         //constraintViolationCheck( errors, request );
 
        /* Employees currentUser = authentificationService.getCurrentUser();
         generatePrivilegeErrorIf( currentUser.getId() != id );*/
 
-        return customersService.updateCustomerProfile( id, updateCustomerForm );
+        return customersService.updateCustomerProfile(id, updateCustomerForm);
     }
 
     // ***************
     // ERROR MANAGEMENT
     // ***************
 
-    private void constraintViolationCheck( Errors errors, HttpServletRequest request ) {
-
-        if ( errors.hasErrors() ) {
+    private void constraintViolationCheck( Errors errors, HttpServletRequest request )
+    {
+        if (errors.hasErrors())
+        {
             List<ConstraintViolation<?>> violationsList = new ArrayList<>();
-            for ( ObjectError e : errors.getAllErrors() ) {
-                violationsList.add( e.unwrap( ConstraintViolation.class ) );
+
+            for (ObjectError e : errors.getAllErrors())
+            {
+                violationsList.add( e.unwrap(ConstraintViolation.class));
             }
+
             String exceptionMessage = "";
-            for ( ConstraintViolation<?> violation : violationsList ) {
-                if ( violationsList.indexOf( violation ) > 0 ) {
+
+            for (ConstraintViolation<?> violation : violationsList)
+            {
+                if (violationsList.indexOf( violation) > 0 )
+                {
                     exceptionMessage += " | ";
                 }
+
                 exceptionMessage += violation.getMessage();
             }
-            errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.BAD_REQUEST, exceptionMessage ) );
-            throw new ConstraintViolationException( exceptionMessage );
+
+            errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
+            throw new ConstraintViolationException(exceptionMessage);
         }
     }
 }

@@ -14,34 +14,58 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/providers")
-public class ProviderController {
+public class ProviderController
+{
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
 
     @Autowired
     private ProviderService providerService;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @GetMapping(value = "")
-    public List<Provider> getAllProviders() {
+    public List<Provider> getAllProviders()
+    {
         return this.providerService.getAllProviders();
     }
 
-    @GetMapping( value = "/{id}" )
-    public Provider getProviderById(@PathVariable int id ) {
-        return this.providerService.getProviderById( id );
+    @GetMapping(value = "/{id}")
+    public Provider getProviderById(@PathVariable int id )
+    {
+        return this.providerService.getProviderById(id);
     }
 
-    @PostMapping( value = "" )
-    public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm ) {
-        return this.providerService.createProviders( createProvidersForm.getId(),
+
+    // ***************
+    // POST/CREATE
+    // ***************
+
+    @PostMapping(value = "")
+    public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm)
+    {
+        return this.providerService.createProviders(createProvidersForm.getId(),
                 createProvidersForm.getProvider_name(), createProvidersForm.getAddressline(),
                 createProvidersForm.getEmail(), createProvidersForm.getPhone(),
                 createProvidersForm.getCountry(), createProvidersForm.getPostal_code(),
                 createProvidersForm.getState());
     }
 
-    @PutMapping( value = "/{id}" )
-    @Transactional
-    public ResponseEntity<Provider> updateProvider( @PathVariable( value = "id" ) int id, String provider_name, String addressline, String email, String phone, String country, String postal_code, String state ) {
-        return new ResponseEntity<>( this.providerService.updateProvider( id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK );
-    }
 
+    // ***************
+    // PUT/UPDATE
+    // ***************
+
+    @PutMapping(value = "/{id}")
+    @Transactional
+    public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") int id, String provider_name,
+                                                   String addressline, String email, String phone, String country,
+                                                   String postal_code, String state)
+    {
+        return new ResponseEntity<>(this.providerService.updateProvider(id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK);
+    }
 }

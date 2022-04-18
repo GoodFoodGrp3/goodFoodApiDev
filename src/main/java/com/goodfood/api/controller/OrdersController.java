@@ -9,19 +9,29 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
-public class OrdersController {
+public class OrdersController
+{
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
 
     @Autowired
     private OrdersService ordersService;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @GetMapping(value = "")
-    public List<Orders> getAllOrders(){
+    public List<Orders> getAllOrders()
+    {
         return this.ordersService.getAllOrders();
     }
 
-    @GetMapping( value = "/{id}" )
-    public Orders getOrderById(@PathVariable int id ) {
-        return this.ordersService.getOrderById( id );
+    @GetMapping(value = "/{id}")
+    public Orders getOrderById(@PathVariable int id )
+    {
+        return this.ordersService.getOrderById(id);
     }
-
 }
