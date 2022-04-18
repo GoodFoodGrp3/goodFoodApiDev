@@ -3,7 +3,6 @@ package com.goodfood.api.servicesImpl;
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.repositories.CommentsRepository;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.sql.Timestamp;
 import java.util.List;
 
-@Service( value = "commentsService" )
-public class CommentsServicesImpl implements CommentsService {
+@Service(value = "commentsService")
+public class CommentsServicesImpl implements CommentsService
+{
+    // ***************
+    // VARIABLE DE CLASSE
+    // ***************
 
     @Autowired
     CommentsRepository commentsRepository;
@@ -23,57 +26,78 @@ public class CommentsServicesImpl implements CommentsService {
     @Autowired
     ErrorLogServices errorLogServices;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @Override
-    public List<Comments> getAllComments() {
+    public List<Comments> getAllComments()
+    {
         return (List<Comments>) this.commentsRepository.findAll();
     }
 
     @Override
-    public Comments getCommentById(int id) {
+    public Comments getCommentById(int id)
+    {
         return this.commentsRepository.findById(id);
     }
 
+
+    // ***************
+    // DELETE
+    // ***************
+
     @Override
-    public void deleteCommentById(int id) {
-        Comments comment = this.commentsRepository.findById( id );
-        if ( comment == null ) {
+    public void deleteCommentById(int id)
+    {
+        Comments comment = this.commentsRepository.findById(id);
+
+        if ( comment == null )
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) ) );
+                    String.format( "None Comment could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) );
+                    String.format( "None Comment could be found with the id %d", id));
         }
 
-        this.commentsRepository.deleteById( id );
+        this.commentsRepository.deleteById(id);
     }
 
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
+
     @Override
-    public Comments updateComment(int id, String newContent) {
-        Comments comment = this.commentsRepository.findById( id );
-        if ( comment == null ) {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) ) );
+    public Comments updateComment(int id, String newContent)
+    {
+        Comments comment = this.commentsRepository.findById(id);
+
+        if (comment == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format("None Comment could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) );
+                    String.format("None Comment could be found with the id %d", id));
         }
-        comment.setContent( newContent );
-        comment.setDate( new Timestamp( System.currentTimeMillis() ) );
-        commentsRepository.save( comment );
+        comment.setContent(newContent);
+        comment.setDate(new Timestamp(System.currentTimeMillis()));
+        commentsRepository.save(comment);
 
         return comment;
     }
 
+
+    // ***************
+    // POST/CREATE
+    // ***************
+
     @Override
-    public Comments createComment(int id, String body) {
+    public Comments createComment(int id, String body)
+    {
         final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body);
 
-        return this.commentsRepository.save( comment );
+        return this.commentsRepository.save(comment);
     }
-
-   /* @Override
-    public Comments createComment(int id, String body) {
-        final Comments comment = new Comments( authenticationService.getCurrentUser(),body, new Timestamp( System.currentTimeMillis()));
-
-    }
-*/
-
 }

@@ -19,5 +19,5 @@ public interface CommodityService
     Commodity updateCommodity(int id, int provider, int employees, String commodity_name, int quantity_in_stock,
                               double buy_price, String vendor_provider);
 
-    void deleteCommentById(int id);
+    void deleteCommodityById(int id);
 }

@@ -30,9 +30,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
     private CustomersService customersService;
 
     @Autowired
-    private BCryptPasswordEncoder encoder;
-
-    @Autowired
     private AuthenticationManager authenticationManager;
 
 
@@ -57,7 +54,6 @@ public class AuthenticationServiceImpl implements AuthenticationService
     {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return this.employeesService.getEmployeesByFirstName((String) authentication.getPrincipal());
-		
 	}
 
 

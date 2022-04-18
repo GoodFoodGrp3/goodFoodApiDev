@@ -80,6 +80,6 @@ public class CommodityController
         /*Status status = authenticationService.getCurrentUser().getStatus();
         generatePrivilegeErrorIf( status == Status.RESTAURATEUR || status == Status.ADMINISTRATEUR  );*/
 
-        this.commodityService.deleteCommentById(id);
+        this.commodityService.deleteCommodityById(id);
     }
 }

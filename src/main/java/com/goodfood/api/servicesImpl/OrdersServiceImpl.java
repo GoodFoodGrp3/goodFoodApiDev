@@ -8,19 +8,21 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service( value = "OrdersService" )
-public class OrdersServiceImpl implements OrdersService {
-
+@Service(value = "OrdersService")
+public class OrdersServiceImpl implements OrdersService
+{
     @Autowired
     OrdersRepository ordersRepository;
 
     @Override
-    public List<Orders> getAllOrders() {
+    public List<Orders> getAllOrders()
+    {
         return (List<Orders>) this.ordersRepository.findAll();
     }
 
     @Override
-    public Orders getOrderById(int id) {
+    public Orders getOrderById(int id)
+    {
         return this.ordersRepository.findById(id);
     }
 }

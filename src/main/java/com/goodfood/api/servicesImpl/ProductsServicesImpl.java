@@ -14,55 +14,65 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Service( value = "ProductService" )
-public class ProductsServicesImpl implements ProductService {
-
+@Service(value = "ProductService")
+public class ProductsServicesImpl implements ProductService
+{
     @Autowired
     private ProductsRepository productsRepository;
-
 
     @Autowired
     private ErrorLogServices errorLogServices;
 
     @Override
-    public List<Products> getAllProducts() {
+    public List<Products> getAllProducts()
+    {
         return (List<Products>) this.productsRepository.findAll();
     }
 
     @Override
-    public void deleteProductById(int id) {
-        Products products = this.productsRepository.findById( id );
-        if ( products == null ) {
+    public void deleteProductById(int id)
+    {
+        Products products = this.productsRepository.findById(id);
+
+        if (products == null)
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) ) );
+                    String.format( "None Comment could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id ) );
+                    String.format( "None Comment could be found with the id %d", id));
         }
 
-        this.productsRepository.deleteById( id );
+        this.productsRepository.deleteById(id);
     }
 
     @Override
-    public Products getProductById(int id) {
+    public Products getProductById(int id)
+    {
         return this.productsRepository.findById(id);
     }
 
     @Override
-    public Products createProducts(int id, Categories categories, String productName, String productDescription, int quantityInStock, int buyPrice) {
+    public Products createProducts(int id, Categories categories, String productName, String productDescription,
+                                   int quantityInStock, int buyPrice)
+    {
         final Products products = new Products(categories,productName,productDescription,quantityInStock,buyPrice);
         return  this.productsRepository.save(products);
     }
 
     @Override
-    public Products updateProduct(int id, int category_id, String product_name, String product_description, int quantity_in_stock, double buy_price) {
+    public Products updateProduct(int id, int category_id, String product_name, String product_description,
+                                  int quantity_in_stock, double buy_price)
+    {
         Products products = this.productsRepository.findById( id );
-        if ( products == null ) {
+
+        if (products == null)
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format( "None provider could be found with the id %d", id ) ) );
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None provider could be found with the id %d", id ) );
         }
-        //products.get;
+
         products.setProduct_name(product_name);
         products.setProduct_description(product_description);
         products.setQuantity_in_stock(quantity_in_stock);
@@ -70,6 +80,4 @@ public class ProductsServicesImpl implements ProductService {
         productsRepository.save(products);
         return products;
     }
-
-
 }

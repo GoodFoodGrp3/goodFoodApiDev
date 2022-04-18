@@ -16,26 +16,23 @@ public class CategoriesServiceImpl implements CategoriesService
     @Autowired
     CategoriesRepository categoriesRepository;
 
-    @Autowired
-    private ErrorLogServices errorLogServices;
-
-
     @Override
-    public List<Categories> getAllCategories() {
+    public List<Categories> getAllCategories()
+    {
         return (List<Categories>) this.categoriesRepository.findAll();
     }
 
     @Override
-    public Categories getCategorieById(int id) {
+    public Categories getCategorieById(int id)
+    {
         return this.categoriesRepository.findById(id);
     }
 
     @Override
-    public Categories createCategories(int id, String categoryName, String textDescription, String htmlDescription, String image) {
+    public Categories createCategories(int id, String categoryName, String textDescription, String htmlDescription, String image)
+    {
         final Categories categories = new Categories(categoryName,textDescription,htmlDescription,image);
 
         return this.categoriesRepository.save(categories);
     }
-
-
 }

@@ -6,7 +6,6 @@ import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
-import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,9 @@ import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
-@Service( value = "CustomersService" )
-public class CustomersServicesImpl implements CustomersService {
-
+@Service(value = "CustomersService")
+public class CustomersServicesImpl implements CustomersService
+{
     @Autowired
     CustomersRepository customersRepository;
 
@@ -29,7 +28,14 @@ public class CustomersServicesImpl implements CustomersService {
 
     private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
-    public CustomersServicesImpl() {
+
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public CustomersServicesImpl()
+    {
+
     }
 
 
@@ -38,8 +44,8 @@ public class CustomersServicesImpl implements CustomersService {
     // ***********************
 
     @Override
-    public Customers registerCustomer(RegisterCustomerForm registerCustomerForm) {
-
+    public Customers registerCustomer(RegisterCustomerForm registerCustomerForm)
+    {
         Customers customers = new Customers();
 
         Orders orders = new Orders();
@@ -47,7 +53,6 @@ public class CustomersServicesImpl implements CustomersService {
         Comments comments = new Comments();
 
         // validation des attributs
-
         customers.setOrders(Collections.singleton(orders));
         customers.setComments(Collections.singleton(comments));
 
@@ -66,10 +71,14 @@ public class CustomersServicesImpl implements CustomersService {
         customers.setEmail(registerCustomerForm.getEmail());
         customers.setPassword(this.bCryptPasswordEncoder.encode(registerCustomerForm.getPassword()));
 
-        try {
+        try
+        {
             // save in database
-            customersRepository.save( customers );
-        } catch ( Exception e ) {
+            customersRepository.save(customers);
+        }
+
+        catch (Exception e)
+        {
             e.getMessage();
             return null;
         }
@@ -79,55 +88,60 @@ public class CustomersServicesImpl implements CustomersService {
 
 
     @Override
-    public List<Customers> getAllCustomers() {
+    public List<Customers> getAllCustomers()
+    {
         return (List<Customers>) this.customersRepository.findAll();
     }
 
     @Override
-    public Customers getCustomerById(int id) {
+    public Customers getCustomerById(int id)
+    {
         return this.customersRepository.findById(id);
     }
 
     @Override
-    public Customers getCustomerByUserName(String username) {
+    public Customers getCustomerByUserName(String username)
+    {
         return this.customersRepository.findByCustomername(username);
     }
 
     @Override
-    public void deleteById(int id) {
+    public void deleteById(int id)
+    {
         customersRepository.deleteById(id);
     }
 
     @Override
-    public Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm) {
-        Customers customers = this.getCustomerById( id );
+    public Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm)
+    {
+        Customers customers = this.getCustomerById(id);
 
-        if ( updateCustomerForm.getCustomername() != null )
+        if (updateCustomerForm.getCustomername() != null)
             customers.setCustomername(updateCustomerForm.getCustomername());
-        if ( updateCustomerForm.getContact_lastname() != null )
+        if (updateCustomerForm.getContact_lastname() != null)
             customers.setContact_lastname(updateCustomerForm.getContact_lastname());
-        if ( updateCustomerForm.getContact_firstname() != null )
+        if (updateCustomerForm.getContact_firstname() != null)
             customers.setContact_firstname(updateCustomerForm.getContact_firstname());
-        if ( updateCustomerForm.getPhone() != null )
+        if (updateCustomerForm.getPhone() != null)
             customers.setPhone(updateCustomerForm.getPhone());
-        if ( updateCustomerForm.getAddressline1() != null )
+        if (updateCustomerForm.getAddressline1() != null)
             customers.setAddressline1(updateCustomerForm.getAddressline1());
-        if ( updateCustomerForm.getAddressline2() != null )
+        if (updateCustomerForm.getAddressline2() != null)
             customers.setAddressline2(updateCustomerForm.getAddressline2());
-        if ( updateCustomerForm.getCity() != null )
+        if (updateCustomerForm.getCity() != null)
             customers.setCity(updateCustomerForm.getCity());
-        if ( updateCustomerForm.getState() != null )
+        if (updateCustomerForm.getState() != null)
             customers.setState(updateCustomerForm.getState());
-        if ( updateCustomerForm.getPostal_code() != null )
+        if (updateCustomerForm.getPostal_code() != null)
             customers.setPostal_code(updateCustomerForm.getPostal_code());
-        if ( updateCustomerForm.getCountry() != null )
+        if (updateCustomerForm.getCountry() != null)
             customers.setCountry(updateCustomerForm.getCountry());
-        if ( updateCustomerForm.getEmail() != null )
+        if (updateCustomerForm.getEmail() != null)
             customers.setEmail(updateCustomerForm.getEmail());
 
         customers.setModification_time(new Timestamp(System.currentTimeMillis()));
 
-        customersRepository.updateCustomerProfile( id);
+        customersRepository.updateCustomerProfile(id);
 
         return customers;
     }
@@ -137,15 +151,14 @@ public class CustomersServicesImpl implements CustomersService {
     // DATA VALIDATION METHODS
     // ***********************
 
-    private void validationEmail( String email ) throws CustomersValidationException {
-
-        if ( email != null && customersRepository.findByEmail( email ) != null ) {
-
+    private void validationEmail(String email) throws CustomersValidationException
+    {
+        if (email != null && customersRepository.findByEmail( email ) != null)
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
-                            "Cette adresse mail n'est pas valide, merci d'en choisir une autre." ) );
+                            "Cette adresse mail n'est pas valide, merci d'en choisir une autre."));
             throw new EmployeeValidationException(
-                    "Cette adresse mail n'est pas valide, merci d'en choisir une autre." );
-
+                    "Cette adresse mail n'est pas valide, merci d'en choisir une autre.");
         }
     }
 
@@ -162,15 +175,13 @@ public class CustomersServicesImpl implements CustomersService {
 
     }*/
 
-    private void validationPasswords( String password, String confirmation ) throws CustomersValidationException {
-
-        if ( !password.equals( confirmation ) ) {
-
+    private void validationPasswords( String password, String confirmation ) throws CustomersValidationException
+    {
+        if (!password.equals( confirmation))
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
-                            "Les deux mots de passe ne correspondent pas." ) );
-            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas." );
-
+                            "Les deux mots de passe ne correspondent pas."));
+            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas.");
         }
-
     }
 }

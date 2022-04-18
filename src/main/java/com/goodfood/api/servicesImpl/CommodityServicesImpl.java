@@ -11,40 +11,65 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Service( value = "CommodityService" )
-public class CommodityServicesImpl implements CommodityService {
-
+@Service(value = "CommodityService")
+public class CommodityServicesImpl implements CommodityService
+{
     @Autowired
     CommodityRepository commodityRepository;
 
     @Autowired
     ErrorLogServices errorLogServices;
 
+
+    // ***************
+    // GET
+    // ***************
+
     @Override
-    public List<Commodity> getAllCommoditys() {
+    public List<Commodity> getAllCommoditys()
+    {
         return (List<Commodity>) this.commodityRepository.findAll();
     }
 
     @Override
-    public Commodity getCommodityById(int id) {
+    public Commodity getCommodityById(int id)
+    {
         return this.commodityRepository.findById(id);
     }
 
+
+    // ***************
+    // POST/CREATE
+    // ***************
+
     @Override
-    public Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName, String commodityDescription, int quantityinStock, double buyPrice, String vendorProvider, int quantity) {
-        final Commodity commodity = new Commodity(providerId,employeeId,commodityName,commodityDescription,quantityinStock,buyPrice,vendorProvider,quantity);
+    public Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
+                                       String commodityDescription, int quantityinStock, double buyPrice,
+                                       String vendorProvider, int quantity)
+    {
+        final Commodity commodity = new Commodity(providerId,employeeId,commodityName,commodityDescription,
+                quantityinStock,buyPrice,vendorProvider,quantity);
 
         return this.commodityRepository.save(commodity);
     }
 
+
+    // ***************
+    // PUT/UPDATE
+    // ***************
+
     @Override
-    public Commodity updateCommodity(int id, int provider_id, int employee_id, String commodity_name, int quantity_in_stock, double buy_price, String vendor_provider) {
-        Commodity commodity = this.commodityRepository.findById( id );
-        if ( commodity == null ) {
+    public Commodity updateCommodity(int id, int provider_id, int employee_id, String commodity_name,
+                                     int quantity_in_stock, double buy_price, String vendor_provider)
+    {
+        Commodity commodity = this.commodityRepository.findById(id);
+
+        if (commodity == null)
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id ) ) );
+                    String.format( "None provider could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id ) );
+                    String.format( "None provider could be found with the id %d", id));
         }
         //commodity.setProvider(provider_id);
         //commodity.setEmployees(employees);
@@ -56,17 +81,24 @@ public class CommodityServicesImpl implements CommodityService {
         return commodity;
     }
 
+
+    // ***************
+    // DELETE
+    // ***************
+
     @Override
-    public void deleteCommentById(int id) {
-        Commodity commodity = this.commodityRepository.findById( id );
-        if ( commodity == null ) {
+    public void deleteCommodityById(int id)
+    {
+        Commodity commodity = this.commodityRepository.findById(id);
+
+        if ( commodity == null )
+        {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None commodity could be found with the id %d", id ) ) );
+                    String.format( "None commodity could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None commodity could be found with the id %d", id ) );
+                    String.format( "None commodity could be found with the id %d", id));
         }
 
-        this.commodityRepository.deleteById( id );
+        this.commodityRepository.deleteById(id);
     }
-
 }

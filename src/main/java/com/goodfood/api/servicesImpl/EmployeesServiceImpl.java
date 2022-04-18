@@ -21,20 +21,24 @@ import java.util.List;
 
 
 @Service( value = "EmployeesService" )
-public class EmployeesServiceImpl implements EmployeesService {
-
+public class EmployeesServiceImpl implements EmployeesService
+{
     @Autowired
     private EmployeesRepository employeesRepository;
 
     @Autowired
     private ErrorLogServices errorLogServices;
 
-
     private BCryptPasswordEncoder bcrypt;
 
 
-    // contructor
-    public EmployeesServiceImpl() {
+    // ***************
+    // CONSTRUCTOR
+    // ***************
+
+    public EmployeesServiceImpl()
+    {
+
     }
 
     // ***********************
@@ -42,8 +46,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     // ***********************
 
     @Override
-    public Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm) {
-
+    public Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm)
+    {
         Employees employees = new Employees();
 
         Offices offices = new Offices();
@@ -51,7 +55,7 @@ public class EmployeesServiceImpl implements EmployeesService {
         Order_commodity order_commodity = new Order_commodity();
 
         // validation des attributs
-        validationEmail( registerEmployeeForm.getEmail() );
+        validationEmail(registerEmployeeForm.getEmail());
         employees.setEmail(registerEmployeeForm.getEmail());
         validationUsername(registerEmployeeForm.getUsername());
         validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
@@ -62,10 +66,13 @@ public class EmployeesServiceImpl implements EmployeesService {
         employees.setStatus(registerEmployeeForm.getStatus());
         employees.setPassword(this.bcrypt.encode(registerEmployeeForm.getPassword()));
 
-        try {
+        try
+        {
             // save in database
-            employeesRepository.save( employees );
-        } catch ( Exception e ) {
+            employeesRepository.save(employees);
+        }
+        catch (Exception e)
+        {
             e.getMessage();
             return null;
         }
@@ -74,66 +81,80 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
-    public Employees getEmployeesByFirstName(String username) {
+    public Employees getEmployeesByFirstName(String username)
+    {
         return this.employeesRepository.findByFirstname(username);
     }
 
 
     @Override
-    public List<Employees> getAllEmployees() {
+    public List<Employees> getAllEmployees()
+    {
         return (List<Employees>) this.employeesRepository.findAll();
     }
 
     @Override
-    public Employees getEmployeeById(int id) {
+    public Employees getEmployeeById(int id)
+    {
         return this.employeesRepository.findById(id);
     }
 
     @Override
-    public Employees getEmployeeByUserName(String username) {
+    public Employees getEmployeeByUserName(String username)
+    {
         return this.employeesRepository.findByFirstname(username);
     }
 
 
 
     @Override
-    public Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm) {
-
+    public Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm)
+    {
         // get member
-        Employees employees = this.getEmployeeById( id );
+        Employees employees = this.getEmployeeById(id);
 
         // validate password and encrypt it
-        try {
-            employees.setPassword( this.bcrypt.encode( updateEmployeePasswordForm.getPassword() ) );
-        } catch ( Exception e ) {
-            errorLogServices
-                    .recordLog( new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR, "Password encoding failed" ) );
+        try
+        {
+            employees.setPassword( this.bcrypt.encode( updateEmployeePasswordForm.getPassword()));
+        }
+
+        catch (Exception e)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Password encoding failed"));
             e.getMessage();
             return null;
         }
 
         // update of password in database
-        employeesRepository.updatePassword( id, employees.getPassword() );
-        System.out.println( "Password correctly modified" );
+        employeesRepository.updatePassword(id, employees.getPassword());
+        System.out.println( "Password correctly modified");
 
         return employees;
     }
 
+
+    // ***************
+    // DELETE
+    // ***************
     @Override
-    public void deleteById(int id) {
+    public void deleteById(int id)
+    {
         employeesRepository.deleteById(id);
     }
 
     @Override
-    public Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm) {
-        Employees employees = this.getEmployeeById( id );
+    public Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm)
+    {
+        Employees employees = this.getEmployeeById(id);
 
         // SQL query needs strings -> null values management
-        if ( updateEmployeeForm.getUsername() != null )
+        if (updateEmployeeForm.getUsername() != null)
             employees.setFirstname(updateEmployeeForm.getUsername());
-        if ( updateEmployeeForm.getPrivate_number() != null )
+        if (updateEmployeeForm.getPrivate_number() != null)
             employees.setPrivate_number(updateEmployeeForm.getPrivate_number());
-        if ( updateEmployeeForm.getEmail() != null )
+        if (updateEmployeeForm.getEmail() != null)
             employees.setEmail(updateEmployeeForm.getEmail());
 
         employeesRepository.updateProfile( id);
@@ -146,42 +167,39 @@ public class EmployeesServiceImpl implements EmployeesService {
     // DATA VALIDATION METHODS
     // ***********************
 
-    private void validationEmail( String email ) throws EmployeeValidationException {
+    private void validationEmail(String email) throws EmployeeValidationException
+    {
 
-        if ( email != null && employeesRepository.findByEmail( email ) != null ) {
-
+        if (email != null && employeesRepository.findByEmail( email ) != null)
+        {
             errorLogServices
                     .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
-                            "Cette adresse mail n'est pas valide, merci d'en choisir une autre." ) );
+                            "Cette adresse mail n'est pas valide, merci d'en choisir une autre."));
             throw new EmployeeValidationException(
-                    "Cette adresse mail n'est pas valide, merci d'en choisir une autre." );
+                    "Cette adresse mail n'est pas valide, merci d'en choisir une autre.");
 
         }
     }
 
-    private void validationUsername( String username ) throws EmployeeValidationException {
-
-        if ( username != null && employeesRepository.findByFirstname( username ) != null ) {
-
+    private void validationUsername(String username) throws EmployeeValidationException
+    {
+        if (username != null && employeesRepository.findByFirstname( username ) != null)
+        {
             errorLogServices
                     .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
-                            "Ce pseudo n'est pas valide, merci d'en choisir un autre." ) );
-            throw new EmployeeValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
-
+                            "Ce pseudo n'est pas valide, merci d'en choisir un autre."));
+            throw new EmployeeValidationException("Ce pseudo n'est pas valide, merci d'en choisir un autre.");
         }
-
     }
 
-    private void validationPasswords( String password, String confirmation ) throws EmployeeValidationException {
-
-        if ( !password.equals( confirmation ) ) {
-
+    private void validationPasswords(String password, String confirmation) throws EmployeeValidationException
+    {
+        if (!password.equals( confirmation))
+        {
             errorLogServices
-                    .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
-                            "Les deux mots de passe ne correspondent pas." ) );
-            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas." );
-
+                    .recordLog(new ErrorLog( null, HttpStatus.BAD_REQUEST,
+                            "Les deux mots de passe ne correspondent pas."));
+            throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas.");
         }
-
     }
 }

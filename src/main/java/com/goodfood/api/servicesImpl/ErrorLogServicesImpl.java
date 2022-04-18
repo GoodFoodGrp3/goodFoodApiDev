@@ -9,25 +9,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-@Service( value = "ErrorLogService" )
-public class ErrorLogServicesImpl implements ErrorLogServices {
-
+@Service(value = "ErrorLogService")
+public class ErrorLogServicesImpl implements ErrorLogServices
+{
     @Autowired
     private ErrorLogRepository errorLogRepository;
 
     // contructor
-    public ErrorLogServicesImpl() {
+    public ErrorLogServicesImpl()
+    {
+
     }
 
     @Override
-    public void recordLog( ErrorLog errorLog ) {
+    public void recordLog( ErrorLog errorLog )
+    {
         errorLogRepository.save( errorLog );
-
     }
 
     @Override
-    public List<ErrorLog> getErrorLogs() {
+    public List<ErrorLog> getErrorLogs()
+    {
         return errorLogRepository.findAllOrderByIdDesc();
     }
-
 }
