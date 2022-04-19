@@ -4,7 +4,8 @@ import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Offices;
 import com.goodfood.api.entities.Order_commodity;
-import com.goodfood.api.exceptions.EmployeeValidationException;
+import com.goodfood.api.exceptions.employees.EmployeeValidationException;
+import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
@@ -98,15 +99,35 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
     @Override
-    public List<Employees> getAllEmployees()
+    public List<Employees> getAllEmployees() throws EmployeesNotFoundException
     {
-        return (List<Employees>) this.employeesRepository.findAll();
+        List<Employees> employees = (List<Employees>) employeesRepository.findAll();
+
+        if (employees == null || employees.isEmpty())
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun employee trouvé"));
+            throw new EmployeesNotFoundException( "Aucun employee trouvé" );
+        }
+
+        else
+        {
+            return employees;
+        }
     }
 
     @Override
-    public Employees getEmployeeById(int id)
+    public Employees getEmployeeById(int id) throws EmployeesNotFoundException
     {
-        return this.employeesRepository.findById(id);
+        Employees employees = employeesRepository.findById(id);
+
+        if (employees == null)
+        {
+            errorLogServices
+                    .recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Le membre n° " + id + " est introuvable" ) );
+            throw new EmployeesNotFoundException( "Le membre n° " + id + " est introuvable" );
+        }
+
+        return employees;
     }
 
     @Override

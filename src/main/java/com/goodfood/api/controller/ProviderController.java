@@ -4,7 +4,7 @@ package com.goodfood.api.controller;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Provider;
 import com.goodfood.api.entities.Status;
-import com.goodfood.api.exceptions.EmployeeStatusException;
+import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateProvidersForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -59,7 +59,7 @@ public class ProviderController
     @PostMapping(value = "")
     public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm)
     {
-        Status status = authenticationService.getCurrentUser().getStatus();
+        Status status = authenticationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return this.providerService.createProviders(createProvidersForm.getId(),
@@ -80,7 +80,7 @@ public class ProviderController
                                                    String addressline, String email, String phone, String country,
                                                    String postal_code, String state)
     {
-        Status status = authenticationService.getCurrentUser().getStatus();
+        Status status = authenticationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return new ResponseEntity<>(this.providerService.updateProvider(id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK);

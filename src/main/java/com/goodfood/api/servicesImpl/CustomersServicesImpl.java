@@ -1,7 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.*;
-import com.goodfood.api.exceptions.EmployeeValidationException;
 import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;

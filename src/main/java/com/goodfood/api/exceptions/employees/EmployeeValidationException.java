@@ -1,4 +1,4 @@
-package com.goodfood.api.exceptions;
+package com.goodfood.api.exceptions.employees;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;

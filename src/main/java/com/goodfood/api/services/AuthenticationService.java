@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 public interface AuthenticationService
 {
     Authentication authentication(String username, String password);
-    Employees getCurrentUser();
+    Employees getCurrentEmployee();
     Customers getCurrentCustomer();
 
 

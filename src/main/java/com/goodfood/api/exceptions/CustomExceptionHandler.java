@@ -1,6 +1,6 @@
 package com.goodfood.api.exceptions;
 
-import com.goodfood.api.exceptions.products.ProductsNotFoundException;
+import com.goodfood.api.exceptions.employees.EmployeeValidationException;
 import com.goodfood.api.exceptions.products.ProductsValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

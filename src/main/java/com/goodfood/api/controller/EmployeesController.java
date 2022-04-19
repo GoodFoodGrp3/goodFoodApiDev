@@ -4,7 +4,7 @@ import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
-import com.goodfood.api.exceptions.EmployeeStatusException;
+import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.LoginForm;
 import com.goodfood.api.request.employee.*;
@@ -65,7 +65,7 @@ public class EmployeesController
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
-        Status status = authentificationService.getCurrentUser().getStatus();
+        Status status = authentificationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         return this.employeesService.getAllEmployees();
@@ -84,9 +84,9 @@ public class EmployeesController
     }
 
     @GetMapping("/current")
-    public ResponseEntity<Employees> getCurrentUser()
+    public ResponseEntity<Employees> getCurrentEmployee()
     {
-        return new ResponseEntity<>(this.authentificationService.getCurrentUser(), HttpStatus.OK);
+        return new ResponseEntity<>(this.authentificationService.getCurrentEmployee(), HttpStatus.OK);
     }
 
 
@@ -200,8 +200,8 @@ public class EmployeesController
     public Employees updateEmployeePassword(@PathVariable int id,
                                             @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm)
     {
-        Employees currentEmployee = authentificationService.getCurrentUser();
-        Status status = authentificationService.getCurrentUser().getStatus();
+        Employees currentEmployee = authentificationService.getCurrentEmployee();
+        Status status = authentificationService.getCurrentEmployee().getStatus();
 
         generatePrivilegeErrorIf(currentEmployee.getId() != id && status != Status.ADMINISTRATEUR
                 && status != Status.RESTAURATEUR);
@@ -215,7 +215,7 @@ public class EmployeesController
     {
         //constraintViolationCheck( errors, request );
 
-        Employees currentEmployee = authentificationService.getCurrentUser();
+        Employees currentEmployee = authentificationService.getCurrentEmployee();
         generatePrivilegeErrorIf( currentEmployee.getId() != id );
 
         return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
@@ -226,10 +226,10 @@ public class EmployeesController
     public Employees updateEmployeesStatus( @PathVariable int id,
                                       @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
     {
-        Status status = authentificationService.getCurrentUser().getStatus();
+        Status status = authentificationService.getCurrentEmployee().getStatus();
         Employees employees = employeesService.getEmployeeById(id);
         generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
-        generatePrivilegeErrorIf( employees.getStatus() == Status.RESTAURATEUR );
+        generatePrivilegeErrorIf( employees.getStatus() == Status.ADMINISTRATEUR );
 
         return employeesService.updateStatus(id, updateEmployeeStatusForm);
     }
@@ -241,7 +241,7 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-        Status status = authentificationService.getCurrentUser().getStatus();
+        Status status = authentificationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         employeesService.deleteById(id);

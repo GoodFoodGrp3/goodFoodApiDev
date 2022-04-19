@@ -50,7 +50,7 @@ public class AuthenticationServiceImpl implements AuthenticationService
 
 
     @Override
-	public Employees getCurrentUser()
+	public Employees getCurrentEmployee()
     {
 		final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return this.employeesService.getEmployeesByFirstName((String) authentication.getPrincipal());

@@ -3,7 +3,7 @@ package com.goodfood.api.controller;
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Status;
-import com.goodfood.api.exceptions.EmployeeStatusException;
+import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.CreateCommentForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
@@ -69,7 +69,7 @@ public class CommentsController
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )
     {
-        Status status = authenticationService.getCurrentUser().getStatus();
+        Status status = authenticationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf(status == Status.UTILISATEUR);
 
         this.commentsService.deleteCommentById( id );
