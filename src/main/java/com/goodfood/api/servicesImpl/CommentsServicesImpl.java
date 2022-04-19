@@ -34,7 +34,7 @@ public class CommentsServicesImpl implements CommentsService
     // ***************
 
     @Override
-    public List<Comments> getAllComments() throws ProductsNotFoundException
+    public List<Comments> getAllComments() throws CommentsNotFoundException
     {
         List<Comments> getAllComments = (List<Comments>) commentsRepository.findAll();
 
@@ -44,7 +44,7 @@ public class CommentsServicesImpl implements CommentsService
             throw new ProductsNotFoundException( "Aucun commentaires trouvé" );
         }
 
-        return (List<Comments>) this.commentsRepository.findAll();
+        return getAllComments;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class CommentsServicesImpl implements CommentsService
     {
         Comments comment = this.commentsRepository.findById(id);
 
-        if ( comment == null )
+        if (comment == null)
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format( "None Comment could be found with the id %d", id)));

@@ -2,6 +2,9 @@ package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Offices;
+import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.offices.OfficesNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.OfficesRepository;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.OfficesService;
@@ -31,15 +34,35 @@ public class OfficesServiceImpl implements OfficesService
     // ***************
 
     @Override
-    public List<Offices> getAllOffices()
+    public List<Offices> getAllOffices() throws OfficesNotFoundException
     {
-        return (List<Offices>) this.officesRepository.findAll();
+        List<Offices> getAllOffices = (List<Offices>) officesRepository.findAll();
+
+        if (getAllOffices == null || getAllOffices.isEmpty())
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun office trouvé"));
+            throw new ProductsNotFoundException( "Aucun office trouvé" );
+        }
+
+        return getAllOffices;
     }
 
     @Override
-    public Offices getOfficeById(int id)
+    public Offices getOfficeById(int id) throws OfficesNotFoundException
     {
-        return this.officesRepository.findById(id);
+        Offices offices = officesRepository.findById(id);
+
+        if(offices == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "L'office n° " + id
+                    + " est introuvable"));
+            throw new CommentsNotFoundException( "L'office n° " + id + " est introuvable");
+        }
+
+        else
+        {
+            return offices;
+        }
     }
 
 

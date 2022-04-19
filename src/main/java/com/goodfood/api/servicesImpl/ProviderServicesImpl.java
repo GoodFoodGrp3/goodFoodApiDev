@@ -1,7 +1,11 @@
 package com.goodfood.api.servicesImpl;
 
+
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
+import com.goodfood.api.exceptions.providers.ProviderNotFoundException;
 import com.goodfood.api.repositories.ProviderRepository;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProviderService;
@@ -31,15 +35,35 @@ public class ProviderServicesImpl implements ProviderService
     // ***************
 
     @Override
-    public List<Provider> getAllProviders()
+    public List<Provider> getAllProviders() throws ProviderNotFoundException
     {
-        return (List<Provider>) this.providerRepository.findAll();
+        List<Provider> getAllProviders = (List<Provider>) providerRepository.findAll();
+
+        if (getAllProviders == null || getAllProviders.isEmpty())
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun fournisseur trouvé"));
+            throw new ProductsNotFoundException( "Aucun fournisseur trouvé" );
+        }
+
+        return getAllProviders;
     }
 
     @Override
-    public Provider getProviderById(int id)
+    public Provider getProviderById(int id) throws ProviderNotFoundException
     {
-        return this.providerRepository.findById(id);
+        Provider provider = providerRepository.findById(id);
+
+        if(provider == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le fournisseur n° " + id
+                    + " est introuvable"));
+            throw new CommentsNotFoundException( "Le fournisseur n° " + id + " est introuvable");
+        }
+
+        else
+        {
+            return provider;
+        }
     }
 
 

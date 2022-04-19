@@ -3,13 +3,14 @@ package com.goodfood.api.services;
 import com.goodfood.api.entities.Commodity;
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
 
 import java.util.List;
 
 public interface CommodityService
 {
-    List<Commodity> getAllCommoditys();
-    Commodity getCommodityById (int id);
+    List<Commodity> getAllCommoditys() throws CommodityNotFoundException;
+    Commodity getCommodityById (int id) throws CommodityNotFoundException;
     void deleteCommodityById(int id);
 
     Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,

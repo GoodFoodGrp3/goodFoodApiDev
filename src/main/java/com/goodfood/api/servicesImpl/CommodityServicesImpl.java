@@ -1,6 +1,9 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.*;
+import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.CommodityRepository;
 import com.goodfood.api.services.CommodityService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -26,15 +29,35 @@ public class CommodityServicesImpl implements CommodityService
     // ***************
 
     @Override
-    public List<Commodity> getAllCommoditys()
+    public List<Commodity> getAllCommoditys() throws CommodityNotFoundException
     {
-        return (List<Commodity>) this.commodityRepository.findAll();
+        List<Commodity> getAllCommoditys = (List<Commodity>) commodityRepository.findAll();
+
+        if (getAllCommoditys == null || getAllCommoditys.isEmpty())
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucune commodity trouvée"));
+            throw new ProductsNotFoundException( "Aucune commodity trouvée" );
+        }
+
+        return getAllCommoditys;
     }
 
     @Override
-    public Commodity getCommodityById(int id)
+    public Commodity getCommodityById(int id) throws CommodityNotFoundException
     {
-        return this.commodityRepository.findById(id);
+        Commodity commodity = commodityRepository.findById(id);
+
+        if(commodity == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "La commodity n° " + id
+                    + " est introuvable"));
+            throw new CommentsNotFoundException( "La commodity n° " + id + " est introuvable");
+        }
+
+        else
+        {
+            return commodity;
+        }
     }
 
 
