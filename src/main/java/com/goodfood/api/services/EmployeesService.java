@@ -4,6 +4,7 @@ import com.goodfood.api.entities.Employees;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
+import com.goodfood.api.request.employee.UpdateEmployeeStatusForm;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface EmployeesService
     Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm);
     void deleteById(int id);
     Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm);
+    Employees updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm);
 }

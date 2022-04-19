@@ -9,6 +9,7 @@ import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
+import com.goodfood.api.request.employee.UpdateEmployeeStatusForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,6 +161,17 @@ public class EmployeesServiceImpl implements EmployeesService
             employees.setEmail(updateEmployeeForm.getEmail());
 
         employeesRepository.updateProfile( id);
+
+        return employees;
+    }
+
+    @Override
+    public Employees updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm)
+    {
+        Employees employees = this.getEmployeeById(id);
+
+        employees.setStatus( updateEmployeeStatusForm.getStatus() );
+        employeesRepository.updateStatus( id, employees.getStatus().name()); // SQL query needs strings
 
         return employees;
     }

@@ -65,6 +65,9 @@ public class EmployeesController
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
+        Status status = authentificationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+
         return this.employeesService.getAllEmployees();
     }
 
@@ -197,10 +200,10 @@ public class EmployeesController
     public Employees updateEmployeePassword(@PathVariable int id,
                                             @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm)
     {
-        Employees currentUser = authentificationService.getCurrentUser();
+        Employees currentEmployee = authentificationService.getCurrentUser();
         Status status = authentificationService.getCurrentUser().getStatus();
 
-        generatePrivilegeErrorIf(currentUser.getId() != id && status != Status.ADMINISTRATEUR
+        generatePrivilegeErrorIf(currentEmployee.getId() != id && status != Status.ADMINISTRATEUR
                 && status != Status.RESTAURATEUR);
 
         return employeesService.updatePassword(id, updateEmployeePasswordForm);
@@ -212,12 +215,24 @@ public class EmployeesController
     {
         //constraintViolationCheck( errors, request );
 
-       /* Employees currentUser = authentificationService.getCurrentUser();
-        generatePrivilegeErrorIf( currentUser.getId() != id );*/
+        Employees currentEmployee = authentificationService.getCurrentUser();
+        generatePrivilegeErrorIf( currentEmployee.getId() != id );
 
         return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
     }
 
+
+    @PutMapping( value = "/admin/{id}/status" )
+    public Employees updateEmployeesStatus( @PathVariable int id,
+                                      @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
+    {
+        Status status = authentificationService.getCurrentUser().getStatus();
+        Employees employees = employeesService.getEmployeeById(id);
+        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
+        generatePrivilegeErrorIf( employees.getStatus() == Status.RESTAURATEUR );
+
+        return employeesService.updateStatus(id, updateEmployeeStatusForm);
+    }
 
     // ***************
     // DELETE
@@ -226,8 +241,8 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-        /*Status status = authentificationService.getCurrentUser().getStatus();
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATOR );*/
+        Status status = authentificationService.getCurrentUser().getStatus();
+        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         employeesService.deleteById(id);
     }

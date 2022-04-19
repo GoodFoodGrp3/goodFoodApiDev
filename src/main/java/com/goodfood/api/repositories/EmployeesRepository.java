@@ -23,4 +23,9 @@ public interface EmployeesRepository extends CrudRepository<Employees, Integer>
     @Query(nativeQuery = true, value = "UPDATE employees SET username = :username, private_number = :private_number, " +
             "email = :email WHERE id = :id")
     void updateProfile(@Param(value = "id") int id);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE employees SET status = :status WHERE id = :id")
+    void updateStatus(@Param(value = "id") int id, @Param(value = "status") String status);
 }
