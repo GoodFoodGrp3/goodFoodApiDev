@@ -1,12 +1,16 @@
 package com.goodfood.api.exceptions;
 
+import com.goodfood.api.exceptions.categorie.CategorieNotFoundException;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
 import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.exceptions.employees.EmployeeValidationException;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
+import com.goodfood.api.exceptions.offices.OfficesNotFoundException;
+import com.goodfood.api.exceptions.orders.OrderNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
-import com.goodfood.api.exceptions.products.ProductsValidationException;
+import com.goodfood.api.exceptions.providers.ProviderNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -49,12 +53,30 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity(error, error.getStatus());
     }
 
+    @ExceptionHandler(CategorieNotFoundException.class)
+    public final ResponseEntity<Object> handleCategorieNotFoundException(CategorieNotFoundException ex, WebRequest request)
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Catégorie not found", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
     @ExceptionHandler(CommentsNotFoundException.class)
     public final ResponseEntity<Object> handleCommentNotFoundException(CommentsNotFoundException ex, WebRequest request)
     {
         List<String> details = new ArrayList<>();
         details.add( ex.getReason() );
         ErrorResponse error = new ErrorResponse( ex.getStatus(), "Comment not found", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
+    @ExceptionHandler(CommodityNotFoundException.class)
+    public final ResponseEntity<Object> handleCommodityNotFoundException(CommodityNotFoundException ex, WebRequest request)
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Commodity not found", details );
         return new ResponseEntity( error, error.getStatus() );
     }
 
@@ -95,6 +117,24 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity( error, error.getStatus() );
     }
 
+    @ExceptionHandler(OfficesNotFoundException.class)
+    public final ResponseEntity<Object> handleOfficeNotFoundException(OfficesNotFoundException ex, WebRequest request)
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Office not found", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public final ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException ex, WebRequest request)
+    {
+        List<String> details = new ArrayList<>();
+        details.add( ex.getReason() );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Order not found", details );
+        return new ResponseEntity( error, error.getStatus() );
+    }
+
     @ExceptionHandler(ProductsNotFoundException.class)
     public final ResponseEntity<Object> handleProductNotFoundException(ProductsNotFoundException ex, WebRequest request)
     {
@@ -104,14 +144,12 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity( error, error.getStatus() );
     }
 
-    @ExceptionHandler(ProductsValidationException.class)
-    public final ResponseEntity<Object> handleProductsValidationException(ProductsValidationException ex,
-                                                                          WebRequest request )
+    @ExceptionHandler(ProviderNotFoundException.class)
+    public final ResponseEntity<Object> handleProviderNotFoundException(ProviderNotFoundException ex, WebRequest request)
     {
         List<String> details = new ArrayList<>();
         details.add( ex.getReason() );
-        ErrorResponse error = new ErrorResponse( ex.getStatus(), "Product not validated", details );
+        ErrorResponse error = new ErrorResponse( ex.getStatus(), "provider not found", details );
         return new ResponseEntity( error, error.getStatus() );
     }
-
 }
