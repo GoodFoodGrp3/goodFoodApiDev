@@ -66,7 +66,7 @@ public class EmployeesController
     public List<Employees> getAllEmployees()
     {
         Status status = authentificationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
 
         return this.employeesService.getAllEmployees();
     }
@@ -74,6 +74,9 @@ public class EmployeesController
     @GetMapping(value = "/{id}")
     public Employees getEmployeeById(@PathVariable int id)
     {
+        Employees currentEmployee = authentificationService.getCurrentEmployee();
+        generatePrivilegeErrorIf( currentEmployee.getId() != id );
+
         return this.employeesService.getEmployeeById( id );
     }
 
@@ -241,10 +244,10 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-        Status status = authentificationService.getCurrentEmployee().getStatus();
+        Status status = this.authentificationService.getCurrentEmployee().getStatus();
         generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
-        employeesService.deleteById(id);
+        this.employeesService.deleteById(id);
     }
 
     // ***************

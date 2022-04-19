@@ -6,6 +6,8 @@ import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
+import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
+import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -188,6 +190,32 @@ public class CustomersServicesImpl implements CustomersService
         return customers;
     }
 
+    @Override
+    public Customers updatePassword(int id, UpdateCustomerPasswordForm updateCustomerPasswordForm)
+    {
+        // get member
+        Customers customers = this.getCustomerById(id);
+
+        // validate password and encrypt it
+        try
+        {
+            customers.setPassword( this.bCryptPasswordEncoder.encode(updateCustomerPasswordForm.getPassword()));
+        }
+
+        catch (Exception e)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Password encoding failed"));
+            e.getMessage();
+            return null;
+        }
+
+        // update of password in database
+        customersRepository.updatePassword(id, customers.getPassword());
+        System.out.println( "Password correctly modified");
+
+        return customers;
+    }
 
     // ***********************
     // DATA VALIDATION METHODS

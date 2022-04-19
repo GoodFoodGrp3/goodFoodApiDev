@@ -20,4 +20,9 @@ public interface CustomersRepository extends CrudRepository<Customers, Integer>
             "addressline1 = :addressline1, addressline2 = :addressline2, city = :city, state = :state, " +
             "postal_code = :postal_code, country = :country, email = :email WHERE id = :id")
     void updateCustomerProfile(@Param(value = "id") int id);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE customers SET password = :password WHERE id = :id")
+    void updatePassword(@Param(value = "id") int id, @Param(value = "password") String password);
 }

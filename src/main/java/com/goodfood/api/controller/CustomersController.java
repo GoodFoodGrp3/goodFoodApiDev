@@ -2,12 +2,16 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
+import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
+import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
 import com.goodfood.api.request.employee.JwtResponse;
 import com.goodfood.api.request.LoginForm;
+import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -71,12 +75,18 @@ public class CustomersController
     @GetMapping(value = "")
     public List<Customers> getAllCustomers()
     {
+        Status status = authentificationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
+
         return this.customersService.getAllCustomers();
     }
 
     @GetMapping( value = "/{id}" )
     public Customers getCustomerById( @PathVariable int id )
     {
+        /*Customers currentCustomer = authentificationService.getCurrentCustomer();
+        generatePrivilegeErrorIf( currentCustomer.getId() != id );*/
+
         return this.customersService.getCustomerById(id);
     }
 
@@ -188,10 +198,10 @@ public class CustomersController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteCustomerById(@PathVariable int id)
     {
-        /*Status status = authentificationService.getCurrentUser().getStatus();
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATOR );*/
+        Status status = this.authentificationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
 
-        customersService.deleteById(id);
+        this.customersService.deleteById(id);
     }
 
 
@@ -204,10 +214,25 @@ public class CustomersController
     {
         //constraintViolationCheck( errors, request );
 
-       /* Employees currentUser = authentificationService.getCurrentUser();
-        generatePrivilegeErrorIf( currentUser.getId() != id );*/
+        Customers currentCustomer = authentificationService.getCurrentCustomer();
+        generatePrivilegeErrorIf(currentCustomer.getId() != id);
 
         return customersService.updateCustomerProfile(id, updateCustomerForm);
+    }
+
+    @PutMapping(value = "/profile/{id}/password")
+    public Customers updateCustomerPassword(@PathVariable int id,
+                                            @RequestBody UpdateCustomerPasswordForm updateCustomerPassword)
+    {
+        Customers currentCustomer = authentificationService.getCurrentCustomer();
+        //Status status = authentificationService.getCurrentCustomer().getStatus();
+
+        generatePrivilegeErrorIf(currentCustomer.getId() != id);
+
+        /*generatePrivilegeErrorIf(currentCustomer.getId() != id && status != Status.ADMINISTRATEUR
+                && status != Status.RESTAURATEUR);*/
+
+        return customersService.updatePassword(id, updateCustomerPassword);
     }
 
     // ***************
@@ -239,6 +264,16 @@ public class CustomersController
 
             errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
             throw new ConstraintViolationException(exceptionMessage);
+        }
+    }
+
+    private void generatePrivilegeErrorIf(boolean test)
+    {
+        if (test)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+                    "You have not the right authorities."));
+            throw new EmployeeStatusException();
         }
     }
 }

@@ -12,7 +12,7 @@ public class ErrorLog
 {
     @Column(name = "error_log_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int error_log_id;
 
     @Column(name = "date")
