@@ -27,11 +27,11 @@ public class RegisterCustomerForm
     private String username;
 
     @NotNull(message = "Un nom est requis")
-    @NotBlank(message = "Un pseudo ne peut être vide")
+    @NotBlank(message = "Un nom ne peut être vide")
     private String lastname;
 
     @NotNull(message = "Un prénom est requis")
-    @NotBlank(message = "Un pseudo ne peut être vide")
+    @NotBlank(message = "Un prénom ne peut être vide")
     private String firstname;
 
     @NotNull(message = "Un numéro est requis")

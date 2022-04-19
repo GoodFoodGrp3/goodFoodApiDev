@@ -7,13 +7,13 @@ import com.goodfood.api.repositories.CustomersRepository;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
-import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.util.Collections;
@@ -62,8 +62,10 @@ public class CustomersServicesImpl implements CustomersService
         customers.setOrders(Collections.singleton(orders));
         customers.setComments(Collections.singleton(comments));
 
-        validationPasswords(registerCustomerForm.getPassword(), registerCustomerForm.getCpassword());
+
+        validationUsername(registerCustomerForm.getUsername());
         customers.setCustomername(registerCustomerForm.getUsername());
+
         customers.setContact_lastname(registerCustomerForm.getLastname());
         customers.setContact_firstname(registerCustomerForm.getFirstname());
         customers.setPhone(registerCustomerForm.getPhone());
@@ -73,8 +75,11 @@ public class CustomersServicesImpl implements CustomersService
         customers.setState(registerCustomerForm.getState());
         customers.setPostal_code(registerCustomerForm.getPostalCode());
         customers.setCountry(registerCustomerForm.getCountry());
+
         validationEmail( registerCustomerForm.getEmail() );
         customers.setEmail(registerCustomerForm.getEmail());
+
+        validationPasswords(registerCustomerForm.getPassword(), registerCustomerForm.getCpassword());
         customers.setPassword(this.bCryptPasswordEncoder.encode(registerCustomerForm.getPassword()));
 
         try
@@ -147,7 +152,17 @@ public class CustomersServicesImpl implements CustomersService
     @Override
     public void deleteById(int id)
     {
-        customersRepository.deleteById(id);
+        Customers customers = this.customersRepository.findById(id);
+
+        if ( customers == null )
+        {
+            this.errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format( "None customer could be found with the id %d", id)));
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
+                    String.format( "None customer could be found with the id %d", id));
+        }
+
+        this.customersRepository.deleteById(id);
     }
 
 
@@ -232,18 +247,15 @@ public class CustomersServicesImpl implements CustomersService
         }
     }
 
-   /* private void validationUsername( String username ) throws CustomersValidationException {
-
-        if ( username != null && customersRepository.findByFirstname( username ) != null ) {
-
-            errorLogServices
-                    .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
+    private void validationUsername( String username ) throws CustomersValidationException
+    {
+        if ( username != null && customersRepository.findByCustomername( username ) != null )
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Ce pseudo n'est pas valide, merci d'en choisir un autre." ) );
-            throw new EmployeeValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
-
+            throw new CustomersValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
         }
-
-    }*/
+    }
 
     private void validationPasswords( String password, String confirmation ) throws CustomersValidationException
     {

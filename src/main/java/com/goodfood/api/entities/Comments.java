@@ -37,11 +37,12 @@ public class Comments implements Serializable
     // ***************
 
     //Rajouter customer quand l'authentification sera faite
-    public Comments(Timestamp date, String content)
+    public Comments(Timestamp date, String content, Customers customers)
     {
         super();
         this.date = date;
         this.content = content;
+        this.customers = customers;
     }
 
 

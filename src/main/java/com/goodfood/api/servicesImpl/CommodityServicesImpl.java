@@ -90,9 +90,9 @@ public class CommodityServicesImpl implements CommodityService
         if (commodity == null)
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id)));
+                    String.format( "None commodity could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id));
+                    String.format( "None commodity could be found with the id %d", id));
         }
         //commodity.setProvider(provider_id);
         //commodity.setEmployees(employees);

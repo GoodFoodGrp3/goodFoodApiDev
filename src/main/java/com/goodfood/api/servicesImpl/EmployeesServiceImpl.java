@@ -1,9 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
-import com.goodfood.api.entities.Employees;
-import com.goodfood.api.entities.ErrorLog;
-import com.goodfood.api.entities.Offices;
-import com.goodfood.api.entities.Order_commodity;
+import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.employees.EmployeeValidationException;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.repositories.EmployeesRepository;
@@ -17,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -64,13 +62,16 @@ public class EmployeesServiceImpl implements EmployeesService
         // validation des attributs
         validationEmail(registerEmployeeForm.getEmail());
         employees.setEmail(registerEmployeeForm.getEmail());
+
         validationUsername(registerEmployeeForm.getUsername());
-        validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
         employees.setFirstname(registerEmployeeForm.getUsername());
+
         offices.setId(registerEmployeeForm.getSuccursale());
         employees.setOffice_id(offices);
         employees.setOrder_commodity(Collections.singleton(order_commodity));
         employees.setStatus(registerEmployeeForm.getStatus());
+
+        validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
         employees.setPassword(this.bcrypt.encode(registerEmployeeForm.getPassword()));
 
         try
@@ -123,8 +124,8 @@ public class EmployeesServiceImpl implements EmployeesService
         if (employees == null)
         {
             errorLogServices
-                    .recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Le membre n° " + id + " est introuvable" ) );
-            throw new EmployeesNotFoundException( "Le membre n° " + id + " est introuvable" );
+                    .recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "L'employee n° " + id + " est introuvable" ) );
+            throw new EmployeesNotFoundException( "L'employee n° " + id + " est introuvable" );
         }
 
         return employees;
@@ -181,7 +182,7 @@ public class EmployeesServiceImpl implements EmployeesService
         if (updateEmployeeForm.getEmail() != null)
             employees.setEmail(updateEmployeeForm.getEmail());
 
-        employeesRepository.updateProfile( id);
+        this.employeesRepository.updateProfile( id);
 
         return employees;
     }
@@ -192,7 +193,7 @@ public class EmployeesServiceImpl implements EmployeesService
         Employees employees = this.getEmployeeById(id);
 
         employees.setStatus( updateEmployeeStatusForm.getStatus() );
-        employeesRepository.updateStatus( id, employees.getStatus().name()); // SQL query needs strings
+        this.employeesRepository.updateStatus( id, employees.getStatus().name()); // SQL query needs strings
 
         return employees;
     }
@@ -205,7 +206,17 @@ public class EmployeesServiceImpl implements EmployeesService
     @Override
     public void deleteById(int id)
     {
-        employeesRepository.deleteById(id);
+        Employees employees = this.employeesRepository.findById(id);
+
+        if ( employees == null )
+        {
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+                    String.format( "None employee could be found with the id %d", id)));
+            throw new ResponseStatusException( HttpStatus.NOT_FOUND,
+                    String.format( "None employee could be found with the id %d", id));
+        }
+
+        this.employeesRepository.deleteById(id);
     }
 
 

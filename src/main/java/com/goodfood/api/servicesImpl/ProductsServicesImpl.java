@@ -81,9 +81,9 @@ public class ProductsServicesImpl implements ProductService
         if (products == null)
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id)));
+                    String.format( "None product could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None Comment could be found with the id %d", id));
+                    String.format( "None product could be found with the id %d", id));
         }
 
         this.productsRepository.deleteById(id);
@@ -116,9 +116,9 @@ public class ProductsServicesImpl implements ProductService
         if (products == null)
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id)));
+                    String.format( "None product could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
-                    String.format( "None provider could be found with the id %d", id));
+                    String.format( "None product could be found with the id %d", id));
         }
 
         products.setProduct_name(product_name);
