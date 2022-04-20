@@ -1,7 +1,7 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Customers;
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
@@ -11,7 +11,6 @@ import com.goodfood.api.request.customer.UpdateCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
 import com.goodfood.api.request.employee.JwtResponse;
 import com.goodfood.api.request.LoginForm;
-import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -139,7 +138,7 @@ public class CustomersController
                     if (timeLeft > 0)
                     {
                         timeLeft = timeLeft / 1000 / 60;
-                        errorLogServices.recordLog( new ErrorLog( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                        errorLogServices.recordLog( new Error_log( request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
                                 "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min." ) );
                         throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
                                 "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min." );
@@ -147,8 +146,7 @@ public class CustomersController
                 }
             }
 
-            authentication = this.authentificationService.authentication( credentials.getUsername(),
-                    credentials.getPassword());
+            authentication = this.authentificationService.authentication( credentials.getUsername(), credentials.getPassword());
 
             customers.setCounter(3);
 
@@ -169,7 +167,7 @@ public class CustomersController
                     customers.setBlocked_date(new Timestamp(new DateTime().getMillis()));
                 }
 
-                errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                errorLogServices.recordLog(new Error_log(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
                         "Wrong credentials, please try again or contact an administrator. Left attempt : "
                                 + customers.getCounter()));
                 throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
@@ -177,7 +175,7 @@ public class CustomersController
                                 + customers.getCounter());
             }
 
-            errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+            errorLogServices.recordLog(new Error_log(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
                     "Wrong credentials, please try again or contact an administrator."));
             throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
                     "Wrong credentials, please try again or contact an administrator.");
@@ -262,7 +260,7 @@ public class CustomersController
                 exceptionMessage += violation.getMessage();
             }
 
-            errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
+            errorLogServices.recordLog(new Error_log(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
             throw new ConstraintViolationException(exceptionMessage);
         }
     }
@@ -271,7 +269,7 @@ public class CustomersController
     {
         if (test)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities."));
             throw new EmployeeStatusException();
         }

@@ -1,11 +1,14 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Set;
 
 
@@ -13,7 +16,7 @@ import java.util.Set;
 @SQLDelete(sql = "UPDATE customers SET deleted = true WHERE customer_id= ?")
 @Where(clause = "deleted=false")
 @Table(name = "customers")
-public class Customers
+public class Customers implements UserDetails
 {
     @Column(name = "customer_id")
     @org.springframework.data.annotation.Id
@@ -23,9 +26,11 @@ public class Customers
 
     ///// RELATION /////
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Orders> orders;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Comments> comments;
 
@@ -97,7 +102,8 @@ public class Customers
     @Column(name = "deleted")
     private boolean deleted = Boolean.FALSE;
 
-
+    @Transient
+    private Collection<? extends GrantedAuthority> authorities;
 
     // ***************
     // CONSTRUCTOR
@@ -105,11 +111,13 @@ public class Customers
 
     public Customers()
     {
-
+        this.activated_account = true;
+        this.is_blocked = false;
+        this.counter = 3;
     }
 
 
-    // ***************
+// ***************
     // GETTER AND SETTER
     // ***************
 
@@ -151,11 +159,6 @@ public class Customers
     public void setActivated_account(boolean activated_account)
     {
         this.activated_account = activated_account;
-    }
-
-    public String getPassword()
-    {
-        return password;
     }
 
     public void setPassword(String password)
@@ -352,5 +355,52 @@ public class Customers
     public void setDeleted(boolean deleted)
     {
         this.deleted = deleted;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities()
+    {
+        return authorities;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    @Override
+    public String getUsername()
+    {
+        return customername;
+    }
+
+    @Override
+    public boolean isAccountNonExpired()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled()
+    {
+        return true;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities)
+    {
+        this.authorities = authorities;
     }
 }

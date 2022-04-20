@@ -35,7 +35,7 @@ public class CommodityServicesImpl implements CommodityService
 
         if (getAllCommoditys == null || getAllCommoditys.isEmpty())
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucune commodity trouvée"));
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucune commodity trouvée"));
             throw new ProductsNotFoundException( "Aucune commodity trouvée" );
         }
 
@@ -49,7 +49,7 @@ public class CommodityServicesImpl implements CommodityService
 
         if(commodity == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "La commodity n° " + id
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "La commodity n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "La commodity n° " + id + " est introuvable");
         }
@@ -89,7 +89,7 @@ public class CommodityServicesImpl implements CommodityService
 
         if (commodity == null)
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None commodity could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None commodity could be found with the id %d", id));
@@ -116,7 +116,7 @@ public class CommodityServicesImpl implements CommodityService
 
         if ( commodity == null )
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None commodity could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None commodity could be found with the id %d", id));

@@ -1,16 +1,20 @@
 package com.goodfood.api.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.goodfood.api.request.CreateCommentForm;
 import com.goodfood.api.request.LoginForm;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -18,17 +22,27 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class CommentsControllerTest
 {
+    private ObjectMapper mapper = new ObjectMapper();
+
     @Autowired
-    EmployeesController employeesController;
+    CustomersController customersController;
+
+   /* @Autowired
+    EmployeesController employeesController;*/
 
     String token;
+    String token2;
 
     @BeforeEach
     public void setUp()
     {
-        LoginForm loginform = new LoginForm("gaetan","test");
+        LoginForm loginform = new LoginForm("Melissa06","test");
 
-        token = employeesController.login(loginform, null).getBody().getToken();
+        token = customersController.login(loginform, null).getBody().getToken();
+/*
+        LoginForm loginform2 = new LoginForm("gaetan","test");
+
+        token2 = employeesController.login(loginform2, null).getBody().getToken();*/
     }
 
     @Autowired
@@ -37,7 +51,7 @@ public class CommentsControllerTest
     @Test
     public void testGetAllComment() throws Exception
     {
-        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token2))
                 .andExpect(status().isOk());
     }
 
@@ -53,5 +67,27 @@ public class CommentsControllerTest
     {
         mockMvc.perform(get("/comments/100").header("Authorization", "Bearer " + token))
                 .andExpect(status().is(404));
+    }
+
+    @Test
+    public void testCreateComment() throws Exception
+    {
+        CreateCommentForm createCommentForm = new CreateCommentForm(8,"test");
+        mockMvc.perform(post("/comments").header("Authorization", "Bearer " + token)
+                        .contentType(MediaType.APPLICATION_JSON )
+                        .content(mapper.writeValueAsString(createCommentForm)))
+                .andExpect( status().is( 200 ))
+                .andExpect( jsonPath( "$.content", is("test")));
+    }
+
+    @Test
+    public void testCreateCommentError() throws Exception
+    {
+        CreateCommentForm createCommentForm = new CreateCommentForm(0,"test");
+        mockMvc.perform(post("/comments").header("Authorization", "Bearer " + token2)
+                        .contentType(MediaType.APPLICATION_JSON )
+                        .content(mapper.writeValueAsString(createCommentForm)))
+                .andExpect( status().is( 404 ));
+                //.andExpect( jsonPath( "$.content", is("test")));
     }
 }

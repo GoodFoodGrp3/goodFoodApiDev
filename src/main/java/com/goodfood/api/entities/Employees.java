@@ -84,28 +84,6 @@ public class Employees implements UserDetails
         this.counter = 3;
     }
 
-    public Employees(int id, Offices office_id, Set<Order_commodity> order_commodity, boolean activated_account,
-                     String password, String lastname, String firstname, String private_number, String email,
-                     Integer reports_to, Status status, boolean is_blocked, int counter, Timestamp blocked_date,
-                     boolean deleted, Collection<? extends GrantedAuthority> authorities)
-    {
-        this.id = id;
-        this.office_id = office_id;
-        this.order_commodity = order_commodity;
-        this.activated_account = activated_account;
-        this.password = password;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.private_number = private_number;
-        this.email = email;
-        this.reports_to = reports_to;
-        this.status = status;
-        this.is_blocked = is_blocked;
-        this.counter = counter;
-        this.blocked_date = blocked_date;
-        this.deleted = deleted;
-        this.authorities = authorities;
-    }
 
     public int getId()
     {

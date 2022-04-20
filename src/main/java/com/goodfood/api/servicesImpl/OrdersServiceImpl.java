@@ -1,6 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Orders;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.orders.OrderNotFoundException;
@@ -39,7 +39,7 @@ public class OrdersServiceImpl implements OrdersService
 
         if (getAllOrders == null || getAllOrders.isEmpty())
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
             throw new ProductsNotFoundException( "Aucune commande trouvée" );
         }
 
@@ -53,7 +53,7 @@ public class OrdersServiceImpl implements OrdersService
 
         if(orders == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "La commande n° " + id
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "La commande n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "La commande n° " + id + " est introuvable");
         }

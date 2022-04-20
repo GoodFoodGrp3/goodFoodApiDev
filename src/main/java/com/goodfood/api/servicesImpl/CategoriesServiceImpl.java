@@ -1,7 +1,7 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Categories;
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.exceptions.categorie.CategorieNotFoundException;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
@@ -39,7 +39,7 @@ public class CategoriesServiceImpl implements CategoriesService
 
         if (getAllCategories == null || getAllCategories.isEmpty())
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucune categorie trouvée"));
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucune categorie trouvée"));
             throw new ProductsNotFoundException( "Aucune categorie trouvée" );
         }
 
@@ -53,7 +53,7 @@ public class CategoriesServiceImpl implements CategoriesService
 
         if(categories == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "La categorie n° " + id
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "La categorie n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "La catégorie n° " + id + " est introuvable");
         }

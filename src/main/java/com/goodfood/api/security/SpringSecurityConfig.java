@@ -93,10 +93,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         http.headers().addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'" ));
     }
 
+
     @Override
     public void configure( AuthenticationManagerBuilder auth ) throws Exception
     {
+        auth.userDetailsService( s -> (UserDetails) this.customersService.getCustomerByUserName( s ))
+                .passwordEncoder(this.bCryptPasswordEncoder());
+
         auth.userDetailsService( s -> (UserDetails) this.employeesService.getEmployeesByFirstName( s ))
                 .passwordEncoder(this.bCryptPasswordEncoder());
     }
+
+
 }

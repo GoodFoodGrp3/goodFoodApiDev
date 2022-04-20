@@ -1,7 +1,7 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Employees;
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
@@ -141,7 +141,7 @@ public class EmployeesController
                     if (timeLeft > 0)
                     {
                         timeLeft = timeLeft / 1000 / 60;
-                        errorLogServices.recordLog(new ErrorLog( request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+                        errorLogServices.recordLog(new Error_log( request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
                                 "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min."));
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                                 "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min.");
@@ -171,7 +171,7 @@ public class EmployeesController
                     employees.setBlocked_date(new Timestamp(new DateTime().getMillis()));
                 }
 
-                errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+                errorLogServices.recordLog(new Error_log(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
                         "Wrong credentials, please try again or contact an administrator. Left attempt : "
                                 + employees.getCounter()));
                 throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
@@ -179,7 +179,7 @@ public class EmployeesController
                                 + employees.getCounter());
             }
 
-            errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+            errorLogServices.recordLog(new Error_log(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
                     "Wrong credentials, please try again or contact an administrator."));
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "Wrong credentials, please try again or contact an administrator.");
@@ -277,7 +277,7 @@ public class EmployeesController
                 exceptionMessage += violation.getMessage();
             }
             errorLogServices
-                    .recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
+                    .recordLog(new Error_log(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
             throw new ConstraintViolationException(exceptionMessage);
         }
     }
@@ -286,7 +286,7 @@ public class EmployeesController
     {
         if (test)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities."));
             throw new EmployeeStatusException();
         }

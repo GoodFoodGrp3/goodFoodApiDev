@@ -1,7 +1,7 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Categories;
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Products;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.ProductsRepository;
@@ -40,7 +40,7 @@ public class ProductsServicesImpl implements ProductService
 
         if (getAllProducts == null || getAllProducts.isEmpty())
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun produits trouvé"));
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucun produits trouvé"));
             throw new ProductsNotFoundException( "Aucun produits trouvé" );
         }
 
@@ -57,7 +57,7 @@ public class ProductsServicesImpl implements ProductService
 
         if (products == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le produit n° " + id
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le produit n° " + id
                     + " est introuvable" ) );
             throw new ProductsNotFoundException( "Le produit n° " + id + " est introuvable" );
         }
@@ -80,7 +80,7 @@ public class ProductsServicesImpl implements ProductService
 
         if (products == null)
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None product could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None product could be found with the id %d", id));
@@ -115,7 +115,7 @@ public class ProductsServicesImpl implements ProductService
 
         if (products == null)
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None product could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None product could be found with the id %d", id));

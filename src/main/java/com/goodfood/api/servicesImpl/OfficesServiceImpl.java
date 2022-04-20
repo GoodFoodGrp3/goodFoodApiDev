@@ -1,6 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Offices;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.offices.OfficesNotFoundException;
@@ -40,7 +40,7 @@ public class OfficesServiceImpl implements OfficesService
 
         if (getAllOffices == null || getAllOffices.isEmpty())
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun office trouvé"));
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucun office trouvé"));
             throw new ProductsNotFoundException( "Aucun office trouvé" );
         }
 
@@ -54,7 +54,7 @@ public class OfficesServiceImpl implements OfficesService
 
         if(offices == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "L'office n° " + id
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "L'office n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "L'office n° " + id + " est introuvable");
         }
@@ -91,7 +91,7 @@ public class OfficesServiceImpl implements OfficesService
 
         if ( offices == null )
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None offices could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format("None offices could be found with the id %d", id));

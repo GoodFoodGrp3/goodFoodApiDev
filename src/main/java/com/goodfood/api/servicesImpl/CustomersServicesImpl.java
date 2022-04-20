@@ -109,7 +109,7 @@ public class CustomersServicesImpl implements CustomersService
 
         if (getAllCustomers == null || getAllCustomers.isEmpty())
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND,
                     "Aucun customers trouvé"));
             throw new CustomersNotFoundException( "Aucun customers trouvé" );
         }
@@ -127,7 +127,7 @@ public class CustomersServicesImpl implements CustomersService
 
         if (customers == null)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
                     " est introuvable"));
             throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
         }
@@ -156,7 +156,7 @@ public class CustomersServicesImpl implements CustomersService
 
         if ( customers == null )
         {
-            this.errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
+            this.errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
                     String.format( "None customer could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None customer could be found with the id %d", id));
@@ -219,7 +219,7 @@ public class CustomersServicesImpl implements CustomersService
 
         catch (Exception e)
         {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
+            errorLogServices.recordLog(new Error_log( null, HttpStatus.INTERNAL_SERVER_ERROR,
                     "Password encoding failed"));
             e.getMessage();
             return null;
@@ -240,7 +240,7 @@ public class CustomersServicesImpl implements CustomersService
     {
         if (email != null && customersRepository.findByEmail( email ) != null)
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.BAD_REQUEST,
                             "Cette adresse mail n'est pas valide, merci d'en choisir une autre."));
             throw new CustomersValidationException(
                     "Cette adresse mail n'est pas valide, merci d'en choisir une autre.");
@@ -251,7 +251,7 @@ public class CustomersServicesImpl implements CustomersService
     {
         if ( username != null && customersRepository.findByCustomername( username ) != null )
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.BAD_REQUEST,
                             "Ce pseudo n'est pas valide, merci d'en choisir un autre." ) );
             throw new CustomersValidationException( "Ce pseudo n'est pas valide, merci d'en choisir un autre." );
         }
@@ -261,7 +261,7 @@ public class CustomersServicesImpl implements CustomersService
     {
         if (!password.equals( confirmation))
         {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
+            errorLogServices.recordLog( new Error_log( null, HttpStatus.BAD_REQUEST,
                             "Les deux mots de passe ne correspondent pas."));
             throw new CustomersValidationException( "Les deux mots de passe ne correspondent pas.");
         }
