@@ -1,7 +1,7 @@
 package com.goodfood.api.controller;
 
 
-import com.goodfood.api.entities.Error_log;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Provider;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateProvidersForm;
@@ -90,7 +90,7 @@ public class ProviderController
     {
         if ( test )
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities." ) );
             throw new EmployeeStatusException();
         }

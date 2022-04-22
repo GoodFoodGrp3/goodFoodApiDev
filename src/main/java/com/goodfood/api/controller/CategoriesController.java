@@ -1,8 +1,7 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Categories;
-import com.goodfood.api.entities.Error_log;
-import com.goodfood.api.entities.Status;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCategoriesForm;
 import com.goodfood.api.services.CategoriesService;
@@ -72,7 +71,7 @@ public class CategoriesController
     {
         if ( test )
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities." ) );
             throw new EmployeeStatusException();
         }
