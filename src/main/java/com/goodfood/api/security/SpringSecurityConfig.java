@@ -1,7 +1,5 @@
 package com.goodfood.api.security;
 
-import com.goodfood.api.services.CustomersService;
-import com.goodfood.api.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +12,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
@@ -32,26 +31,38 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
     // api.security.httpPatternMatcher.disabled=true
     // ###########################################################################
 
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
-        return super.authenticationManagerBean();
-    }
-
-    @Value("${api.security.httpPatternMatcher.disabled:true}")
-    private boolean httpPatternMatcherDisabled;
+    @Autowired
+    private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Autowired
-    private EmployeesService employeesService;
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    private CustomersService customersService;
+    private JWTAuthorizationFilter jwtRequestFilter;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder()
     {
         return new BCryptPasswordEncoder();
     }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        // configure AuthenticationManager so that it knows from where to load
+        // user for matching credentials
+        // Use BCryptPasswordEncoder
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception
+    {
+        return super.authenticationManagerBean();
+    }
+
+    @Value("${api.security.httpPatternMatcher.disabled:false}")
+    private boolean httpPatternMatcherDisabled;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
@@ -60,7 +71,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
             http.authorizeRequests()
                     .antMatchers( HttpMethod.POST,
-                            "/employees/login", "/employees/register","customers/login","customers/register")
+                            "/employees/login", "/employees/register","customers/login","customers/register", "/authenticate")
                     .permitAll()
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
                             "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger
@@ -74,11 +85,12 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         { // http pattern matcher disabled
             http.authorizeRequests().anyRequest().permitAll(); // toutes les pages/requêtes sont accessibles
         }
+        // this disables session creation on Spring Security
+        http.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers()
+            .frameOptions().disable();
+        // Add a filter to validate the tokens with every request
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.authorizeRequests().and().addFilter( new JWTAuthorizationFilter( authenticationManager()))
-                // this disables session creation on Spring Security
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().headers()
-                .frameOptions().disable();
 
         // mise en place https
         // http
@@ -93,10 +105,4 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         http.headers().addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy", "script-src 'self'" ));
     }
 
-    @Override
-    public void configure( AuthenticationManagerBuilder auth ) throws Exception
-    {
-        auth.userDetailsService( s -> (UserDetails) this.employeesService.getEmployeesByFirstName( s ))
-                .passwordEncoder(this.bCryptPasswordEncoder());
-    }
 }

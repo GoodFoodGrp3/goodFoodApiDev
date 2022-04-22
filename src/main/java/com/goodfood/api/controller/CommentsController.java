@@ -5,7 +5,6 @@ import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.CreateCommentForm;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +30,7 @@ public class CommentsController
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    //private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -55,11 +53,11 @@ public class CommentsController
     // POST/CREATE
     // ***************
 
-    @PostMapping( value = "" )
-    public Comments createComment( @RequestBody CreateCommentForm createCommentForm )
-    {
-        return this.commentsService.createComment( createCommentForm.getId(),createCommentForm.getContent());
-    }
+//    @PostMapping( value = "" )
+//    public Comments createComment( @RequestBody CreateCommentForm createCommentForm )
+//    {
+//        return this.commentsService.createComment( createCommentForm.getId(),createCommentForm.getContent());
+//    }
 
     // ***************
     // DELETE

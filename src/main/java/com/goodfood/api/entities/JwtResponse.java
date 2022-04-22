@@ -1,4 +1,4 @@
-package com.goodfood.api.request.employee;
+package com.goodfood.api.entities;
 
 import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.Employees;

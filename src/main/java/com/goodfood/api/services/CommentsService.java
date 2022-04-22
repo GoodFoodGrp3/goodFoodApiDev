@@ -12,5 +12,5 @@ public interface CommentsService
     Comments getCommentById(int id) throws CommentsNotFoundException;
     void deleteCommentById(int id);
     Comments updateComment(int id, String newContent);
-    Comments createComment(int id,String body);
+//    Comments createComment(int id,String body);
 }

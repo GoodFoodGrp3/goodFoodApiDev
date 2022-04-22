@@ -5,7 +5,6 @@ import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.CommentsRepository;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +28,6 @@ public class CommentsServicesImpl implements CommentsService
     @Autowired
     ErrorLogServices errorLogServices;
 
-    @Autowired
-    private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -118,12 +115,12 @@ public class CommentsServicesImpl implements CommentsService
     // POST/CREATE
     // ***************
 
-    @Override
-    public Comments createComment(int id, String body) throws CommentsNotFoundException
-    {
-        final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body,
-                authenticationService.getCurrentCustomer());
-
-        return this.commentsRepository.save(comment);
-    }
+//    @Override
+//    public Comments createComment(int id, String body) throws CommentsNotFoundException
+//    {
+//        final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body,
+////                authenticationService.getCurrentCustomer());
+//
+//        return this.commentsRepository.save(comment);
+//    }
 }

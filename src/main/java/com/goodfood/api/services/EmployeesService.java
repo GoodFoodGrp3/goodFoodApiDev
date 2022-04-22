@@ -1,6 +1,7 @@
 package com.goodfood.api.services;
 
 import com.goodfood.api.entities.Employees;
+import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
@@ -16,8 +17,10 @@ public interface EmployeesService
     List<Employees> getAllEmployees() throws EmployeesNotFoundException;
     Employees getEmployeeById(int id) throws EmployeesNotFoundException;
     Employees getEmployeeByUserName(String username);
-    Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm);
+    LoginDao updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm);
     void deleteById(int id);
     Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm);
-    Employees updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm);
+    LoginDao updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm);
+
+    LoginDao getEmployeeByEmployeeNumber(int id);
 }
