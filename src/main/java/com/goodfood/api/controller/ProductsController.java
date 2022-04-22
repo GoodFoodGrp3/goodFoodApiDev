@@ -1,10 +1,8 @@
 package com.goodfood.api.controller;
 import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Products;
-import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateProductsForm;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,6 @@ public class ProductsController
 
     @Autowired
     private ErrorLogServices errorLogServices;
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -56,8 +51,8 @@ public class ProductsController
     @PostMapping(value = "")
     public Products createProducts(@RequestBody CreateProductsForm createProductsForm)
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return this.productService.createProducts(createProductsForm.getId(), createProductsForm.getCategories(),
                 createProductsForm.getProductName(), createProductsForm.getProductDescription(),
@@ -73,8 +68,8 @@ public class ProductsController
     @Transactional
     public void delete( @PathVariable(value = "id") int id )
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         this.productService.deleteProductById(id);
     }
@@ -89,8 +84,8 @@ public class ProductsController
                                                   String product_name, String product_description,
                                                   int quantity_in_stock, double buy_price)
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return new ResponseEntity<>(this.productService.updateProduct(id, category_id, product_name, product_description, quantity_in_stock,buy_price), HttpStatus.OK);
     }

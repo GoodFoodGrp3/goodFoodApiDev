@@ -3,10 +3,8 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Provider;
-import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateProvidersForm;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProviderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +28,6 @@ public class ProviderController
 
     @Autowired
     private ErrorLogServices errorLogServices;
-
-    @Autowired
-    private AuthenticationService authenticationService;
 
 
     // ***************
@@ -59,8 +54,8 @@ public class ProviderController
     @PostMapping(value = "")
     public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm)
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return this.providerService.createProviders(createProvidersForm.getId(),
                 createProvidersForm.getProvider_name(), createProvidersForm.getAddressline(),
@@ -80,8 +75,8 @@ public class ProviderController
                                                    String addressline, String email, String phone, String country,
                                                    String postal_code, String state)
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return new ResponseEntity<>(this.providerService.updateProvider(id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK);
     }

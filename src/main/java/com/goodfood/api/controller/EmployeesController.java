@@ -1,14 +1,11 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Employees;
-import com.goodfood.api.entities.Error_log;
-import com.goodfood.api.entities.Status;
+import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.LoginForm;
 import com.goodfood.api.request.employee.*;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.joda.time.DateTime;
@@ -51,8 +48,7 @@ public class EmployeesController
     @Autowired
     private EmployeesRepository employeesRepository;
 
-    @Autowired
-    private AuthenticationService authentificationService;
+//    private AuthenticationService authentificationService;
 
     @Autowired
     private ErrorLogServices errorLogServices;
@@ -65,8 +61,8 @@ public class EmployeesController
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
-        Status status = authentificationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
+//        Status status = authentificationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
 
         return this.employeesService.getAllEmployees();
     }
@@ -74,23 +70,23 @@ public class EmployeesController
     @GetMapping(value = "/{id}")
     public Employees getEmployeeById(@PathVariable int id)
     {
-        Employees currentEmployee = authentificationService.getCurrentEmployee();
-        generatePrivilegeErrorIf( currentEmployee.getId() != id );
+//        Employees currentEmployee = authentificationService.getCurrentEmployee();
+//        generatePrivilegeErrorIf( currentEmployee.getId() != id );
 
         return this.employeesService.getEmployeeById( id );
     }
 
     @GetMapping(value = "/profile/search/{username}")
-    public Employees getEmployeeByUsername(@PathVariable String username)
+    public Employees getEmployeeByUsername( @PathVariable String username)
     {
         return employeesService.getEmployeeByUserName(username);
     }
 
-    @GetMapping("/current")
-    public ResponseEntity<Employees> getCurrentEmployee()
-    {
-        return new ResponseEntity<>(this.authentificationService.getCurrentEmployee(), HttpStatus.OK);
-    }
+//    @GetMapping("/current")
+//    public ResponseEntity<Employees> getCurrentEmployee()
+//    {
+//        return new ResponseEntity<>(this.authentificationService.getCurrentEmployee(), HttpStatus.OK);
+//    }
 
 
     // ***************
@@ -105,93 +101,93 @@ public class EmployeesController
         return new ResponseEntity<Employees>(employeesService.registerEmployee(registerEmployeeForm), HttpStatus.OK);
     }
 
-    @PostMapping( value = "/login" )
-    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginForm credentials, HttpServletRequest request)
-    {
-        final Authentication authentication;
-
-        Employees employees;
-        employees = null;
-
-        try
-        {
-            employees = this.employeesService.getEmployeesByFirstName(credentials.getUsername());
-
-            if (employees != null)
-            {
-                if ( employees.isIs_blocked())
-                {
-                    Timestamp now = new Timestamp(new DateTime().getMillis());
-                    long duration = now.getTime() - employees.getBlocked_date().getTime();
-                    long timeLeft = 9999;
-
-                    if (duration < BLOCKED_ACCOUNT_DURATION)
-                    {
-                        timeLeft = BLOCKED_ACCOUNT_DURATION - duration;
-                    }
-
-                    else
-                    {
-                        timeLeft = 0;
-                        employees.setBlocked_date(null);
-                        employees.setIs_blocked(false);
-                        employees.setCounter(3);
-                    }
-
-                    if (timeLeft > 0)
-                    {
-                        timeLeft = timeLeft / 1000 / 60;
-                        errorLogServices.recordLog(new Error_log( request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min."));
-                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min.");
-                    }
-                }
-            }
-
-            authentication = this.authentificationService.authentication( credentials.getUsername(),
-                    credentials.getPassword());
-
-            employees.setCounter(3);
-
-            // update of counter
-            employeesRepository.save(employees);
-
-        }
-
-        catch (AuthenticationException e)
-        {
-            if (employees != null)
-            {
-                employees.setCounter(employees.getCounter() - 1);
-
-                if (employees.getCounter() == 0)
-                {
-                    employees.setIs_blocked(true);
-                    employees.setBlocked_date(new Timestamp(new DateTime().getMillis()));
-                }
-
-                errorLogServices.recordLog(new Error_log(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + employees.getCounter()));
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + employees.getCounter());
-            }
-
-            errorLogServices.recordLog(new Error_log(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator."));
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator.");
-
-        }
-
-        employees.setCounter(3);
-        final Employees user = (Employees) authentication.getPrincipal();
-        user.setCounter(3);
-        final String token = this.authentificationService.loginEmployees(user);
-        return new ResponseEntity<>(new JwtResponse(user, token, authentication.getAuthorities()), HttpStatus.OK);
-    }
+//    @PostMapping( value = "/login" )
+//    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginForm credentials, HttpServletRequest request)
+//    {
+//        final Authentication authentication;
+//
+//        Employees employees;
+//        employees = null;
+//
+//        try
+//        {
+//            employees = this.employeesService.getEmployeesByFirstName(credentials.getUsername());
+//
+//            if (employees != null)
+//            {
+//                if ( employees.isIs_blocked())
+//                {
+//                    Timestamp now = new Timestamp(new DateTime().getMillis());
+//                    long duration = now.getTime() - employees.getBlocked_date().getTime();
+//                    long timeLeft = 9999;
+//
+//                    if (duration < BLOCKED_ACCOUNT_DURATION)
+//                    {
+//                        timeLeft = BLOCKED_ACCOUNT_DURATION - duration;
+//                    }
+//
+//                    else
+//                    {
+//                        timeLeft = 0;
+//                        employees.setBlocked_date(null);
+//                        employees.setIs_blocked(false);
+//                        employees.setCounter(3);
+//                    }
+//
+//                    if (timeLeft > 0)
+//                    {
+//                        timeLeft = timeLeft / 1000 / 60;
+//                        errorLogServices.recordLog(new ErrorLog( request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+//                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min."));
+//                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min.");
+//                    }
+//                }
+//            }
+//
+//            authentication = this.authentificationService.authentication( credentials.getUsername(),
+//                    credentials.getPassword());
+//
+//            employees.setCounter(3);
+//
+//            // update of counter
+//            employeesRepository.save(employees);
+//
+//        }
+//
+//        catch (AuthenticationException e)
+//        {
+//            if (employees != null)
+//            {
+//                employees.setCounter(employees.getCounter() - 1);
+//
+//                if (employees.getCounter() == 0)
+//                {
+//                    employees.setIs_blocked(true);
+//                    employees.setBlocked_date(new Timestamp(new DateTime().getMillis()));
+//                }
+//
+//                errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+//                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
+//                                + employees.getCounter()));
+//                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
+//                                + employees.getCounter());
+//            }
+//
+//            errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
+//                    "Wrong credentials, please try again or contact an administrator."));
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                    "Wrong credentials, please try again or contact an administrator.");
+//
+//        }
+//
+//        employees.setCounter(3);
+//        final Employees user = (Employees) authentication.getPrincipal();
+//        user.setCounter(3);
+//        final String token = this.authentificationService.loginEmployees(user);
+//        return new ResponseEntity<>(new JwtResponse(user, token, authentication.getAuthorities()), HttpStatus.OK);
+//    }
 
 
 
@@ -200,14 +196,14 @@ public class EmployeesController
     // ***************
 
     @PutMapping(value = "/profile/{id}/password")
-    public Employees updateEmployeePassword(@PathVariable int id,
-                                            @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm)
+    public LoginDao updateEmployeePassword(@PathVariable int id,
+                                           @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm)
     {
-        Employees currentEmployee = authentificationService.getCurrentEmployee();
-        Status status = authentificationService.getCurrentEmployee().getStatus();
-
-        generatePrivilegeErrorIf(currentEmployee.getId() != id && status != Status.ADMINISTRATEUR
-                && status != Status.RESTAURATEUR);
+//        Employees currentEmployee = authentificationService.getCurrentEmployee();
+//        Status status = authentificationService.getCurrentEmployee().getStatus();
+//
+//        generatePrivilegeErrorIf(currentEmployee.getId() != id && status != Status.ADMINISTRATEUR
+//                && status != Status.RESTAURATEUR);
 
         return employeesService.updatePassword(id, updateEmployeePasswordForm);
     }
@@ -218,21 +214,21 @@ public class EmployeesController
     {
         //constraintViolationCheck( errors, request );
 
-        Employees currentEmployee = authentificationService.getCurrentEmployee();
-        generatePrivilegeErrorIf( currentEmployee.getId() != id );
+//        Employees currentEmployee = authentificationService.getCurrentEmployee();
+//        generatePrivilegeErrorIf( currentEmployee.getId() != id );
 
         return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
     }
 
 
     @PutMapping( value = "/admin/{id}/status" )
-    public Employees updateEmployeesStatus( @PathVariable int id,
-                                      @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
+    public LoginDao updateEmployeesStatus(@PathVariable int id,
+                                          @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
     {
-        Status status = authentificationService.getCurrentEmployee().getStatus();
-        Employees employees = employeesService.getEmployeeById(id);
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
-        generatePrivilegeErrorIf( employees.getStatus() == Status.ADMINISTRATEUR );
+//        Status status = authentificationService.getCurrentEmployee().getStatus();
+        LoginDao user = employeesService.getEmployeeByEmployeeNumber(id);
+//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
+        generatePrivilegeErrorIf( user.getStatus() == Status.ADMINISTRATEUR );
 
         return employeesService.updateStatus(id, updateEmployeeStatusForm);
     }
@@ -244,8 +240,8 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-        Status status = this.authentificationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+//        Status status = this.authentificationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         this.employeesService.deleteById(id);
     }
@@ -277,7 +273,7 @@ public class EmployeesController
                 exceptionMessage += violation.getMessage();
             }
             errorLogServices
-                    .recordLog(new Error_log(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
+                    .recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.BAD_REQUEST, exceptionMessage));
             throw new ConstraintViolationException(exceptionMessage);
         }
     }
@@ -286,7 +282,7 @@ public class EmployeesController
     {
         if (test)
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities."));
             throw new EmployeeStatusException();
         }

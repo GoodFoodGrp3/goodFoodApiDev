@@ -5,7 +5,6 @@ import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCommoditiesForm;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommodityService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,7 @@ public class CommodityController
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    private AuthenticationService authenticationService;
+    //private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -57,8 +55,8 @@ public class CommodityController
     @PostMapping( value = "" )
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+        /*Status status = authenticationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);*/
 
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
                 createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(),
@@ -90,8 +88,8 @@ public class CommodityController
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf( status != Status.RESTAURATEUR || status != Status.RESTAURATEUR || status != Status.ADMINISTRATEUR);
+        /*Status status = authenticationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf( status != Status.RESTAURATEUR || status != Status.RESTAURATEUR || status != Status.ADMINISTRATEUR);*/
 
         this.commodityService.deleteCommodityById(id);
     }

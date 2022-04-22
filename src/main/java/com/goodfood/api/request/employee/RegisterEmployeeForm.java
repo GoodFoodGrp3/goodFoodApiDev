@@ -12,13 +12,17 @@ import javax.validation.constraints.Size;
 public class RegisterEmployeeForm
 {
     @NotNull(message = "Un statut est requis")
-    @NotBlank( message = "Un statut ne peut être vide" )
+//    @NotBlank( message = "Un statut ne peut être vide" )
     @Enumerated( EnumType.STRING )
     private Status status;
 
     @NotNull(message = "Un pseudo est requis")
     @NotBlank(message = "Un pseudo ne peut être vide")
     private String username;
+
+    @NotNull(message = "Un nom d'utilisateur est requis")
+    @NotBlank(message = "Un nom ne peut être vide")
+    private String lastname;
 
     @NotBlank(message = "l'adresse mail ne peut être vide")
     @NotNull(message = "l'adresse mail est requise")
@@ -45,19 +49,18 @@ public class RegisterEmployeeForm
 
     }
 
-    public RegisterEmployeeForm(Status status, String username, String email, int succursale, String password, String cpassword )
-    {
-        super();
+    public RegisterEmployeeForm(Status status, String username, String lastname, String email, int succursale, String password, String cpassword) {
         this.status = status;
         this.username = username;
-        this.succursale = succursale;
+        this.lastname = lastname;
         this.email = email;
+        this.succursale = succursale;
         this.password = password;
         this.cpassword = cpassword;
     }
 
 
-    // ***************
+// ***************
     // GETTER AND SETTER
     // ***************
 
@@ -119,5 +122,13 @@ public class RegisterEmployeeForm
     public void setCpassword( String cpassword )
     {
         this.cpassword = cpassword;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 }
