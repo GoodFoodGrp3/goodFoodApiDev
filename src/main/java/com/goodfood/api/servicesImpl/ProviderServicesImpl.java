@@ -1,7 +1,7 @@
 package com.goodfood.api.servicesImpl;
 
 
-import com.goodfood.api.entities.Error_log;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Provider;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
@@ -41,7 +41,7 @@ public class ProviderServicesImpl implements ProviderService
 
         if (getAllProviders == null || getAllProviders.isEmpty())
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucun fournisseur trouvé"));
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun fournisseur trouvé"));
             throw new ProductsNotFoundException( "Aucun fournisseur trouvé" );
         }
 
@@ -55,7 +55,7 @@ public class ProviderServicesImpl implements ProviderService
 
         if(provider == null)
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le fournisseur n° " + id
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le fournisseur n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "Le fournisseur n° " + id + " est introuvable");
         }
@@ -79,7 +79,7 @@ public class ProviderServicesImpl implements ProviderService
 
         if (provider == null)
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format( "None provider could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None provider could be found with the id %d", id));

@@ -127,7 +127,7 @@ public class EmployeesServiceImpl implements EmployeesService
 
         if (employees == null || employees.isEmpty())
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Aucun employee trouvé"));
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun employee trouvé"));
             throw new EmployeesNotFoundException( "Aucun employee trouvé" );
         }
 
@@ -145,7 +145,7 @@ public class EmployeesServiceImpl implements EmployeesService
         if (employees == null)
         {
             errorLogServices
-                    .recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "L'employee n° " + id + " est introuvable" ) );
+                    .recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "L'employee n° " + id + " est introuvable" ) );
             throw new EmployeesNotFoundException( "L'employee n° " + id + " est introuvable" );
         }
 
@@ -195,7 +195,7 @@ public class EmployeesServiceImpl implements EmployeesService
 
         catch (Exception e)
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.INTERNAL_SERVER_ERROR,
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
                     "Password encoding failed"));
             e.getMessage();
             return null;
@@ -254,7 +254,7 @@ public class EmployeesServiceImpl implements EmployeesService
 
         if ( employees == null )
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format( "None employee could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None employee could be found with the id %d", id));
@@ -274,7 +274,7 @@ public class EmployeesServiceImpl implements EmployeesService
         if (email != null && employeesRepository.findByEmail( email ) != null)
         {
             errorLogServices
-                    .recordLog( new Error_log( null, HttpStatus.BAD_REQUEST,
+                    .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Cette adresse mail n'est pas valide, merci d'en choisir une autre."));
             throw new EmployeeValidationException(
                     "Cette adresse mail n'est pas valide, merci d'en choisir une autre.");
@@ -287,7 +287,7 @@ public class EmployeesServiceImpl implements EmployeesService
         if (username != null && employeesRepository.findByFirstname( username ) != null)
         {
             errorLogServices
-                    .recordLog( new Error_log( null, HttpStatus.BAD_REQUEST,
+                    .recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Ce pseudo n'est pas valide, merci d'en choisir un autre."));
             throw new EmployeeValidationException("Ce pseudo n'est pas valide, merci d'en choisir un autre.");
         }
@@ -298,7 +298,7 @@ public class EmployeesServiceImpl implements EmployeesService
         if (!password.equals( confirmation))
         {
             errorLogServices
-                    .recordLog(new Error_log( null, HttpStatus.BAD_REQUEST,
+                    .recordLog(new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Les deux mots de passe ne correspondent pas."));
             throw new EmployeeValidationException( "Les deux mots de passe ne correspondent pas.");
         }
