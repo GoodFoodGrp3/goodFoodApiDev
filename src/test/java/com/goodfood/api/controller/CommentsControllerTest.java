@@ -33,17 +33,17 @@ public class CommentsControllerTest
     String token;
     String token2;
 
-    @BeforeEach
-    public void setUp()
-    {
-        LoginForm loginform = new LoginForm("Melissa06","test");
-
-        token = customersController.login(loginform, null).getBody().getToken();
-/*
-        LoginForm loginform2 = new LoginForm("gaetan","test");
-
-        token2 = employeesController.login(loginform2, null).getBody().getToken();*/
-    }
+//    @BeforeEach
+//    public void setUp()
+//    {
+//        LoginForm loginform = new LoginForm("Melissa06","test");
+//
+//        token = customersController.login(loginform, null).getBody().getToken();
+///*
+//        LoginForm loginform2 = new LoginForm("gaetan","test");
+//
+//        token2 = employeesController.login(loginform2, null).getBody().getToken();*/
+//    }
 
     @Autowired
     private MockMvc mockMvc;
