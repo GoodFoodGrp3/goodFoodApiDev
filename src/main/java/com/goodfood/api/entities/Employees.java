@@ -10,12 +10,11 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Set;
-
 @Entity
-@SQLDelete(sql = "UPDATE employees SET deleted = true WHERE employee_id= ?")
-@Where(clause = "deleted=false")
+/*@SQLDelete(sql = "UPDATE login SET deleted = true WHERE employee_id= ?")
+@Where(clause = "deleted=false")*/
 @Table(name = "employees")
-public class Employees implements UserDetails
+public class Employees
 {
     @Column(name = "employee_id")
     @org.springframework.data.annotation.Id
@@ -30,12 +29,6 @@ public class Employees implements UserDetails
     @JsonIgnore
     @OneToMany(mappedBy = "employees")
     private Set<Order_commodity> order_commodity;
-
-    @Column(name = "activated_account")
-    private boolean activated_account;
-
-    @Column(name = "password")
-    private String password;
 
     @Column(name = "lastname")
     private String lastname;
@@ -52,25 +45,6 @@ public class Employees implements UserDetails
     @Column(name = "reports_to")
     private Integer reports_to;
 
-    @Column(name = "status")
-    @Enumerated(EnumType.STRING)
-    private Status status;
-
-    @Column(name = "is_blocked")
-    private boolean is_blocked;
-
-    @Column(name = "counter")
-    private int counter;
-
-    @Column(name = "blocked_date")
-    private Timestamp blocked_date;
-
-    @Column(name = "deleted")
-    private boolean deleted = Boolean.FALSE;
-
-    @Transient
-    private Collection<? extends GrantedAuthority> authorities;
-
 
     // ***************
     // CONSTRUCTOR
@@ -78,10 +52,6 @@ public class Employees implements UserDetails
 
     public Employees()
     {
-        this.activated_account = true;
-        this.status = Status.RESTAURATEUR;
-        this.is_blocked = false;
-        this.counter = 3;
     }
 
 
@@ -113,26 +83,6 @@ public class Employees implements UserDetails
     public void setOrder_commodity(Set<Order_commodity> order_commodity)
     {
         this.order_commodity = order_commodity;
-    }
-
-    public boolean isActivated_account()
-    {
-        return activated_account;
-    }
-
-    public void setActivated_account(boolean activated_account)
-    {
-        this.activated_account = activated_account;
-    }
-
-    public String getPassword()
-    {
-        return password;
-    }
-
-    public void setPassword(String password)
-    {
-        this.password = password;
     }
 
     public String getLastname()
@@ -183,98 +133,5 @@ public class Employees implements UserDetails
     public void setReports_to(Integer reports_to)
     {
         this.reports_to = reports_to;
-    }
-
-    public Status getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(Status status)
-    {
-        this.status = status;
-    }
-
-    @Override
-    public String getUsername()
-    {
-        return firstname;
-    }
-
-    @Override
-    public boolean isAccountNonExpired()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled()
-    {
-        return true;
-    }
-
-    @JsonIgnore
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities()
-    {
-        return authorities;
-    }
-
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities)
-    {
-        this.authorities = authorities;
-    }
-
-    public boolean isIs_blocked()
-    {
-        return is_blocked;
-    }
-
-    public void setIs_blocked(boolean isBlocked) {
-        this.is_blocked = isBlocked;
-    }
-
-    @JsonIgnore
-    public int getCounter()
-    {
-        return counter;
-    }
-
-    @JsonIgnore
-    public void setCounter( int counter)
-    {
-        this.counter = counter;
-    }
-
-    public Timestamp getBlocked_date()
-    {
-        return blocked_date;
-    }
-
-    public void setBlocked_date(Timestamp blockedDate)
-    {
-        this.blocked_date = blockedDate;
-    }
-
-    public boolean isDeleted()
-    {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted)
-    {
-        this.deleted = deleted;
     }
 }

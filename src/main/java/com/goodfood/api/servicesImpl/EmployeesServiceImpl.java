@@ -1,9 +1,11 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.*;
+import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.employees.EmployeeValidationException;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.repositories.EmployeesRepository;
+import com.goodfood.api.repositories.LoginRepository;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import xin.altitude.cms.common.util.SpringUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +36,13 @@ public class EmployeesServiceImpl implements EmployeesService
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    private BCryptPasswordEncoder bcrypt;
+    @Autowired
+    private LoginRepository loginRepository;
+
+
+    private BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return SpringUtils.getBean(BCryptPasswordEncoder.class);
+    }
 
 
     // ***************
@@ -59,6 +68,8 @@ public class EmployeesServiceImpl implements EmployeesService
 
         Order_commodity order_commodity = new Order_commodity();
 
+        LoginDao loginEntity = new LoginDao();
+
         // validation des attributs
         validationEmail(registerEmployeeForm.getEmail());
         employees.setEmail(registerEmployeeForm.getEmail());
@@ -66,18 +77,26 @@ public class EmployeesServiceImpl implements EmployeesService
         validationUsername(registerEmployeeForm.getUsername());
         employees.setFirstname(registerEmployeeForm.getUsername());
 
+        employees.setLastname(registerEmployeeForm.getLastname());
+
         offices.setId(registerEmployeeForm.getSuccursale());
         employees.setOffice_id(offices);
+
         employees.setOrder_commodity(Collections.singleton(order_commodity));
-        employees.setStatus(registerEmployeeForm.getStatus());
+        loginEntity.setStatus(registerEmployeeForm.getStatus());
+
+        loginEntity.setLogin(registerEmployeeForm.getUsername());
 
         validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
-        employees.setPassword(this.bcrypt.encode(registerEmployeeForm.getPassword()));
+        loginEntity.setPassword(this.getBCryptPasswordEncoder().encode(registerEmployeeForm.getPassword()));
 
         try
         {
             // save in database
             employeesRepository.save(employees);
+            employeesRepository.findByFirstname(employees.getFirstname());
+            loginEntity.setEmployeeNumber(employees);
+            loginRepository.save(loginEntity);
         }
 
         catch (Exception e)
@@ -85,6 +104,8 @@ public class EmployeesServiceImpl implements EmployeesService
             e.getMessage();
             return null;
         }
+
+
 
         return employees;
     }
@@ -137,21 +158,39 @@ public class EmployeesServiceImpl implements EmployeesService
         return this.employeesRepository.findByFirstname(username);
     }
 
+    //ERROR LOG A RAJOUTER ////////////////////////////////////////////////////////////////////////
+    public LoginDao getLoginByEmployeeId(int id) throws CustomersNotFoundException
+    {
+        LoginDao userToModify = loginRepository.findByEmployeeNumber(id);
+
+//        if (userToModify == null)
+//        {
+//            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
+//                    " est introuvable"));
+//            throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
+//        }
+//
+//        else
+//        {
+//            return this.loginRepository.getUserByCustomerNumber(id);
+//        }
+        return userToModify;
+    }
 
     // ***************
     // PUT/UPDATE
     // ***************
 
     @Override
-    public Employees updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm)
+    public LoginDao updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm)
     {
         // get member
-        Employees employees = this.getEmployeeById(id);
+        LoginDao user = this.getLoginByEmployeeId(id);
 
         // validate password and encrypt it
         try
         {
-            employees.setPassword( this.bcrypt.encode( updateEmployeePasswordForm.getPassword()));
+            user.setPassword( this.getBCryptPasswordEncoder().encode( updateEmployeePasswordForm.getPassword()));
         }
 
         catch (Exception e)
@@ -163,10 +202,10 @@ public class EmployeesServiceImpl implements EmployeesService
         }
 
         // update of password in database
-        employeesRepository.updatePassword(id, employees.getPassword());
+        employeesRepository.updatePassword(id, user.getPassword());
         System.out.println( "Password correctly modified");
 
-        return employees;
+        return user;
     }
 
     @Override
@@ -188,14 +227,19 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
     @Override
-    public Employees updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm)
+    public LoginDao updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm)
     {
-        Employees employees = this.getEmployeeById(id);
+        LoginDao user = this.getLoginByEmployeeId(id);
 
-        employees.setStatus( updateEmployeeStatusForm.getStatus() );
-        this.employeesRepository.updateStatus( id, employees.getStatus().name()); // SQL query needs strings
+        user.setStatus( updateEmployeeStatusForm.getStatus() );
+        this.employeesRepository.updateStatus( id, user.getStatus().name()); // SQL query needs strings
 
-        return employees;
+        return user;
+    }
+
+    @Override
+    public LoginDao getEmployeeByEmployeeNumber(int id) {
+        return this.loginRepository.findByEmployeeNumber(id);
     }
 
 

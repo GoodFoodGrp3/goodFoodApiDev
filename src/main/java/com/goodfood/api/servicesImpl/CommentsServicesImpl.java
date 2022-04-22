@@ -1,10 +1,10 @@
 package com.goodfood.api.servicesImpl;
 
 import com.goodfood.api.entities.Comments;
-import com.goodfood.api.entities.Error_log;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.CommentsRepository;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,6 @@ public class CommentsServicesImpl implements CommentsService
     @Autowired
     ErrorLogServices errorLogServices;
 
-    @Autowired
-    private AuthenticationService authenticationService;
 
     // ***************
     // GET
@@ -42,8 +40,8 @@ public class CommentsServicesImpl implements CommentsService
 
         if (getAllComments == null || getAllComments.isEmpty())
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND, "Aucun commentaires trouvé"));
-            throw new CommentsNotFoundException( "Aucun commentaires trouvé" );
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, "Aucun commentaires trouvé"));
+            throw new ProductsNotFoundException( "Aucun commentaires trouvé" );
         }
 
         return getAllComments;
@@ -56,7 +54,7 @@ public class CommentsServicesImpl implements CommentsService
 
         if(comments == null)
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le commentaire n° " + id
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le commentaire n° " + id
                     + " est introuvable"));
             throw new CommentsNotFoundException( "Le commentaire n° " + id + " est introuvable");
         }
@@ -79,7 +77,7 @@ public class CommentsServicesImpl implements CommentsService
 
         if (comment == null)
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format( "None Comment could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format( "None Comment could be found with the id %d", id));
@@ -100,7 +98,7 @@ public class CommentsServicesImpl implements CommentsService
 
         if (comment == null)
         {
-            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND,
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND,
                     String.format("None Comment could be found with the id %d", id)));
             throw new ResponseStatusException( HttpStatus.NOT_FOUND,
                     String.format("None Comment could be found with the id %d", id));
@@ -117,12 +115,12 @@ public class CommentsServicesImpl implements CommentsService
     // POST/CREATE
     // ***************
 
-    @Override
-    public Comments createComment(int id, String body) throws CommentsNotFoundException
-    {
-        final Comments comment = new Comments(authenticationService.getCurrentCustomer(), body,
-                new Timestamp( System.currentTimeMillis()));
-
-        return this.commentsRepository.save(comment);
-    }
+//    @Override
+//    public Comments createComment(int id, String body) throws CommentsNotFoundException
+//    {
+//        final Comments comment = new Comments(new Timestamp( System.currentTimeMillis()), body,
+////                authenticationService.getCurrentCustomer());
+//
+//        return this.commentsRepository.save(comment);
+//    }
 }
