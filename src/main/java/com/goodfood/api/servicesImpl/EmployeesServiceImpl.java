@@ -6,9 +6,9 @@ import com.goodfood.api.exceptions.employees.EmployeeValidationException;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.repositories.LoginRepository;
+import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;
 import com.goodfood.api.request.employee.UpdateEmployeeForm;
-import com.goodfood.api.request.employee.UpdateEmployeePasswordForm;
 import com.goodfood.api.request.employee.UpdateEmployeeStatusForm;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -58,6 +58,31 @@ public class EmployeesServiceImpl implements EmployeesService
     // ***************
     // PUT/REGISTER
     // ***************
+    public LoginDao updatePassword(int id, UpdateUserPasswordForm updateEmployeePasswordForm)
+    {
+        // get member
+        LoginDao user = this.getLoginByEmployeeId(id);
+
+        // validate password and encrypt it
+        try
+        {
+            user.setPassword( this.getBCryptPasswordEncoder().encode( updateEmployeePasswordForm.getPassword()));
+        }
+
+        catch (Exception e)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
+                    "Password encoding failed"));
+            e.getMessage();
+            return null;
+        }
+
+        // update of password in database
+        employeesRepository.updatePassword(id, user.getPassword());
+        System.out.println( "Password correctly modified");
+
+        return user;
+    }
 
     @Override
     public Employees registerEmployee(RegisterEmployeeForm registerEmployeeForm)
@@ -158,55 +183,26 @@ public class EmployeesServiceImpl implements EmployeesService
         return this.employeesRepository.findByFirstname(username);
     }
 
-    //ERROR LOG A RAJOUTER ////////////////////////////////////////////////////////////////////////
     public LoginDao getLoginByEmployeeId(int id) throws CustomersNotFoundException
     {
         LoginDao userToModify = loginRepository.findByEmployeeNumber(id);
 
-//        if (userToModify == null)
-//        {
-//            errorLogServices.recordLog(new Error_log( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
-//                    " est introuvable"));
-//            throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
-//        }
-//
-//        else
-//        {
-//            return this.loginRepository.getUserByCustomerNumber(id);
-//        }
-        return userToModify;
+        if (userToModify == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
+                    " est introuvable"));
+            throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
+        }
+
+        else
+        {
+            return userToModify;
+        }
     }
 
     // ***************
     // PUT/UPDATE
     // ***************
-
-    @Override
-    public LoginDao updatePassword(int id, UpdateEmployeePasswordForm updateEmployeePasswordForm)
-    {
-        // get member
-        LoginDao user = this.getLoginByEmployeeId(id);
-
-        // validate password and encrypt it
-        try
-        {
-            user.setPassword( this.getBCryptPasswordEncoder().encode( updateEmployeePasswordForm.getPassword()));
-        }
-
-        catch (Exception e)
-        {
-            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.INTERNAL_SERVER_ERROR,
-                    "Password encoding failed"));
-            e.getMessage();
-            return null;
-        }
-
-        // update of password in database
-        employeesRepository.updatePassword(id, user.getPassword());
-        System.out.println( "Password correctly modified");
-
-        return user;
-    }
 
     @Override
     public Employees updateEmployeeProfile(int id, UpdateEmployeeForm updateEmployeeForm)

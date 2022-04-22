@@ -4,9 +4,10 @@ import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.customers.CustomersValidationException;
 import com.goodfood.api.repositories.CustomersRepository;
+import com.goodfood.api.repositories.LoginRepository;
+import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
-import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import xin.altitude.cms.common.util.SpringUtils;
 
-import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,7 +33,12 @@ public class CustomersServicesImpl implements CustomersService
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    private BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private LoginRepository loginRepository;
+
+    private BCryptPasswordEncoder getBCryptPasswordEncoder() {
+        return SpringUtils.getBean(BCryptPasswordEncoder.class);
+    }
 
 
     // ***************
@@ -58,34 +64,49 @@ public class CustomersServicesImpl implements CustomersService
 
         Comments comments = new Comments();
 
+        LoginDao loginEntity = new LoginDao();
+
         // validation des attributs
         customers.setOrders(Collections.singleton(orders));
         customers.setComments(Collections.singleton(comments));
 
 
         validationUsername(registerCustomerForm.getUsername());
-        customers.setCustomername(registerCustomerForm.getUsername());
+        loginEntity.setLogin(registerCustomerForm.getUsername());
 
-        customers.setContact_lastname(registerCustomerForm.getLastname());
-        customers.setContact_firstname(registerCustomerForm.getFirstname());
+        customers.setLastname(registerCustomerForm.getLastname());
+
+        customers.setFirstname(registerCustomerForm.getFirstname());
+
         customers.setPhone(registerCustomerForm.getPhone());
+
         customers.setAddressline1(registerCustomerForm.getAddressline1());
+
         customers.setAddressline2(registerCustomerForm.getAddressline2());
+
         customers.setCity(registerCustomerForm.getCity());
+
         customers.setState(registerCustomerForm.getState());
+
         customers.setPostal_code(registerCustomerForm.getPostalCode());
+
         customers.setCountry(registerCustomerForm.getCountry());
 
         validationEmail( registerCustomerForm.getEmail() );
         customers.setEmail(registerCustomerForm.getEmail());
 
+        loginEntity.setStatus(Status.UTILISATEUR);
+
         validationPasswords(registerCustomerForm.getPassword(), registerCustomerForm.getCpassword());
-        customers.setPassword(this.bCryptPasswordEncoder.encode(registerCustomerForm.getPassword()));
+        loginEntity.setPassword(getBCryptPasswordEncoder().encode(registerCustomerForm.getPassword()));
 
         try
         {
             // save in database
             customersRepository.save(customers);
+            customersRepository.findByEmail(customers.getEmail());
+            loginEntity.setCustomerNumber(customers);
+            loginRepository.save(loginEntity);
         }
 
         catch (Exception e)
@@ -141,7 +162,7 @@ public class CustomersServicesImpl implements CustomersService
     @Override
     public Customers getCustomerByUserName(String username)
     {
-        return this.customersRepository.findByCustomername(username);
+        return this.customersRepository.findByFirstname(username);
     }
 
 
@@ -175,12 +196,10 @@ public class CustomersServicesImpl implements CustomersService
     {
         Customers customers = this.getCustomerById(id);
 
-        if (updateCustomerForm.getCustomername() != null)
-            customers.setCustomername(updateCustomerForm.getCustomername());
         if (updateCustomerForm.getContact_lastname() != null)
-            customers.setContact_lastname(updateCustomerForm.getContact_lastname());
+            customers.setLastname(updateCustomerForm.getContact_lastname());
         if (updateCustomerForm.getContact_firstname() != null)
-            customers.setContact_firstname(updateCustomerForm.getContact_firstname());
+            customers.setFirstname(updateCustomerForm.getContact_firstname());
         if (updateCustomerForm.getPhone() != null)
             customers.setPhone(updateCustomerForm.getPhone());
         if (updateCustomerForm.getAddressline1() != null)
@@ -198,7 +217,7 @@ public class CustomersServicesImpl implements CustomersService
         if (updateCustomerForm.getEmail() != null)
             customers.setEmail(updateCustomerForm.getEmail());
 
-        customers.setModification_time(new Timestamp(System.currentTimeMillis()));
+//        customers.setModification_time(new Timestamp(System.currentTimeMillis()));
 
         customersRepository.updateCustomerProfile(id);
 
@@ -206,15 +225,14 @@ public class CustomersServicesImpl implements CustomersService
     }
 
     @Override
-    public Customers updatePassword(int id, UpdateCustomerPasswordForm updateCustomerPasswordForm)
-    {
+    public LoginDao updatePassword(int id, UpdateUserPasswordForm updateCustomerPasswordForm) {
         // get member
-        Customers customers = this.getCustomerById(id);
+        LoginDao user = this.getLoginByCustomerId(id);
 
         // validate password and encrypt it
         try
         {
-            customers.setPassword( this.bCryptPasswordEncoder.encode(updateCustomerPasswordForm.getPassword()));
+            user.setPassword( this.getBCryptPasswordEncoder().encode( updateCustomerPasswordForm.getPassword()));
         }
 
         catch (Exception e)
@@ -226,11 +244,29 @@ public class CustomersServicesImpl implements CustomersService
         }
 
         // update of password in database
-        customersRepository.updatePassword(id, customers.getPassword());
+        customersRepository.updatePassword(id, user.getPassword());
         System.out.println( "Password correctly modified");
 
-        return customers;
+        return user;
     }
+
+    public LoginDao getLoginByCustomerId(int id) throws CustomersNotFoundException
+    {
+        LoginDao userToModify = loginRepository.findByEmployeeNumber(id);
+
+        if (userToModify == null)
+        {
+            errorLogServices.recordLog(new ErrorLog( null, HttpStatus.NOT_FOUND, "Le customer n° " + id +
+                    " est introuvable"));
+            throw new CustomersNotFoundException( "Le customer n° " + id + " est introuvable" );
+        }
+
+        else
+        {
+            return userToModify;
+        }
+    }
+
 
     // ***********************
     // DATA VALIDATION METHODS
@@ -249,7 +285,7 @@ public class CustomersServicesImpl implements CustomersService
 
     private void validationUsername( String username ) throws CustomersValidationException
     {
-        if ( username != null && customersRepository.findByCustomername( username ) != null )
+        if ( username != null && customersRepository.findByFirstname( username ) != null )
         {
             errorLogServices.recordLog( new ErrorLog( null, HttpStatus.BAD_REQUEST,
                             "Ce pseudo n'est pas valide, merci d'en choisir un autre." ) );

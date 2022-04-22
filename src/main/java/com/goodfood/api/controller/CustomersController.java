@@ -2,12 +2,13 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.repositories.CustomersRepository;
+import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.customer.RegisterCustomerForm;
 import com.goodfood.api.request.customer.UpdateCustomerForm;
-import com.goodfood.api.request.customer.UpdateCustomerPasswordForm;
 import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -210,8 +211,8 @@ public class CustomersController
     }
 
     @PutMapping(value = "/profile/{id}/password")
-    public Customers updateCustomerPassword(@PathVariable int id,
-                                            @RequestBody UpdateCustomerPasswordForm updateCustomerPassword)
+    public LoginDao updateCustomerPassword(@PathVariable int id,
+                                           @RequestBody UpdateUserPasswordForm updateCustomerPassword)
     {
         //Customers currentCustomer = authentificationService.getCurrentCustomer();
         //Status status = authentificationService.getCurrentCustomer().getStatus();
