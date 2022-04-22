@@ -67,8 +67,8 @@ public class CommentsController
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status == Status.UTILISATEUR);
+        /*Status status = authenticationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status == Status.UTILISATEUR);*/
 
         this.commentsService.deleteCommentById( id );
     }

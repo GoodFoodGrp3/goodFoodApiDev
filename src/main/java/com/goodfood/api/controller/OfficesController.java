@@ -54,8 +54,8 @@ public class OfficesController
     @PostMapping(value = "")
     public Offices createOffices(@RequestBody CreateOfficesForm createOfficesForm)
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+        /*Status status = authenticationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);*/
 
         return this.officesService.createOffices(createOfficesForm.getId(), createOfficesForm.getCity(),
                 createOfficesForm.getPhone(), createOfficesForm.getAddressline1(),
@@ -69,8 +69,8 @@ public class OfficesController
                                                 String addressLine1, String addressLine2, String state,
                                                 String country, String postal_code )
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+       /* Status status = authenticationService.getCurrentEmployee().getStatus();
+        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);*/
 
         return new ResponseEntity<>( this.officesService.updateOffice(id, city, phone, addressLine1, addressLine2,state,
                 country,postal_code), HttpStatus.OK);

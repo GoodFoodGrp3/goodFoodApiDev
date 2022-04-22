@@ -4,29 +4,35 @@ import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.Employees;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.io.Serializable;
 import java.util.Collection;
 
-public class JwtResponse
+public class JwtResponse implements Serializable
 {
-    private Employees user;
+    private static final long serialVersionUID = -8091879091924046844L;
+    private final String jwttoken;
 
-    private String token;
-
+/*    private Employees user;
     private Customers customers;
+    private Collection<? extends GrantedAuthority> authorities;*/
 
-    private Collection<? extends GrantedAuthority> authorities;
 
 
     // ***************
     // CONSTRUCTOR
     // ***************
 
-    public JwtResponse()
+    public JwtResponse(String jwttoken)
     {
-
+        this.jwttoken = jwttoken;
     }
 
-    public JwtResponse(Employees user, String token, Collection<? extends GrantedAuthority> authorities)
+
+    public String getToken() {
+        return this.jwttoken;
+    }
+
+    /*public JwtResponse(Employees user, String token, Collection<? extends GrantedAuthority> authorities)
     {
         this.user = user;
         this.token = token;
@@ -38,9 +44,9 @@ public class JwtResponse
         this.token = token;
         this.customers = customers;
         this.authorities = authorities;
-    }
+    }*/
 
-    public Employees getUser()
+    /*public Employees getUser()
     {
         return user;
     }
@@ -58,5 +64,5 @@ public class JwtResponse
     public Customers getCustomers()
     {
         return customers;
-    }
+    }*/
 }
