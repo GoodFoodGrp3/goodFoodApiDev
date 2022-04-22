@@ -1,14 +1,15 @@
-package com.goodfood.api.services;
+package com.goodfood.api.servicesImpl;
 
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.repositories.LoginRepository;
+import com.goodfood.api.request.UpdateUserPasswordForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,11 +37,4 @@ public class JwtUserDetailsService implements UserDetailsService {
         loginRepository.save(user);
     }
 
-
-//   this.LoginRepository.save(UserDto user) {
-//        UserDao newUser = new UserDao();
-//        newUser.setUsername(user.getUsername());
-//        newUser.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-//        return userDao.save(newUser);
-//    }
 }

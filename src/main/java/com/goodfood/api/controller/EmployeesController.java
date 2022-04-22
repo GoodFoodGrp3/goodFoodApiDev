@@ -4,25 +4,20 @@ import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.repositories.EmployeesRepository;
-import com.goodfood.api.request.LoginForm;
+import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.employee.*;
 import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,7 +192,7 @@ public class EmployeesController
 
     @PutMapping(value = "/profile/{id}/password")
     public LoginDao updateEmployeePassword(@PathVariable int id,
-                                           @RequestBody UpdateEmployeePasswordForm updateEmployeePasswordForm)
+                                           @RequestBody UpdateUserPasswordForm updateEmployeePasswordForm)
     {
 //        Employees currentEmployee = authentificationService.getCurrentEmployee();
 //        Status status = authentificationService.getCurrentEmployee().getStatus();

@@ -1,6 +1,6 @@
-package com.goodfood.api.request.customer;
+package com.goodfood.api.request;
 
-public class UpdateCustomerPasswordForm
+public class UpdateUserPasswordForm
 {
     private String password;
 
@@ -11,13 +11,14 @@ public class UpdateCustomerPasswordForm
     // CONSTRUCTOR
     // ***************
 
-    public UpdateCustomerPasswordForm()
+    public UpdateUserPasswordForm()
     {
 
     }
 
-    public UpdateCustomerPasswordForm(String password, String cpassword)
+    public UpdateUserPasswordForm(String password, String cpassword )
     {
+        super();
         this.password = password;
         this.cpassword = cpassword;
     }
@@ -32,7 +33,7 @@ public class UpdateCustomerPasswordForm
         return password;
     }
 
-    public void setPassword(String password)
+    public void setPassword( String password )
     {
         this.password = password;
     }
@@ -42,7 +43,7 @@ public class UpdateCustomerPasswordForm
         return cpassword;
     }
 
-    public void setCpassword(String cpassword)
+    public void setCpassword( String cpassword )
     {
         this.cpassword = cpassword;
     }

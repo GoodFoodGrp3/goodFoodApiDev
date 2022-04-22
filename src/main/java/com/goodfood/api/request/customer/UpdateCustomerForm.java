@@ -2,8 +2,7 @@ package com.goodfood.api.request.customer;
 
 import javax.validation.constraints.NotBlank;
 
-public class UpdateCustomerForm
-{
+public class UpdateCustomerForm {
     @NotBlank(message = "Un pseudo ne peut être vide")
     private String customername;
 

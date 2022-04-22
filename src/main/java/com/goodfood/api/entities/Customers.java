@@ -1,20 +1,19 @@
 package com.goodfood.api.entities;
 
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Set;
 
 
 @Entity
-@SQLDelete(sql = "UPDATE customers SET deleted = true WHERE customer_id= ?")
-@Where(clause = "deleted=false")
+//@SQLDelete(sql = "UPDATE customers SET deleted = true WHERE customer_id= ?")
+//@Where(clause = "deleted=false")
 @Table(name = "customers")
+
 public class Customers
 {
+
     @Column(name = "customer_id")
     @org.springframework.data.annotation.Id
     @Id
@@ -22,29 +21,19 @@ public class Customers
     private int id;
 
     ///// RELATION /////
-
+    @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Orders> orders;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Comments> comments;
 
     ///// RELATION /////
-
-    @Column(name = "activated_account")
-    private boolean activated_account;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "customername")
-    private String customername;
-
     @Column(name = "contact_lastname")
-    private String contact_lastname;
+    private String lastname;
 
     @Column(name = "contact_firstname")
-    private String contact_firstname;
+    private String firstname;
 
     @Column(name = "phone")
     private String phone;
@@ -69,35 +58,6 @@ public class Customers
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "is_customer_actif")
-    private boolean is_customer_actif;
-
-    @Column(name = "creation_time")
-    private Timestamp creation_time;
-
-  /*  @Column( name = "creation_time_utc" )
-    private Timestamp creation_time_utc;*/
-
-    @Column(name = "modification_time")
-    private Timestamp modification_time;
-
-    @Column(name = "delete_time")
-    private Timestamp delete_time;
-
-    @Column(name = "is_blocked")
-    private boolean is_blocked;
-
-    @Column(name = "counter")
-    private int counter;
-
-    @Column(name = "blocked_date")
-    private Timestamp blocked_date;
-
-    @Column(name = "deleted")
-    private boolean deleted = Boolean.FALSE;
-
-
 
     // ***************
     // CONSTRUCTOR
@@ -143,54 +103,24 @@ public class Customers
         this.comments = comments;
     }
 
-    public boolean isActivated_account()
+    public String getLastname()
     {
-        return activated_account;
+        return lastname;
     }
 
-    public void setActivated_account(boolean activated_account)
+    public void setLastname(String lastname)
     {
-        this.activated_account = activated_account;
+        this.lastname = lastname;
     }
 
-    public String getPassword()
+    public String getFirstname()
     {
-        return password;
+        return firstname;
     }
 
-    public void setPassword(String password)
+    public void setFirstname(String firstname)
     {
-        this.password = password;
-    }
-
-    public String getCustomername()
-    {
-        return customername;
-    }
-
-    public void setCustomername(String customer_name)
-    {
-        this.customername = customer_name;
-    }
-
-    public String getContact_lastname()
-    {
-        return contact_lastname;
-    }
-
-    public void setContact_lastname(String contact_lastname)
-    {
-        this.contact_lastname = contact_lastname;
-    }
-
-    public String getContact_firstname()
-    {
-        return contact_firstname;
-    }
-
-    public void setContact_firstname(String contact_firstname)
-    {
-        this.contact_firstname = contact_firstname;
+        this.firstname = firstname;
     }
 
     public String getPhone()
@@ -273,84 +203,4 @@ public class Customers
         this.email = email;
     }
 
-    public boolean isIs_customer_actif()
-    {
-        return is_customer_actif;
-    }
-
-    public void setIs_customer_actif(boolean is_customer_actif)
-
-    {
-        this.is_customer_actif = is_customer_actif;
-    }
-
-    public Timestamp getCreation_time()
-    {
-        return creation_time;
-    }
-
-    public void setCreation_time(Timestamp creation_time)
-    {
-        this.creation_time = creation_time;
-    }
-
-    public Timestamp getModification_time()
-    {
-        return modification_time;
-    }
-
-    public void setModification_time(Timestamp modification_time)
-    {
-        this.modification_time = modification_time;
-    }
-
-    public Timestamp getDelete_time()
-    {
-        return delete_time;
-    }
-
-    public void setDelete_time(Timestamp delete_time)
-    {
-        this.delete_time = delete_time;
-    }
-
-    public boolean isIs_blocked()
-    {
-        return is_blocked;
-    }
-
-    public void setIs_blocked(boolean is_blocked)
-    {
-        this.is_blocked = is_blocked;
-    }
-
-    public int getCounter()
-    {
-        return counter;
-    }
-
-    public void setCounter(int counter)
-    {
-        this.counter = counter;
-    }
-
-    public Timestamp getBlocked_date()
-    {
-        return blocked_date;
-    }
-
-    public void setBlocked_date(Timestamp blocked_date)
-    {
-        this.blocked_date = blocked_date;
-    }
-
-    public boolean isDeleted()
-    {
-        return deleted;
-    }
-
-    public void setDeleted(boolean deleted)
-    {
-        this.deleted = deleted;
-    }
 }

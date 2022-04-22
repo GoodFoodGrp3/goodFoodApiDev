@@ -2,12 +2,11 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Categories;
 import com.goodfood.api.entities.ErrorLog;
-import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCategoriesForm;
 import com.goodfood.api.services.CategoriesService;
 import com.goodfood.api.services.ErrorLogServices;
-import com.goodfood.api.services.JwtUserDetailsService;
+import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
