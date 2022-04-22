@@ -3,7 +3,6 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Provider;
-import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateProvidersForm;
 import com.goodfood.api.services.ErrorLogServices;
