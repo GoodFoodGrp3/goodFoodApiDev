@@ -71,7 +71,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
             http.authorizeRequests()
                     .antMatchers( HttpMethod.POST,
-                            "/employees/login", "/employees/register","customers/login","customers/register", "/authenticate")
+                            "/employees/login", "/employees/register","/customers/login","/customers/register", "/authenticate")
                     .permitAll()
                     .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
                             "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger

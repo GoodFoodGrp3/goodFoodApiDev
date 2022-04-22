@@ -3,9 +3,8 @@ package com.goodfood.api.controller;
 import com.goodfood.api.entities.*;
 import com.goodfood.api.security.JwtTokenUtil;
 import com.goodfood.api.services.ErrorLogServices;
-import com.goodfood.api.services.JwtUserDetailsService;
+import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -150,4 +149,7 @@ public class JwtAuthenticationController
             throw new Exception("INVALID_CREDENTIALS", e);
         }
     }
+
+
+
 }

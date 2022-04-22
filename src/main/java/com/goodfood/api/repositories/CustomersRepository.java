@@ -11,7 +11,7 @@ public interface CustomersRepository extends CrudRepository<Customers, Integer>
 {
     Customers findById(int id);
     Customers findByEmail(String email);
-    Customers findByCustomername(String username);
+    Customers findByFirstname(String username);
 
     @Modifying
     @Transactional

@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface LoginRepository extends CrudRepository<LoginDao, Long> {
     LoginDao findByLogin(String login);
     LoginDao findByEmployeeNumber(int employeeNumber);
+    LoginDao findByCustomerNumber(int customerNumber);
 }
