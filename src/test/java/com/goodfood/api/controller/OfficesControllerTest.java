@@ -19,14 +19,14 @@ public class OfficesControllerTest
     EmployeesController employeesController;
 
     String token;
-
-    @BeforeEach
-    public void setUp()
-    {
-        LoginForm loginform = new LoginForm("gaetan","test");
-
-        token = employeesController.login(loginform, null).getBody().getToken();
-    }
+//
+//    @BeforeEach
+//    public void setUp()
+//    {
+//        LoginForm loginform = new LoginForm("gaetan","test");
+//
+//        token = employeesController.login(loginform, null).getBody().getToken();
+//    }
 
     @Autowired
     private MockMvc mockMvc;

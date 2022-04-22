@@ -1,9 +1,7 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Error_log;
-import com.goodfood.api.entities.Status;
+import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
-import com.goodfood.api.services.AuthenticationService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,14 +19,12 @@ public class ErrorLogController
 {
     @Autowired
     private ErrorLogServices errorLogServices;
-    @Autowired
-    private AuthenticationService authenticationService;
 
     @GetMapping( value = "" )
-    public List<Error_log> getErrorLogs()
+    public List<ErrorLog> getErrorLogs()
     {
-        Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+//        Status status = authenticationService.getCurrentEmployee().getStatus();
+//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
 
         return errorLogServices.getErrorLogs();
     }
@@ -42,7 +38,7 @@ public class ErrorLogController
     {
         if ( test )
         {
-            errorLogServices.recordLog( new Error_log( null, HttpStatus.FORBIDDEN,
+            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
                     "You have not the right authorities." ) );
             throw new EmployeeStatusException();
         }

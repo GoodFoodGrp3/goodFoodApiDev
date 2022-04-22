@@ -4,7 +4,6 @@ import com.goodfood.api.entities.Comments;
 import com.goodfood.api.entities.Error_log;
 import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
-import com.goodfood.api.request.CreateCommentForm;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
