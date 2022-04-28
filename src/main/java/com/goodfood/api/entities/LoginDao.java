@@ -1,11 +1,15 @@
 package com.goodfood.api.entities;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 //@SQLDelete(sql = "UPDATE login SET deleted = true WHERE employee_id= ?")
@@ -72,7 +76,7 @@ public class LoginDao implements UserDetails {
         this.is_blocked = false;
         this.counter = 3;
         this.creation_time = new Timestamp(System.currentTimeMillis());
-//        this.status = getStatus();
+        //this.status = getStatus();
     }
 //
 //    public LoginEntity(Long login_id, Customers customerNumber, Employees employeeNumber, String login, String password) {
@@ -83,11 +87,10 @@ public class LoginDao implements UserDetails {
 //        this.password = password;
 //    }
 //
-//    public LoginEntity(Customers customerNumber, String login, String password) {
-//        this.customerNumber = customerNumber;
-//        this.login = login;
-//        this.password = password;
-//    }
+    public LoginDao(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
 //
 //    public LoginEntity(Employees employeeNumber, String login, String password) {
 //        this.employeeNumber = employeeNumber;
@@ -124,6 +127,17 @@ public class LoginDao implements UserDetails {
         this.authorities = authorities;
     }
 
+
+   /* @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authoriti = new ArrayList<GrantedAuthority>();
+
+        *//*for (Status status : Status.values()) {
+            authoriti.add(new SimpleGrantedAuthority(status.name()));
+        }*//*
+        authoriti.add(new SimpleGrantedAuthority(status.name()));
+        return authoriti;
+    }*/
 
 
     /*
