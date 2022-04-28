@@ -1,6 +1,8 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.*;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
+import com.goodfood.api.repositories.LoginRepository;
 import com.goodfood.api.security.JwtTokenUtil;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.servicesImpl.JwtUserDetailsService;
@@ -12,7 +14,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +26,8 @@ import xin.altitude.cms.common.util.SpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @RestController
@@ -41,6 +48,9 @@ public class JwtAuthenticationController
     private ErrorLogServices errorLogServices;
 
     @Autowired
+    LoginRepository loginRepository;
+
+    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
@@ -50,20 +60,18 @@ public class JwtAuthenticationController
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletRequest request)
             throws Exception {
 
-       /* LoginDao loginDao;
-        loginDao = null;
-        //LoginDao loginDao = null;
+        LoginDao user =null;
+
         try
         {
-            loginDao = (UserDetails) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+            user =  loginRepository.findByLogin(authenticationRequest.getUsername());
 
-            //loginDao.setLogin(loginDao1.getUsername());
-            if (loginDao != null)
+            if(user != null)
             {
-                if (loginDao.isIs_blocked())
+                if(user.isIs_blocked())
                 {
                     Timestamp now = new Timestamp(new DateTime().getMillis());
-                    long duration = now.getTime() - loginDao.getBlocked_date().getTime();
+                    long duration = now.getTime() - user.getBlocked_date().getTime();
                     long timeLeft = 9999;
 
                     if (duration < BLOCKED_ACCOUNT_DURATION)
@@ -74,9 +82,9 @@ public class JwtAuthenticationController
                     else
                     {
                         timeLeft = 0;
-                        loginDao.setBlocked_date(null);
-                        loginDao.setIs_blocked(false);
-                        loginDao.setCounter(3);
+                        user.setBlocked_date(null);
+                        user.setIs_blocked(false);
+                        user.setCounter(3);
                     }
 
                     if (timeLeft > 0)
@@ -92,65 +100,73 @@ public class JwtAuthenticationController
 
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-            loginDao.setCounter(3);
+            Set<GrantedAuthority> authorities = new HashSet<>();
 
-            // update of counter in database
-            userDetailsService.updateCounter(loginDao);
-
-        }
-
-        catch (AuthenticationException e)
-        {
-            if (loginDao != null)
+            try
             {
-                loginDao.setCounter(loginDao.getCounter() - 1);
+                Status status = user.getStatus();
+                authorities.add(new SimpleGrantedAuthority(status.name()));
+            }
 
-                if (loginDao.getCounter() == 0)
+            catch (Exception e)
+            {
+                errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, e.getMessage() + "Aucun status trouvé"));
+                throw new ProductsNotFoundException(e.getMessage() + "Aucun status trouvé" );
+            }
+            user.setCounter(3);
+            // update of counter in database
+            userDetailsService.updateCounter(user);
+
+            }
+
+            catch (AuthenticationException e)
+            {
+                if (user != null)
                 {
-                    loginDao.setIs_blocked(true);
-                    loginDao.setBlocked_date(new Timestamp(new DateTime().getMillis()));
+                    user.setCounter(user.getCounter() - 1);
+
+                    if (user.getCounter() == 0)
+                    {
+                        user.setIs_blocked(true);
+                        user.setBlocked_date(new Timestamp(new DateTime().getMillis()));
+                    }
+
+                    errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
+                            "Wrong credentials, please try again or contact an administrator. Left attempt : "
+                                    + user.getCounter()));
+                    throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
+                            "Wrong credentials, please try again or contact an administrator. Left attempt : "
+                                    + user.getCounter());
                 }
 
                 errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + loginDao.getCounter()));
+                        "Wrong credentials, please try again or contact an administrator."));
                 throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                + loginDao.getCounter());
+                        "Wrong credentials, please try again or contact an administrator.");
             }
 
-            errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator."));
-            throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                    "Wrong credentials, please try again or contact an administrator.");
-        }
+            user.setCounter(3);
 
-        loginDao.setCounter(3);
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
 
-        //authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        final LoginDao userDetails = (LoginDao) userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        userDetails.setCounter(3);
-*/
+            final String token = jwtTokenUtil.generateToken(userDetails);
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
-
-        //return new ResponseEntity<>( new JwtResponse(loginDao, token, authentication.getAuthorities()), HttpStatus.OK);
-
+            return ResponseEntity.ok(new JwtResponse(token));
     }
 
-    private void authenticate(String username, String password) throws Exception {
-        try {
+    private void authenticate(String username, String password) throws Exception
+    {
+        try
+        {
             authenticationManager().authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
         }
+
+        catch (DisabledException e)
+        {
+            throw new Exception("USER_DISABLED", e);
+        } /*catch (BadCredentialsException e) {
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }*/
     }
 
 
