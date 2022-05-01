@@ -49,6 +49,7 @@ public class EmployeesController
     private ErrorLogServices errorLogServices;
 
 
+
     // ***************
     // GET
     // ***************
@@ -56,6 +57,7 @@ public class EmployeesController
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
+
 //        Status status = authentificationService.getCurrentEmployee().getStatus();
 //        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
 
@@ -96,99 +98,6 @@ public class EmployeesController
         return new ResponseEntity<Employees>(employeesService.registerEmployee(registerEmployeeForm), HttpStatus.OK);
     }
 
-//    @PostMapping( value = "/login" )
-//    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginForm credentials, HttpServletRequest request)
-//    {
-//        final Authentication authentication;
-//
-//        Employees employees;
-//        employees = null;
-//
-//        try
-//        {
-//            employees = this.employeesService.getEmployeesByFirstName(credentials.getUsername());
-//
-//            if (employees != null)
-//            {
-//                if ( employees.isIs_blocked())
-//                {
-//                    Timestamp now = new Timestamp(new DateTime().getMillis());
-//                    long duration = now.getTime() - employees.getBlocked_date().getTime();
-//                    long timeLeft = 9999;
-//
-//                    if (duration < BLOCKED_ACCOUNT_DURATION)
-//                    {
-//                        timeLeft = BLOCKED_ACCOUNT_DURATION - duration;
-//                    }
-//
-//                    else
-//                    {
-//                        timeLeft = 0;
-//                        employees.setBlocked_date(null);
-//                        employees.setIs_blocked(false);
-//                        employees.setCounter(3);
-//                    }
-//
-//                    if (timeLeft > 0)
-//                    {
-//                        timeLeft = timeLeft / 1000 / 60;
-//                        errorLogServices.recordLog(new ErrorLog( request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-//                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min."));
-//                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-//                                "Echecs de connexion trop répétés. Réessayez dans " + timeLeft + " min.");
-//                    }
-//                }
-//            }
-//
-//            authentication = this.authentificationService.authentication( credentials.getUsername(),
-//                    credentials.getPassword());
-//
-//            employees.setCounter(3);
-//
-//            // update of counter
-//            employeesRepository.save(employees);
-//
-//        }
-//
-//        catch (AuthenticationException e)
-//        {
-//            if (employees != null)
-//            {
-//                employees.setCounter(employees.getCounter() - 1);
-//
-//                if (employees.getCounter() == 0)
-//                {
-//                    employees.setIs_blocked(true);
-//                    employees.setBlocked_date(new Timestamp(new DateTime().getMillis()));
-//                }
-//
-//                errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-//                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-//                                + employees.getCounter()));
-//                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-//                        "Wrong credentials, please try again or contact an administrator. Left attempt : "
-//                                + employees.getCounter());
-//            }
-//
-//            errorLogServices.recordLog(new ErrorLog(request.getHeader("Host"), HttpStatus.UNAUTHORIZED,
-//                    "Wrong credentials, please try again or contact an administrator."));
-//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-//                    "Wrong credentials, please try again or contact an administrator.");
-//
-//        }
-//
-//        employees.setCounter(3);
-//        final Employees user = (Employees) authentication.getPrincipal();
-//        user.setCounter(3);
-//        final String token = this.authentificationService.loginEmployees(user);
-//        return new ResponseEntity<>(new JwtResponse(user, token, authentication.getAuthorities()), HttpStatus.OK);
-//    }
-
-
-
-    // ***************
-    // PUT/UPDATE
-    // ***************
 
     @PutMapping(value = "/profile/{id}/password")
     public LoginDao updateEmployeePassword(@PathVariable int id,
@@ -209,10 +118,16 @@ public class EmployeesController
     {
         //constraintViolationCheck( errors, request );
 
-//        Employees currentEmployee = authentificationService.getCurrentEmployee();
-//        generatePrivilegeErrorIf( currentEmployee.getId() != id );
+        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
 
-        return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
+        if (user.getEmployeeNumber().getId() == id)
+        {
+            return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
+        }
+
+        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+                "You have not the right authorities."));
+        throw new EmployeeStatusException();
     }
 
 
@@ -221,11 +136,17 @@ public class EmployeesController
                                           @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
     {
 //        Status status = authentificationService.getCurrentEmployee().getStatus();
-        LoginDao user = employeesService.getEmployeeByEmployeeNumber(id);
+        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
 //        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
-        generatePrivilegeErrorIf( user.getStatus() == Status.ADMINISTRATEUR );
+        if(user.getStatus() != Status.ADMINISTRATEUR )
+        {
+            return employeesService.updateStatus(id, updateEmployeeStatusForm);
+        }
 
-        return employeesService.updateStatus(id, updateEmployeeStatusForm);
+        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+                "You have not the right authorities."));
+        throw new EmployeeStatusException();
+
     }
 
     // ***************
@@ -235,10 +156,17 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-//        Status status = this.authentificationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
+        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
 
-        this.employeesService.deleteById(id);
+        if(user.getStatus()== Status.EMPLOYEE || user.getStatus()== Status.RESTAURATEUR ||
+                user.getStatus()== Status.ADMINISTRATEUR)
+        {
+            this.employeesService.deleteById(id);
+        }
+
+        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+                "You have not the right authorities."));
+        throw new EmployeeStatusException();
     }
 
     // ***************

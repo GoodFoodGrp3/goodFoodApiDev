@@ -1,13 +1,19 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Comments;
-import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.services.CommentsService;
+import com.goodfood.api.services.CustomersService;
+import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
+import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -28,7 +34,16 @@ public class CommentsController
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    //private AuthenticationService authenticationService;
+    @Autowired
+    private EmployeesService employeesService;
+
+    @Autowired
+    private CustomersService customersService;
+
+
+    @Autowired
+    UserDetailsService userDetailsService;
+
 
     // ***************
     // GET
@@ -63,11 +78,8 @@ public class CommentsController
 
     @DeleteMapping( value = "/{id}" )
     @Transactional
-    public void delete( @PathVariable( value = "id" ) int id )
+    public void delete(@PathVariable( value = "id" ) int id )
     {
-        /*Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status == Status.UTILISATEUR);*/
-
         this.commentsService.deleteCommentById( id );
     }
 
@@ -80,21 +92,23 @@ public class CommentsController
     @Transactional
     public ResponseEntity<Comments> updateComment(@PathVariable( value = "id" ) int id, String newContent )
     {
-        return new ResponseEntity<>( this.commentsService.updateComment( id, newContent), HttpStatus.OK );
+        LoginDao customerUser = customersService.getCustomerByCustomerId(id);
+        LoginDao employeeUser = employeesService.getEmployeeByEmployeeId(id);
+
+        if(customerUser.getCustomerNumber().getId() == id && customerUser.getStatus() == Status.UTILISATEUR ||
+                employeeUser.getStatus()== Status.EMPLOYEE || employeeUser.getStatus()== Status.RESTAURATEUR ||
+                employeeUser.getStatus()== Status.ADMINISTRATEUR)
+        {
+            return new ResponseEntity<>( this.commentsService.updateComment( id, newContent), HttpStatus.OK );
+        }
+
+        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
+                "You have not the right authorities."));
+        throw new EmployeeStatusException();
     }
 
     // ***************
     // ERROR MANAGEMENT
     // ***************
-
-    private void generatePrivilegeErrorIf( boolean test )
-    {
-        if ( test )
-        {
-            errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
-                    "You have not the right authorities." ) );
-            throw new EmployeeStatusException();
-        }
-    }
 
 }

@@ -19,4 +19,5 @@ public interface CustomersService
     void deleteById(int id);
     Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm);
     LoginDao updatePassword(int id, UpdateUserPasswordForm updateEmployeePasswordForm);
+    LoginDao getCustomerByCustomerId(int id);
 }

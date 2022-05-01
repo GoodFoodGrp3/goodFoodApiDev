@@ -250,6 +250,11 @@ public class CustomersServicesImpl implements CustomersService
         return user;
     }
 
+    @Override
+    public LoginDao getCustomerByCustomerId(int id) {
+        return this.loginRepository.findByEmployeeNumber(id);
+    }
+
     public LoginDao getLoginByCustomerId(int id) throws CustomersNotFoundException
     {
         LoginDao userToModify = loginRepository.findByEmployeeNumber(id);
