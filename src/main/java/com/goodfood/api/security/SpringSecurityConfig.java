@@ -1,5 +1,6 @@
 package com.goodfood.api.security;
 
+import com.goodfood.api.entities.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
 @Configuration
@@ -61,24 +63,83 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         return super.authenticationManagerBean();
     }
 
-    @Value("${api.security.httpPatternMatcher.disabled:false}")
+    @Value("${api.security.httpPatternMatcher.disabled:true}")
     private boolean httpPatternMatcherDisabled;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.cors().and().csrf().disable().authorizeRequests().antMatchers( HttpMethod.OPTIONS, "/**" ).permitAll();
-        if ( !httpPatternMatcherDisabled ) { // http pattern matcher enabled
+            http.cors().and().csrf().disable().authorizeRequests().antMatchers( HttpMethod.OPTIONS, "/**" ).permitAll();
+        if ( !httpPatternMatcherDisabled ) {
+            // http pattern matcher enabled
             http.authorizeRequests()
                     .antMatchers( HttpMethod.POST,
-                            "/employees/login", "/employees/register","/customers/login","/customers/register", "/authenticate")
-                    .permitAll()
-                    .antMatchers( HttpMethod.GET, "/favicon.ico", "/v2/api-docs", "/configuration/ui", // swagger
-                            "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html", "/webjars/**", // swagger
-                            "/comments",
-                            "/products") // get all products filtered by name
-                    .permitAll()
-                    .anyRequest().authenticated();
+                            "/employees/register", "/customers/register",
+                            "/authenticate").permitAll()
+
+                    .antMatchers(HttpMethod.POST,
+                            "/categories",
+                            "/commoditys",
+                            "/offices",
+                            "/products",
+                            "/providers").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name())
+
+                    .antMatchers( HttpMethod.GET,
+                            "/customers/{id}",
+                            "/admin/errorLogs",
+                            "/employees", "/employees/profile/search/{username}","/employees/{id}")
+                    .hasAnyAuthority(Status.RESTAURATEUR.name()
+                            ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
+
+
+                    .antMatchers(HttpMethod.DELETE, "/comments/{id}").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name(),Status.UTILISATEUR.name())
+
+                    .antMatchers(HttpMethod.DELETE,
+                            "/commoditys/{id}",
+                            "/customers/profile/{id}",
+                            "/products/{id}",
+                            "/employees/profile/{id}").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name())
+
+                    .antMatchers(HttpMethod.PUT,
+                            "/comments/{id}",
+                            "/customers/profile/{id}/password").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name(),Status.UTILISATEUR.name())
+
+                    .antMatchers(HttpMethod.PUT,
+                            "/customers/profile/{id}").hasAuthority(Status.UTILISATEUR.name())
+
+                    .antMatchers(HttpMethod.PUT,
+                            "/employees/{id}/status").hasAuthority(Status.ADMINISTRATEUR.name())
+
+                    .antMatchers(HttpMethod.PUT,
+                            "/employees/profile/{id}").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name(),Status.COMPTABLE.name(),Status.COMMUNITY.name())
+
+                    .antMatchers(HttpMethod.PUT,
+                            "/commoditys/{id}",
+                            "/offices/{id}",
+                            "/products/{id}",
+                            "/providers/{id}",
+                            "/employees/profile/{id}/password").hasAnyAuthority(Status.RESTAURATEUR.name(),
+                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name())
+
+
+              .antMatchers( HttpMethod.GET,
+                    "/favicon.ico", "/v2/api-docs", "/configuration/ui",
+                      "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html",
+                    "/webjars/**",// swagger
+                    "/categories","/categories/{id}",
+                    "/comments", "/comments/{id}",
+                    "/commoditys", "/commoditys/{id}",
+                    "/offices", "/offices/{id}",
+                    "/orders", "/orders/{id}",
+                    "/products","/products/{id}",
+                    "/providers","/providers/{id}",
+                    "/customers", "/customers/profile/search/{username}").permitAll().anyRequest().authenticated();
+
         }
 
         else

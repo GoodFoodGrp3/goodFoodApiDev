@@ -23,9 +23,6 @@ public class ErrorLogController
     @GetMapping( value = "" )
     public List<ErrorLog> getErrorLogs()
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR );
-
         return errorLogServices.getErrorLogs();
     }
 

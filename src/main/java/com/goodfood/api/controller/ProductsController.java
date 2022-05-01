@@ -51,9 +51,6 @@ public class ProductsController
     @PostMapping(value = "")
     public Products createProducts(@RequestBody CreateProductsForm createProductsForm)
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
-
         return this.productService.createProducts(createProductsForm.getId(), createProductsForm.getCategories(),
                 createProductsForm.getProductName(), createProductsForm.getProductDescription(),
                 createProductsForm.getQuantityInStock(), createProductsForm.getBuyPrice());
@@ -68,9 +65,6 @@ public class ProductsController
     @Transactional
     public void delete( @PathVariable(value = "id") int id )
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
-
         this.productService.deleteProductById(id);
     }
 

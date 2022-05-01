@@ -55,9 +55,6 @@ public class CommodityController
     @PostMapping( value = "" )
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
-        /*Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);*/
-
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
                 createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(),
                 createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(),
@@ -88,9 +85,6 @@ public class CommodityController
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )
     {
-        /*Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf( status != Status.RESTAURATEUR || status != Status.RESTAURATEUR || status != Status.ADMINISTRATEUR);*/
-
         this.commodityService.deleteCommodityById(id);
     }
 

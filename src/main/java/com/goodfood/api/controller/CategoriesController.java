@@ -2,9 +2,11 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Categories;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCategoriesForm;
 import com.goodfood.api.services.CategoriesService;
+import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,8 @@ public class CategoriesController
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    JwtUserDetailsService jwtUserDetailsService;
+    @Autowired
+    private EmployeesService employeesService;
 
    // private AuthenticationService authenticationService;
 
@@ -54,9 +57,6 @@ public class CategoriesController
     @PostMapping( value = "" )
     public Categories createCategories( @RequestBody CreateCategoriesForm createCategoriesForm )
     {
-        /*Status status = authenticationService.getCurrentEmployee().getStatus();
-        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);*/
-
         return this.categoriesService.createCategories( createCategoriesForm.getId(),
                 createCategoriesForm.getCategoryName(), createCategoriesForm.getTextDescription(),
                 createCategoriesForm.getHtmlDescription(), createCategoriesForm.getImage());

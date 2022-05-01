@@ -41,6 +41,7 @@ public class JwtUserDetailsService implements UserDetailsService
         return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(), new ArrayList<>());
     }
 
+
     public void updateCounter(LoginDao user)
     {
         loginRepository.save(user);

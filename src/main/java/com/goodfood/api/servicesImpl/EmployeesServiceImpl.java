@@ -234,7 +234,7 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
     @Override
-    public LoginDao getEmployeeByEmployeeNumber(int id) {
+    public LoginDao getEmployeeByEmployeeId(int id) {
         return this.loginRepository.findByEmployeeNumber(id);
     }
 
