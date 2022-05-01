@@ -63,7 +63,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
         return super.authenticationManagerBean();
     }
 
-    @Value("${api.security.httpPatternMatcher.disabled:true}")
+    @Value("${api.security.httpPatternMatcher.disabled:false}")
     private boolean httpPatternMatcherDisabled;
 
     @Override
@@ -93,13 +93,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
 
 
-                    .antMatchers(HttpMethod.DELETE, "/comments/{id}").hasAnyAuthority(Status.RESTAURATEUR.name(),
-                            Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name(),Status.UTILISATEUR.name())
-
                     .antMatchers(HttpMethod.DELETE,
                             "/commoditys/{id}",
                             "/customers/profile/{id}",
                             "/products/{id}",
+                            "/comments/{id}",
                             "/employees/profile/{id}").hasAnyAuthority(Status.RESTAURATEUR.name(),
                             Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name())
 

@@ -101,23 +101,25 @@ public class JwtAuthenticationController
 
             authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
-            Set<GrantedAuthority> authorities = new HashSet<>();
+       /*     Set<GrantedAuthority> authorities = new HashSet<>();
 
             try
             {
                 Status status = user.getStatus();
                 authorities.add(new SimpleGrantedAuthority(status.name()));
+                //user.setAuthorities(authorities);
             }
 
             catch (Exception e)
             {
-               /* errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, e.getMessage() + "Aucun status trouvé"));
-                throw new ProductsNotFoundException(e.getMessage() + "Aucun status trouvé" );*/
+                errorLogServices.recordLog( new ErrorLog( null, HttpStatus.NOT_FOUND, e.getMessage() + "Aucun status trouvé"));
+                throw new ProductsNotFoundException(e.getMessage() + "Aucun status trouvé" );
 
                 errorLogServices.recordLog( new ErrorLog( null, HttpStatus.FORBIDDEN,
                         "You have not the right authorities." ) );
                 throw new EmployeeStatusException();
-            }
+            }*/
+
             user.setCounter(3);
             // update of counter in database
             userDetailsService.updateCounter(user);

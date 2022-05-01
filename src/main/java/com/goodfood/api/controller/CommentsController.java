@@ -10,6 +10,10 @@ import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -36,6 +40,9 @@ public class CommentsController
     @Autowired
     private CustomersService customersService;
 
+
+    @Autowired
+    UserDetailsService userDetailsService;
 
 
     // ***************
@@ -73,18 +80,7 @@ public class CommentsController
     @Transactional
     public void delete(@PathVariable( value = "id" ) int id )
     {
-        LoginDao customerUser = customersService.getCustomerByCustomerId(id);
-        LoginDao employeeUser = employeesService.getEmployeeByEmployeeId(id);
-
-        if(customerUser.getCustomerNumber().getId() == id && customerUser.getStatus() == Status.UTILISATEUR)
-        {
-            this.commentsService.deleteCommentById( id );
-        }
-
-        if(employeeUser.getStatus() == Status.ADMINISTRATEUR || employeeUser.getStatus() == Status.RESTAURATEUR ||  employeeUser.getStatus() == Status.EMPLOYEE)
-        {
-            this.commentsService.deleteCommentById( id );
-        }
+        this.commentsService.deleteCommentById( id );
     }
 
 

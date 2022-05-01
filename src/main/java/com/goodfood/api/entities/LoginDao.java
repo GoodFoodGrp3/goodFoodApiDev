@@ -76,7 +76,6 @@ public class LoginDao implements UserDetails {
         this.is_blocked = false;
         this.counter = 3;
         this.creation_time = new Timestamp(System.currentTimeMillis());
-        //this.status = getStatus();
     }
 //
 //    public LoginEntity(Long login_id, Customers customerNumber, Employees employeeNumber, String login, String password) {
@@ -253,11 +252,13 @@ public class LoginDao implements UserDetails {
     }
 
     public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+
         this.authorities = authorities;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return this.authorities;
     }
 
