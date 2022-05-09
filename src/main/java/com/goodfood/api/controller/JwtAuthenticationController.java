@@ -126,7 +126,7 @@ public class JwtAuthenticationController
             userDetailsService.updateCounter(user);
 
             }
-
+            //
             catch (AuthenticationException e)
             {
                 if (user != null)
