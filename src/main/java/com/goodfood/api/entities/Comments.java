@@ -36,13 +36,12 @@ public class Comments implements Serializable
     // CONSTRUCTOR
     // ***************
 
-    //Rajouter customer quand l'authentification sera faite
-    public Comments(Timestamp date, String content, Customers customers)
+    public Comments(Customers customers,  String content, Timestamp date)
     {
         super();
-        this.date = date;
-        this.content = content;
         this.customers = customers;
+        this.content = content;
+        this.date = date;
     }
 
 

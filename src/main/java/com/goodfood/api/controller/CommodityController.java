@@ -2,7 +2,6 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Commodity;
 import com.goodfood.api.entities.ErrorLog;
-import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCommoditiesForm;
 import com.goodfood.api.services.CommodityService;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 
-@Service(value = "ErrorLogService")
+@Service(value = "ErrorLogServices")
 public class ErrorLogServicesImpl implements ErrorLogServices
 {
     // ***************
