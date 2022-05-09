@@ -88,6 +88,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                     .antMatchers( HttpMethod.GET,
                             "/customers/{id}",
                             "/admin/errorLogs",
+                            "/commoditys", "/commoditys/{id}",
+                            "/offices", "/offices/{id}",
                             "/employees", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
@@ -103,6 +105,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
 
                     .antMatchers(HttpMethod.PUT,
                             "/comments/{id}",
+                            "/providers","/providers/{id}",
                             "/customers/profile/{id}/password").hasAnyAuthority(Status.RESTAURATEUR.name(),
                             Status.EMPLOYEE.name(),Status.ADMINISTRATEUR.name(),Status.UTILISATEUR.name())
 
@@ -131,11 +134,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                     "/webjars/**",// swagger
                     "/categories","/categories/{id}",
                     "/comments", "/comments/{id}",
-                    "/commoditys", "/commoditys/{id}",
-                    "/offices", "/offices/{id}",
                     "/orders", "/orders/{id}",
                     "/products","/products/{id}",
-                    "/providers","/providers/{id}",
                     "/customers", "/customers/profile/search/{username}").permitAll().anyRequest().authenticated();
 
         }

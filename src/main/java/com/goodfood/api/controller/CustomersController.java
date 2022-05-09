@@ -107,35 +107,15 @@ public class CustomersController
     @PutMapping(value = "/profile/{id}")
     public Customers updateCustomerById(@PathVariable int id, @Valid @RequestBody UpdateCustomerForm updateCustomerForm)
     {
-        LoginDao user = customersService.getCustomerByCustomerId(id);
-        //constraintViolationCheck( errors, request );
-        if(user.getCustomerNumber().getId() == id && user.getStatus() == Status.UTILISATEUR)
-        {
-            return customersService.updateCustomerProfile(id, updateCustomerForm);
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
+        return customersService.updateCustomerProfile(id, updateCustomerForm);
     }
 
     @PutMapping(value = "/profile/{id}/password")
     public LoginDao updateCustomerPassword(@PathVariable int id,
                                            @RequestBody UpdateUserPasswordForm updateCustomerPassword)
     {
-        LoginDao customerUser = customersService.getCustomerByCustomerId(id);
-        LoginDao employeeUser = employeesService.getEmployeeByEmployeeId(id);
 
-        if(customerUser != null && customerUser.getCustomerNumber().getId() == id && customerUser.getStatus() == Status.UTILISATEUR ||
-                employeeUser.getStatus()== Status.EMPLOYEE && employeeUser != null || employeeUser.getStatus()== Status.RESTAURATEUR && employeeUser != null  ||
-                employeeUser.getStatus()== Status.ADMINISTRATEUR && employeeUser != null )
-        {
-            return customersService.updatePassword(id, updateCustomerPassword);
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
+        return customersService.updatePassword(id, updateCustomerPassword);
     }
 
     // ***************

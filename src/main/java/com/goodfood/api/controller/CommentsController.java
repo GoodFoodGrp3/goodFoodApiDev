@@ -92,19 +92,7 @@ public class CommentsController
     @Transactional
     public ResponseEntity<Comments> updateComment(@PathVariable( value = "id" ) int id, String newContent )
     {
-        LoginDao customerUser = customersService.getCustomerByCustomerId(id);
-        LoginDao employeeUser = employeesService.getEmployeeByEmployeeId(id);
-
-        if(customerUser.getCustomerNumber().getId() == id && customerUser.getStatus() == Status.UTILISATEUR ||
-                employeeUser.getStatus()== Status.EMPLOYEE || employeeUser.getStatus()== Status.RESTAURATEUR ||
-                employeeUser.getStatus()== Status.ADMINISTRATEUR)
-        {
-            return new ResponseEntity<>( this.commentsService.updateComment( id, newContent), HttpStatus.OK );
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
+        return new ResponseEntity<>( this.commentsService.updateComment( id, newContent), HttpStatus.OK );
     }
 
     // ***************

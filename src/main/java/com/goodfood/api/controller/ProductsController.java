@@ -78,9 +78,6 @@ public class ProductsController
                                                   String product_name, String product_description,
                                                   int quantity_in_stock, double buy_price)
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
-
         return new ResponseEntity<>(this.productService.updateProduct(id, category_id, product_name, product_description, quantity_in_stock,buy_price), HttpStatus.OK);
     }
 
