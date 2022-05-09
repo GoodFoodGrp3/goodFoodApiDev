@@ -28,7 +28,6 @@ public class CommodityController
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    //private AuthenticationService authenticationService;
 
     // ***************
     // GET

@@ -43,7 +43,6 @@ public class EmployeesController
     @Autowired
     private EmployeesRepository employeesRepository;
 
-//    private AuthenticationService authentificationService;
 
     @Autowired
     private ErrorLogServices errorLogServices;
@@ -57,19 +56,12 @@ public class EmployeesController
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
-
-//        Status status = authentificationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.ADMINISTRATEUR && status != Status.RESTAURATEUR);
-
         return this.employeesService.getAllEmployees();
     }
 
     @GetMapping(value = "/{id}")
     public Employees getEmployeeById(@PathVariable int id)
     {
-//        Employees currentEmployee = authentificationService.getCurrentEmployee();
-//        generatePrivilegeErrorIf( currentEmployee.getId() != id );
-
         return this.employeesService.getEmployeeById( id );
     }
 
@@ -103,11 +95,6 @@ public class EmployeesController
     public LoginDao updateEmployeePassword(@PathVariable int id,
                                            @RequestBody UpdateUserPasswordForm updateEmployeePasswordForm)
     {
-//        Employees currentEmployee = authentificationService.getCurrentEmployee();
-//        Status status = authentificationService.getCurrentEmployee().getStatus();
-//
-//        generatePrivilegeErrorIf(currentEmployee.getId() != id && status != Status.ADMINISTRATEUR
-//                && status != Status.RESTAURATEUR);
 
         return employeesService.updatePassword(id, updateEmployeePasswordForm);
     }
@@ -116,18 +103,9 @@ public class EmployeesController
     @PutMapping(value = "/profile/{id}")
     public Employees updateEmployeeById(@PathVariable int id, @Valid @RequestBody UpdateEmployeeForm updateEmployeeForm)
     {
-        //constraintViolationCheck( errors, request );
+        //constraintViolationCheck( errors, request )
+        return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
 
-        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
-
-        if (user.getEmployeeNumber().getId() == id)
-        {
-            return employeesService.updateEmployeeProfile(id, updateEmployeeForm);
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
     }
 
 
@@ -135,18 +113,7 @@ public class EmployeesController
     public LoginDao updateEmployeesStatus(@PathVariable int id,
                                           @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
     {
-//        Status status = authentificationService.getCurrentEmployee().getStatus();
-        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
-//        generatePrivilegeErrorIf( status != Status.ADMINISTRATEUR );
-        if(user.getStatus() != Status.ADMINISTRATEUR )
-        {
-            return employeesService.updateStatus(id, updateEmployeeStatusForm);
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
-
+        return employeesService.updateStatus(id, updateEmployeeStatusForm);
     }
 
     // ***************
@@ -156,17 +123,7 @@ public class EmployeesController
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {
-        LoginDao user = employeesService.getEmployeeByEmployeeId(id);
-
-        if(user.getStatus()== Status.EMPLOYEE || user.getStatus()== Status.RESTAURATEUR ||
-                user.getStatus()== Status.ADMINISTRATEUR)
-        {
-            this.employeesService.deleteById(id);
-        }
-
-        errorLogServices.recordLog(new ErrorLog( null, HttpStatus.FORBIDDEN,
-                "You have not the right authorities."));
-        throw new EmployeeStatusException();
+        this.employeesService.deleteById(id);
     }
 
     // ***************

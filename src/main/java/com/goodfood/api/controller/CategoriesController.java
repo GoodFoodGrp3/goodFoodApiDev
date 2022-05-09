@@ -59,20 +59,9 @@ public class CategoriesController
     @PostMapping( value = "" )
     public Categories createCategories(@RequestBody JwtRequest authenticationRequest, CreateCategoriesForm createCategoriesForm )
     {
-       /* LoginDao user = loginRepository.findByLogin(authenticationRequest.getUsername());
-
-        if(user.getStatus() != Status.ADMINISTRATEUR || user.getStatus() != Status.RESTAURATEUR || user.getStatus() != Status.EMPLOYEE )
-        {
-            return this.categoriesService.createCategories( createCategoriesForm.getId(),
-                    createCategoriesForm.getCategoryName(), createCategoriesForm.getTextDescription(),
-                    createCategoriesForm.getHtmlDescription(), createCategoriesForm.getImage());
-        }*/
-
         return this.categoriesService.createCategories( createCategoriesForm.getId(),
                 createCategoriesForm.getCategoryName(), createCategoriesForm.getTextDescription(),
                 createCategoriesForm.getHtmlDescription(), createCategoriesForm.getImage());
-
-
     }
 
 

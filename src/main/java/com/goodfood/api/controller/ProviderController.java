@@ -2,14 +2,20 @@ package com.goodfood.api.controller;
 
 
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.entities.Status;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
+import com.goodfood.api.repositories.LoginRepository;
 import com.goodfood.api.request.employee.CreateProvidersForm;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.ProviderService;
+import com.goodfood.api.servicesImpl.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -29,6 +35,8 @@ public class ProviderController
     @Autowired
     private ErrorLogServices errorLogServices;
 
+    @Autowired
+    private LoginRepository loginRepository;
 
     // ***************
     // GET
@@ -54,8 +62,13 @@ public class ProviderController
     @PostMapping(value = "")
     public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm)
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
+        /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String login = authentication.getName();
+
+        LoginDao user = loginRepository.findByLogin(login);
+
+        generatePrivilegeErrorIf(user.getStatus() != Status.RESTAURATEUR && user.getStatus() != Status.EMPLOYEE && user.getStatus() != Status.ADMINISTRATEUR);*/
 
         return this.providerService.createProviders(createProvidersForm.getId(),
                 createProvidersForm.getProvider_name(), createProvidersForm.getAddressline(),
@@ -75,8 +88,6 @@ public class ProviderController
                                                    String addressline, String email, String phone, String country,
                                                    String postal_code, String state)
     {
-//        Status status = authenticationService.getCurrentEmployee().getStatus();
-//        generatePrivilegeErrorIf(status != Status.RESTAURATEUR && status != Status.EMPLOYEE && status != Status.ADMINISTRATEUR);
 
         return new ResponseEntity<>(this.providerService.updateProvider(id, provider_name, addressline, email, phone,country,postal_code, state), HttpStatus.OK);
     }

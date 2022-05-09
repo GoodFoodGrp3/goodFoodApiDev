@@ -4,6 +4,7 @@ import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.LoginRepository;
+import com.goodfood.api.request.LoginForm;
 import com.goodfood.api.security.JwtTokenUtil;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.servicesImpl.JwtUserDetailsService;
@@ -58,14 +59,14 @@ public class JwtAuthenticationController
     private JwtUserDetailsService userDetailsService;
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest, HttpServletRequest request)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginForm credentials, HttpServletRequest request)
             throws Exception {
 
         LoginDao user =null;
 
         try
         {
-            user =  loginRepository.findByLogin(authenticationRequest.getUsername());
+            user = loginRepository.findByLogin(credentials.getUsername());
 
             if(user != null)
             {
@@ -99,7 +100,7 @@ public class JwtAuthenticationController
                 }
             }
 
-            authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+            authenticate(credentials.getUsername(), credentials.getPassword());
 
        /*     Set<GrantedAuthority> authorities = new HashSet<>();
 
@@ -154,7 +155,7 @@ public class JwtAuthenticationController
 
             user.setCounter(3);
 
-            final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(credentials.getUsername());
 
             final String token = jwtTokenUtil.generateToken(userDetails);
 
@@ -175,7 +176,4 @@ public class JwtAuthenticationController
             throw new Exception("INVALID_CREDENTIALS", e);
         }*/
     }
-
-
-
 }
