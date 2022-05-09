@@ -65,7 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
 
     @Value("${api.security.httpPatternMatcher.disabled:false}")
     private boolean httpPatternMatcherDisabled;
-
+    //test
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
