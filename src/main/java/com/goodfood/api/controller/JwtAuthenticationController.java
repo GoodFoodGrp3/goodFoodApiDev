@@ -140,17 +140,17 @@ public class JwtAuthenticationController
                     }
 
                     errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                            "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                    + user.getCounter()));
+                            "Mauvais identifiants, merci de réessayer ou contacter un administrateur. il vous reste : "
+                                    + user.getCounter() + "essais"));
                     throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                            "Wrong credentials, please try again or contact an administrator. Left attempt : "
-                                    + user.getCounter());
+                            "Mauvais identifiants, merci de réessayer ou contacter un administrateur. il vous reste : "
+                                    + user.getCounter() + "essais");
                 }
 
                 errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator."));
+                        "Mauvais identifiants, merci de réessayer ou contacter un administrateur."));
                 throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
-                        "Wrong credentials, please try again or contact an administrator.");
+                        "Mauvais identifiants, merci de réessayer ou contacter un administrateur.");
             }
 
             user.setCounter(3);
