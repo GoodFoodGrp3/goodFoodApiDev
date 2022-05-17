@@ -78,6 +78,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/authenticate").permitAll()
 
                     .antMatchers(HttpMethod.POST,
+                            "/employees/register"
+                            ).hasAnyAuthority(Status.RESTAURATEUR.name(),Status.ADMINISTRATEUR.name())
+
+                    .antMatchers(HttpMethod.POST,
                             "/categories",
                             "/commoditys",
                             "/offices",

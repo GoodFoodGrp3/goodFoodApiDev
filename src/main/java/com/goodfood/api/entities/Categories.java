@@ -1,8 +1,11 @@
 package com.goodfood.api.entities;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@CrossOrigin( "*" )
 @Entity
 @Table(name = "categories")
 public class Categories implements Serializable

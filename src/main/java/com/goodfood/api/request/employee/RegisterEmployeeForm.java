@@ -29,6 +29,7 @@ public class RegisterEmployeeForm
     @Email(message = "L'adresse n'est pas valide")
     private String email;
 
+
     private int succursale;
 
     @NotNull(message = "le mot de passe est requis")
