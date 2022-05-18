@@ -14,6 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
+@CrossOrigin( "http://localhost:4200" )
 @RequestMapping("/products")
 public class ProductsController
 {

@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin( "*" )
+@CrossOrigin( "http://localhost:4200" )
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController

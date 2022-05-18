@@ -22,6 +22,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
+@CrossOrigin( "http://localhost:4200" )
 @RequestMapping("/providers")
 public class ProviderController
 {

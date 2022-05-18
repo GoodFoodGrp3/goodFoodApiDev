@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@CrossOrigin( "*" )
+@CrossOrigin( "http://localhost:4200" )
 @RestController
 @RequestMapping("/offices")
 public class OfficesController

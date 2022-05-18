@@ -141,10 +141,10 @@ public class JwtAuthenticationController
 
                     errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
                             "Mauvais identifiants, merci de réessayer ou contacter un administrateur. il vous reste : "
-                                    + user.getCounter() + "essais"));
+                                    + user.getCounter() + " essais"));
                     throw new ResponseStatusException( HttpStatus.UNAUTHORIZED,
                             "Mauvais identifiants, merci de réessayer ou contacter un administrateur. il vous reste : "
-                                    + user.getCounter() + "essais");
+                                    + user.getCounter() + " essais");
                 }
 
                 errorLogServices.recordLog(new ErrorLog(request.getHeader( "Host" ), HttpStatus.UNAUTHORIZED,
