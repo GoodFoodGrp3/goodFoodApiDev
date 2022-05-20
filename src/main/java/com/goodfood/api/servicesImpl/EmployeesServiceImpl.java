@@ -14,6 +14,9 @@ import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +35,9 @@ public class EmployeesServiceImpl implements EmployeesService
 
     @Autowired
     private EmployeesRepository employeesRepository;
+
+    @Autowired
+    private EmployeesService employeesService;
 
     @Autowired
     private ErrorLogServices errorLogServices;
@@ -236,6 +242,13 @@ public class EmployeesServiceImpl implements EmployeesService
     @Override
     public LoginDao getEmployeeByEmployeeId(int id) {
         return this.loginRepository.findByEmployeeNumber(id);
+    }
+
+    @Override
+    public Employees getCurrentEmployee() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        return this.employeesService.getEmployeeByUserName((username));
     }
 
 

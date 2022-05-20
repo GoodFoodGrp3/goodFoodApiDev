@@ -71,11 +71,11 @@ public class EmployeesController
         return employeesService.getEmployeeByUserName(username);
     }
 
-//    @GetMapping("/current")
-//    public ResponseEntity<Employees> getCurrentEmployee()
-//    {
-//        return new ResponseEntity<>(this.authentificationService.getCurrentEmployee(), HttpStatus.OK);
-//    }
+    @GetMapping( "/current" )
+    public ResponseEntity<Employees> getCurrentEmployee() {
+        return new ResponseEntity<>( this.employeesService.getCurrentEmployee(), HttpStatus.OK );
+    }
+
 
 
     // ***************

@@ -22,4 +22,6 @@ public interface EmployeesService
     LoginDao updateStatus(int id, UpdateEmployeeStatusForm updateEmployeeStatusForm);
     LoginDao updatePassword(int id, UpdateUserPasswordForm updateEmployeePasswordForm);
     LoginDao getEmployeeByEmployeeId(int id);
+
+    Employees getCurrentEmployee();
 }

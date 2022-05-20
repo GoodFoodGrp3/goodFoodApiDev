@@ -94,7 +94,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/admin/errorLogs",
                             "/commoditys", "/commoditys/{id}",
                             "/offices", "/offices/{id}",
-                            "/employees", "/employees/profile/search/{username}","/employees/{id}")
+                            "/employees","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
 
