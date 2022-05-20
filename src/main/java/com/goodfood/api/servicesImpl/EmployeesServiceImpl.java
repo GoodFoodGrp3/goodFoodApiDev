@@ -216,12 +216,16 @@ public class EmployeesServiceImpl implements EmployeesService
         Employees employees = this.getEmployeeById(id);
 
         // SQL query needs strings -> null values management
-        if (updateEmployeeForm.getUsername() != null)
-            employees.setFirstname(updateEmployeeForm.getUsername());
+        if (updateEmployeeForm.getfirstname() != null)
+            employees.setFirstname(updateEmployeeForm.getfirstname());
         if (updateEmployeeForm.getPrivate_number() != null)
             employees.setPrivate_number(updateEmployeeForm.getPrivate_number());
         if (updateEmployeeForm.getEmail() != null)
             employees.setEmail(updateEmployeeForm.getEmail());
+        if(updateEmployeeForm.getLastname() != null)
+        {
+            employees.setLastname(updateEmployeeForm.getLastname());
+        }
 
         this.employeesRepository.updateProfile( id);
 

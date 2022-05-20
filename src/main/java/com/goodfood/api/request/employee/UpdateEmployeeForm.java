@@ -7,12 +7,15 @@ import javax.validation.constraints.Size;
 
 public class UpdateEmployeeForm
 {
-    @NotBlank(message = "Un pseudo ne peut être vide")
-    private String username;
+    @NotBlank(message = "Un prénom/pseudo ne peut être vide")
+    private String firstname;
 
     @NotBlank(message = "Un numéro ne peut être vide")
     @Size( min = 4, max=4)
     private String private_number;
+
+    @NotBlank(message = "Un nom ne peut être vide")
+    private String lastname;
 
     @NotBlank(message = "Un email ne peut être vide")
     @Email(message = "L'adresse n'est pas valide")
@@ -28,10 +31,11 @@ public class UpdateEmployeeForm
 
     }
 
-    public UpdateEmployeeForm(String username, String private_number, String email)
+    public UpdateEmployeeForm(String firstname, String private_number, String lastname, String email)
     {
-        this.username = username;
+        this.firstname = firstname;
         this.private_number = private_number;
+        this.lastname = lastname;
         this.email = email;
     }
 
@@ -40,14 +44,14 @@ public class UpdateEmployeeForm
     // GETTER AND SETTER
     // ***************
 
-    public String getUsername()
+    public String getfirstname()
     {
-        return username;
+        return firstname;
     }
 
-    public void setUsername( String username )
+    public void setfirstname( String firstname )
     {
-        this.username = username;
+        this.firstname = firstname;
     }
 
     public String getPrivate_number()
@@ -58,6 +62,14 @@ public class UpdateEmployeeForm
     public void setPrivate_number(String private_number)
     {
         this.private_number = private_number;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
     public String getEmail()
