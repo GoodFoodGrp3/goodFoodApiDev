@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RestController
 @RequestMapping("/customers")
 public class CustomersController
@@ -79,6 +79,10 @@ public class CustomersController
         return this.customersService.getCustomerById(id);
     }
 
+    @GetMapping( "/current" )
+    public ResponseEntity<Customers> getCurrentCustomer() {
+        return new ResponseEntity<>( this.customersService.getCurrentCustomer(), HttpStatus.OK );
+    }
 
     // ***************
     // POST/REGISTER/LOGIN

@@ -77,6 +77,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/employees/register", "/customers/register",
                             "/authenticate").permitAll()
 
+                    .antMatchers( HttpMethod.GET,
+                            "/customers/current")
+                    .hasAnyAuthority(Status.UTILISATEUR.name())
+
                     .antMatchers(HttpMethod.POST,
                             "/employees/register"
                             ).hasAnyAuthority(Status.RESTAURATEUR.name(),Status.ADMINISTRATEUR.name())
@@ -97,6 +101,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/employees","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
+
 
 
                     .antMatchers(HttpMethod.DELETE,

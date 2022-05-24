@@ -1,6 +1,7 @@
 package com.goodfood.api.services;
 
 import com.goodfood.api.entities.Customers;
+import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.LoginDao;
 import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.request.UpdateUserPasswordForm;
@@ -20,4 +21,5 @@ public interface CustomersService
     Customers updateCustomerProfile(int id, UpdateCustomerForm updateCustomerForm);
     LoginDao updatePassword(int id, UpdateUserPasswordForm updateEmployeePasswordForm);
     LoginDao getCustomerByCustomerId(int id);
+    Customers getCurrentCustomer();
 }

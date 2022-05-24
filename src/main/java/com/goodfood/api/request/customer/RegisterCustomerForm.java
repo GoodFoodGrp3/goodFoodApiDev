@@ -13,7 +13,7 @@ public class RegisterCustomerForm
 
     private int comment;
 
-    private int employee;
+    //private int employee;
 
     @NotNull(message = "le mot de passe est requis")
     @Size(min = 7, message = "mot de passe trop court")
@@ -94,7 +94,7 @@ public class RegisterCustomerForm
         this.comment = comment;
     }
 
-    public int getEmployee()
+    /*public int getEmployee()
     {
         return employee;
     }
@@ -102,7 +102,7 @@ public class RegisterCustomerForm
     public void setEmployee(int employee)
     {
         this.employee = employee;
-    }
+    }*/
 
     public String getPassword()
     {

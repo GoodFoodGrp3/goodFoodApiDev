@@ -12,6 +12,8 @@ import com.goodfood.api.services.CustomersService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -29,6 +31,9 @@ public class CustomersServicesImpl implements CustomersService
 
     @Autowired
     CustomersRepository customersRepository;
+
+    @Autowired
+    private CustomersService customersService;
 
     @Autowired
     private ErrorLogServices errorLogServices;
@@ -253,6 +258,13 @@ public class CustomersServicesImpl implements CustomersService
     @Override
     public LoginDao getCustomerByCustomerId(int id) {
         return this.loginRepository.findByEmployeeNumber(id);
+    }
+
+    @Override
+    public Customers getCurrentCustomer() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = ((UserDetails) principal).getUsername();
+        return this.customersService.getCustomerByUserName((username));
     }
 
     public LoginDao getLoginByCustomerId(int id) throws CustomersNotFoundException
