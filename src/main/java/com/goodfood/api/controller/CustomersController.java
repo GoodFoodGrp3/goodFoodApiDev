@@ -73,6 +73,12 @@ public class CustomersController
         return this.customersService.getAllCustomers();
     }
 
+    @GetMapping(value = "/status/{username}")
+    public String getStatus(@PathVariable String username)
+    {
+        return this.customersService.getStatus( username );
+    }
+
     @GetMapping( value = "/{id}" )
     public Customers getCustomerById( @PathVariable int id )
     {

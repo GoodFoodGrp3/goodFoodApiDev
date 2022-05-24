@@ -267,6 +267,14 @@ public class CustomersServicesImpl implements CustomersService
         return this.customersService.getCustomerByUserName((username));
     }
 
+    @Override
+    public String getStatus(String username)
+    {
+        LoginDao user = this.loginRepository.findByLogin(username);
+        Status status = user.getStatus();
+        return status.name();
+    }
+
     public LoginDao getLoginByCustomerId(int id) throws CustomersNotFoundException
     {
         LoginDao userToModify = loginRepository.findByEmployeeNumber(id);

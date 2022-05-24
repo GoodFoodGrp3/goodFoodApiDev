@@ -21,7 +21,7 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController
@@ -63,6 +63,12 @@ public class EmployeesController
     public Employees getEmployeeById(@PathVariable int id)
     {
         return this.employeesService.getEmployeeById( id );
+    }
+
+    @GetMapping(value = "/status/{username}")
+    public String getStatus(@PathVariable String username)
+    {
+        return this.employeesService.getStatus( username );
     }
 
     @GetMapping(value = "/profile/search/{username}")

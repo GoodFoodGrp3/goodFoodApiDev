@@ -1,8 +1,6 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.*;
-import com.goodfood.api.exceptions.employees.EmployeeStatusException;
-import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.LoginRepository;
 import com.goodfood.api.request.LoginForm;
 import com.goodfood.api.security.JwtTokenUtil;
@@ -13,14 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -28,8 +21,6 @@ import xin.altitude.cms.common.util.SpringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @RestController
@@ -57,6 +48,7 @@ public class JwtAuthenticationController
 
     @Autowired
     private JwtUserDetailsService userDetailsService;
+
 
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginForm credentials, HttpServletRequest request)

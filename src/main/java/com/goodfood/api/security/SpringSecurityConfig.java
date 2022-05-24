@@ -78,7 +78,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/authenticate").permitAll()
 
                     .antMatchers( HttpMethod.GET,
-                            "/customers/current")
+                            "/customers/current","/customers/status/{username}")
                     .hasAnyAuthority(Status.UTILISATEUR.name())
 
                     .antMatchers(HttpMethod.POST,
@@ -98,7 +98,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/admin/errorLogs",
                             "/commoditys", "/commoditys/{id}",
                             "/offices", "/offices/{id}",
-                            "/employees","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
+                            "/employees", "employees/status/{username}","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
 

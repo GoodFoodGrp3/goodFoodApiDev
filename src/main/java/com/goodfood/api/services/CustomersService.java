@@ -22,4 +22,5 @@ public interface CustomersService
     LoginDao updatePassword(int id, UpdateUserPasswordForm updateEmployeePasswordForm);
     LoginDao getCustomerByCustomerId(int id);
     Customers getCurrentCustomer();
+    String getStatus(String username);
 }

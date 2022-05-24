@@ -249,6 +249,14 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
     @Override
+    public String getStatus(String username)
+    {
+        LoginDao user = this.loginRepository.findByLogin(username);
+        Status status = user.getStatus();
+        return status.name();
+    }
+
+    @Override
     public Employees getCurrentEmployee() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
