@@ -22,34 +22,67 @@ import xin.altitude.cms.common.util.SpringUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.Timestamp;
 
-
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> lié à l'authentification.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@RestController</b> permet de spécifier que la classe JwtAuthenticationController est un controller</p>
+ * @author Gaëtan T.
+ */
 @RestController
-@CrossOrigin
+@CrossOrigin ("*")
 public class JwtAuthenticationController
 {
     // ***************
     // CONSTANTS
     // ***************
 
+    /**
+     * Déclaration d'une constante qui représente le temps de blocage après 3 tentatives successives d'un utilisateurs
+     */
     private static final long BLOCKED_ACCOUNT_DURATION = 30 * 60 * 1000L; // in milliseconds - 30 minutes
 
     private AuthenticationManager authenticationManager() {
         return SpringUtils.getBean(AuthenticationManager.class);
     }
 
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     private ErrorLogServices errorLogServices;
 
+    /**
+     * Déclaration de l'objet LoginRepository qui représente la class LoginRepository.
+     */
     @Autowired
     LoginRepository loginRepository;
 
+    /**
+     * Déclaration de l'objet JwtTokenUtil qui représente la class JwtTokenUtil.
+     */
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    /**
+     * Déclaration de l'objet JwtUserDetailsService qui représente la class JwtUserDetailsService.
+     */
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
-
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner le token de l'utilisateur qui se connecte.
+     *
+     * </p>
+     * <p>La value = "/authenticate" spécifie que pour y accéder la route est : /authenticate.</p>
+     * @apiNote méthode POST.
+     * @param credentials représente le formulaire de connexion.
+     * @param request représente le type de requête.
+     * @exception ResponseStatusException si l'utilisateur se connecte plus de 3 fois avec de mauvaises informations.
+     * @exception AuthenticationException si l'authentifications'est mal passé.
+     * @return le token de l'utilisateur connecté.
+     */
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginForm credentials, HttpServletRequest request)
             throws Exception {

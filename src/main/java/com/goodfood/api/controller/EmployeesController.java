@@ -3,7 +3,6 @@ package com.goodfood.api.controller;
 import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.ConstraintViolationException;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
-import com.goodfood.api.repositories.EmployeesRepository;
 import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.employee.*;
 import com.goodfood.api.services.EmployeesService;
@@ -21,29 +20,34 @@ import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> des employers.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@RestController</b> permet de spécifier que la classe EmployeesController est un controller</p>
+ * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /employees </p>
+ * @author Gaëtan T.
+ */
 @CrossOrigin( "*" )
 @RestController
 @RequestMapping("/employees")
 public class EmployeesController
 {
     // ***************
-    // CONSTANTS
-    // ***************
-
-    private static final long BLOCKED_ACCOUNT_DURATION = 30 * 60 * 1000L; // in milliseconds - 30 minutes
-
-
-    // ***************
     // VARIABLE DE CLASSE
     // ***************
 
+    /**
+     * Déclaration de l'objet EmployeesService qui représente la class EmployeesService.
+     */
     @Autowired
     private EmployeesService employeesService;
 
-    @Autowired
-    private EmployeesRepository employeesRepository;
-
-
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     private ErrorLogServices errorLogServices;
 
@@ -53,30 +57,74 @@ public class EmployeesController
     // GET
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner tous les employers.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /employees.</p>
+     * @apiNote méthode GET.
+     * @return tous les employers.
+     */
     @GetMapping(value = "")
     public List<Employees> getAllEmployees()
     {
         return this.employeesService.getAllEmployees();
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner l'employer par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /employees/{id}.</p>
+     * @apiNote méthode GET.
+     * @param id de l'employee.
+     * @return l'employee par son id.
+     */
     @GetMapping(value = "/{id}")
     public Employees getEmployeeById(@PathVariable int id)
     {
         return this.employeesService.getEmployeeById( id );
     }
 
+
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner le status de l'employer par son nom d'utilisateur.
+     *
+     * </p>
+     * <p>La value = "/status/{username}" spécifie que pour y accéder la route est : /employees/status/{username}.</p>
+     * @apiNote méthode GET.
+     * @param username de l'employee.
+     * @return le status de l'employer connecté.
+     */
     @GetMapping(value = "/status/{username}")
     public String getStatus(@PathVariable String username)
     {
         return this.employeesService.getStatus( username );
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner l'employer par son nom d'utilisateur.
+     *
+     * </p>
+     * <p>La value = "/profile/search/{username}" spécifie que pour y accéder la route est : /employees/profile/search/{username}.</p>
+     * @apiNote méthode GET.
+     * @param username de l'employee.
+     * @return l'employer par son nom d'utilisateur.
+     */
     @GetMapping(value = "/profile/search/{username}")
     public Employees getEmployeeByUsername( @PathVariable String username)
     {
         return employeesService.getEmployeeByUserName(username);
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner l'employer actuellement connecté.
+     *
+     * </p>
+     * <p>La value = "/current" spécifie que pour y accéder la route est : /employees/current.</p>
+     * @apiNote méthode GET.
+     * @return l'employer actuellement connecté et le status http de la requête.
+     */
     @GetMapping( "/current" )
     public ResponseEntity<Employees> getCurrentEmployee() {
         return new ResponseEntity<>( this.employeesService.getCurrentEmployee(), HttpStatus.OK );
@@ -88,6 +136,15 @@ public class EmployeesController
     // POST/REGISTER/LOGIN
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner l'employer venant de s'enregistrer.
+     *
+     * </p>
+     * <p>La value = "/register" spécifie que pour y accéder la route est : /employees/register.</p>
+     * @apiNote méthode POST.
+     * @param registerEmployeeForm formulaire de l'enregistrement d'un employer.
+     * @return l'employer venant de s'enregistrer et le status http de la requête.
+     */
     @PostMapping(value = "/register")
     public ResponseEntity<Employees> registerEmployee(@Valid @RequestBody RegisterEmployeeForm registerEmployeeForm)
     {
@@ -97,6 +154,16 @@ public class EmployeesController
     }
 
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner le mot de passe mise à jour de l'employer.
+     *
+     * </p>
+     * <p>La value = "/profile/{id}/password" spécifie que pour y accéder la route est : /employees/profile/{id}/password.</p>
+     * @apiNote méthode PUT.
+     * @param id de l'employer.
+     * @param updateEmployeePasswordForm formulaire de mise à jour du mot de passe.
+     * @return l'employer venant de s'enregistrer et le status http de la requête.
+     */
     @PutMapping(value = "/profile/{id}/password")
     public LoginDao updateEmployeePassword(@PathVariable int id,
                                            @RequestBody UpdateUserPasswordForm updateEmployeePasswordForm)
@@ -105,7 +172,16 @@ public class EmployeesController
         return employeesService.updatePassword(id, updateEmployeePasswordForm);
     }
 
-
+    /**
+     * <p><b>Méthode/Route</b> qui permet de mettre à jour l'employer par son id.
+     *
+     * </p>
+     * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /employees/profile/{id}.</p>
+     * @apiNote méthode PUT.
+     * @param id de l'employer.
+     * @param updateEmployeeForm formulaire de mise à jour du mot de l'employer.
+     * @return l'id de l'employer et les nouvelles informations de l'employer.
+     */
     @PutMapping(value = "/profile/{id}")
     public Employees updateEmployeeById(@PathVariable int id, @Valid @RequestBody UpdateEmployeeForm updateEmployeeForm)
     {
@@ -114,7 +190,16 @@ public class EmployeesController
 
     }
 
-
+    /**
+     * <p><b>Méthode/Route</b> qui permet de mettre à jour le status de l'employer.
+     *
+     * </p>
+     * <p>La value = "/admin/{id}/status" spécifie que pour y accéder la route est : /employees/admin/{id}/status.</p>
+     * @apiNote méthode PUT.
+     * @param id de l'employer.
+     * @param updateEmployeeStatusForm formulaire de mise à jour du status de l'employer.
+     * @return l'id de l'employer et le nouveau status de l'employer.
+     */
     @PutMapping( value = "/admin/{id}/status" )
     public LoginDao updateEmployeesStatus(@PathVariable int id,
                                           @RequestBody UpdateEmployeeStatusForm updateEmployeeStatusForm)
@@ -126,6 +211,15 @@ public class EmployeesController
     // DELETE
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de supprimer un employer par son id.
+     *
+     * </p>
+     * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /employees/profile/{id}.</p>
+     * @apiNote méthode DELETE.
+     * @param id de l'employer à supprimer.
+     * @return l'id de l'employer qui a été supprimer.
+     */
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)
     {

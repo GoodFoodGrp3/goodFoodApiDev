@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> des offices.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@RestController</b> permet de spécifier que la classe OfficesController est un controller</p>
+ * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /offices </p>
+ * @author Gaëtan T.
+ */
 @CrossOrigin( "http://localhost:4200" )
 @RestController
 @RequestMapping("/offices")
@@ -23,9 +32,15 @@ public class OfficesController
     // VARIABLE DE CLASSE
     // ***************
 
+    /**
+     * Déclaration de l'objet OfficesService qui représente la class OfficesService.
+     */
     @Autowired
     private OfficesService officesService;
 
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     private ErrorLogServices errorLogServices;
 
@@ -33,12 +48,29 @@ public class OfficesController
     // GET
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner tous les offices.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /offices.</p>
+     * @apiNote méthode GET.
+     * @return tous les offices.
+     */
     @GetMapping(value = "")
     public List<Offices> getAll()
     {
         return this.officesService.getAllOffices();
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner un office par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /offices/{id}.</p>
+     * @apiNote méthode GET.
+     * @param id de l'office.
+     * @return un office par son id.
+     */
     @GetMapping(value = "/{id}")
     public Offices getOfficeById(@PathVariable int id)
     {
@@ -50,6 +82,15 @@ public class OfficesController
     // POST/CREATE
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de créer un office.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /offices.</p>
+     * @apiNote méthode POST.
+     * @param createOfficesForm formulaire de création d'un office.
+     * @return l'office créer.
+     */
     @PostMapping(value = "")
     public Offices createOffices(@RequestBody CreateOfficesForm createOfficesForm)
     {
@@ -59,6 +100,22 @@ public class OfficesController
                 createOfficesForm.getCountry(),createOfficesForm.getPostal_code());
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de mettre à jour un office.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /offices/{id}.</p>
+     * @apiNote méthode PUT.
+     * @param id de l'office à mettre à jour.
+     * @param city de l'office à mettre à jour.
+     * @param phone de l'office à mettre à jour.
+     * @param addressLine1 de l'office à mettre à jour.
+     * @param addressLine2 de l'office à mettre à jour.
+     * @param state de l'office à mettre à jour.
+     * @param country de l'office à mettre à jour.
+     * @param postal_code de l'office à mettre à jour.
+     * @return l'office mise à jour et le status http de la requête.
+     */
     @PutMapping(value = "/{id}")
     @Transactional
     public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String city, String phone,

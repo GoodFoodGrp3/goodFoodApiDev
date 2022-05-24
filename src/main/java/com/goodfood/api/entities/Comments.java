@@ -7,6 +7,15 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 
+/**
+ * <p>
+ *  Class qui permet de définir l'entité Comments par rapport à la base de données.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@Entity</b> permet de spécifier que la classe Comments est une entité</p>
+ * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
+ * @author Gaëtan T.
+ */
 @Entity
 @Table(name = "comments")
 public class Comments implements Serializable

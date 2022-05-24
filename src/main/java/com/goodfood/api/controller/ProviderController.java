@@ -21,6 +21,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
+
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> des fournisseurs.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@RestController</b> permet de spécifier que la classe ProviderController est un controller</p>
+ * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /providers </p>
+ * @author Gaëtan T.
+ */
 @RestController
 @CrossOrigin( "http://localhost:4200" )
 @RequestMapping("/providers")
@@ -30,25 +40,46 @@ public class ProviderController
     // VARIABLE DE CLASSE
     // ***************
 
+    /**
+     * Déclaration de l'objet ProviderService qui représente la class ProviderService.
+     */
     @Autowired
     private ProviderService providerService;
 
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     private ErrorLogServices errorLogServices;
 
-    @Autowired
-    private LoginRepository loginRepository;
 
     // ***************
     // GET
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner tous les fournisseurs.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /providers.</p>
+     * @apiNote méthode GET.
+     * @return tous les fournisseurs.
+     */
     @GetMapping(value = "")
     public List<Provider> getAllProviders()
     {
         return this.providerService.getAllProviders();
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner un fournisseur par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /providers/{id}.</p>
+     * @apiNote méthode GET.
+     * @param id du fournisseur.
+     * @return un fournisseur selon l'id.
+     */
     @GetMapping(value = "/{id}")
     public Provider getProviderById(@PathVariable int id )
     {
@@ -60,6 +91,15 @@ public class ProviderController
     // POST/CREATE
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de créer un fournisseur.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /providers.</p>
+     * @apiNote méthode POST.
+     * @param createProvidersForm formulaire de création d'un fournisseur.
+     * @return un fournisseur créer.
+     */
     @PostMapping(value = "")
     public Provider createProviders(@RequestBody CreateProvidersForm createProvidersForm)
     {
@@ -83,6 +123,22 @@ public class ProviderController
     // PUT/UPDATE
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de créer un fournisseur.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /providers/{id}.</p>
+     * @apiNote méthode PUT.
+     * @param id du fournisseur.
+     * @param provider_name du fournisseur.
+     * @param addressline du fournisseur.
+     * @param email du fournisseur.
+     * @param phone du fournisseur.
+     * @param country du fournisseur.
+     * @param postal_code du fournisseur.
+     * @param state du fournisseur.
+     * @return un fournisseur mise à jour.
+     */
     @PutMapping(value = "/{id}")
     @Transactional
     public ResponseEntity<Provider> updateProvider(@PathVariable(value = "id") int id, String provider_name,

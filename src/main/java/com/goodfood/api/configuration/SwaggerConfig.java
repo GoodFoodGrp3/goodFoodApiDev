@@ -8,13 +8,26 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-// se trouve à l'adresse suivante : http://localhost:8080/swagger-ui/
-// http://localhost:8080/v2/api-docs
 
+/**
+ * <p>
+ *  Class qui permet la configuration du swagger 2
+ * </p>
+ *
+ * @see <a href="http://localhost:8080/swagger-ui/">Api graphique accessible ici</a>
+ * @see <a href="http://localhost:8080/v2/api-docs">Api basique accessible ici</a>
+ * @author Gaëtan T.
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig
 {
+    /**
+     * <p>
+     *  Une méthode qui retourne le swagger en api graphique
+     * </p>
+     * @return l'api graphique en swagger 2
+     */
     @Bean
     public Docket api()
     {

@@ -14,6 +14,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
+
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> des matières premières.
+ * </p>
+ * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
+ * <p><b>@RestController</b> permet de spécifier que la classe CommodityController est un controller</p>
+ * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /commoditys </p>
+ * @author Gaëtan T.
+ */
 @CrossOrigin( "http://localhost:4200" )
 @RestController
 @RequestMapping("/commoditys")
@@ -23,9 +33,15 @@ public class CommodityController
     // VARIABLE DE CLASSE
     // ***************
 
+    /**
+     * Déclaration de l'objet CommodityService qui représente la class CommodityService.
+     */
     @Autowired
     private CommodityService commodityService;
 
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     private ErrorLogServices errorLogServices;
 
@@ -34,12 +50,29 @@ public class CommodityController
     // GET
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner toutes les matières premières.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /commoditys.</p>
+     * @apiNote méthode GET.
+     * @return toutes les matières premières.
+     */
     @GetMapping(value = "")
     public List<Commodity> getAllCommoditys()
     {
         return this.commodityService.getAllCommoditys();
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner une matière première par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /commoditys/{id}.</p>
+     * @apiNote méthode GET.
+     * @param id de la matière première
+     * @return une matière première par son id.
+     */
     @GetMapping( value = "/{id}" )
     public Commodity getCommodityById(@PathVariable int id )
     {
@@ -51,6 +84,16 @@ public class CommodityController
     // POST/CREATE
     // ***************
 
+
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner la création d'une matière première par le formulaire.
+     *
+     * </p>
+     * <p>La value = "" spécifie que la route est la même que la route principal -> /commoditys.</p>
+     * @apiNote méthode POST.
+     * @param createCommoditiesForm formulaire pour créer une matière première.
+     * @return la création d'une matière première.
+     */
     @PostMapping( value = "" )
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
@@ -66,6 +109,15 @@ public class CommodityController
     // PUT/UPDATE
     // ***************
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de retourner la mise à jour d'une matière première par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /commoditys/{id}.</p>
+     * @apiNote méthode PUT.
+     * @param id de la matière première
+     * @return la création d'une matière première.
+     */
     @PutMapping( value = "/{id}" )
     @Transactional
     public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id,
@@ -80,6 +132,15 @@ public class CommodityController
     // DELETE
     // ***************
 
+
+    /**
+     * <p><b>Méthode/Route</b> qui permet de supprimer une matière première par son id.
+     *
+     * </p>
+     * <p>La value = "/{id}" spécifie que pour y accéder la route est : /commoditys/{id}.</p>
+     * @apiNote méthode DELETE.
+     * @param id de la matière première à supprimer.
+     */
     @DeleteMapping( value = "/{id}" )
     @Transactional
     public void delete( @PathVariable( value = "id" ) int id )

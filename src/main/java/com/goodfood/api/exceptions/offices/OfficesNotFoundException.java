@@ -1,8 +1,16 @@
 package com.goodfood.api.exceptions.offices;
 
+import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * <p>
+ *  Class qui permet de définir des exceptions lié aux offices.
+ * </p>
+ * @exception OfficesNotFoundException si office n'a pas été trouvé.
+ * @author Gaëtan T.
+ */
 public class OfficesNotFoundException extends ResponseStatusException
 {
     public OfficesNotFoundException( String s )
