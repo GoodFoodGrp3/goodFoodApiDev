@@ -2,6 +2,12 @@ package com.goodfood.api.utils;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+/**
+ * <p>
+ *  Class qui permet de générer un mot de passe hasher avec bcrypt.
+ * </p>
+ * @author Arthur D.
+ */
 public class PasswordGenerator
 {
     public static void main(String[] args)

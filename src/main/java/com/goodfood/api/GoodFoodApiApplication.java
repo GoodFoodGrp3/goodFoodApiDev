@@ -5,7 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-
+/**
+ * <p>
+ *  Class principal qui permet de lancer l'application.
+ * </p>
+ * @author Gaëtan T.
+ */
 @SpringBootApplication
 public class GoodFoodApiApplication extends SpringBootServletInitializer
 {
@@ -15,6 +20,11 @@ public class GoodFoodApiApplication extends SpringBootServletInitializer
         return builder.sources(GoodFoodApiApplication.class);
     }
 
+    /**
+     * <p><b>Méthode</b> qui permet de lancer l'application.
+     *</p>
+     * @param args c'est un tableau de strings.
+     */
     public static void main(String[] args)
     {
         SpringApplication.run(GoodFoodApiApplication.class, args);
