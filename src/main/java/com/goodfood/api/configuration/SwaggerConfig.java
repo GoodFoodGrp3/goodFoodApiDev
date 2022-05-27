@@ -13,7 +13,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * <p>
  *  Class qui permet la configuration du swagger 2
  * </p>
- *
+ *t
  * @see <a href="http://localhost:8080/swagger-ui/">Api graphique accessible ici</a>
  * @see <a href="http://localhost:8080/v2/api-docs">Api basique accessible ici</a>
  * @author Gaëtan T.
