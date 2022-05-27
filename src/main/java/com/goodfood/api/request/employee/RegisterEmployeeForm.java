@@ -9,33 +9,59 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * <p>
+ *  Class qui permet de définir le formulaire d'enregistrement des employers.
+ * </p>
+ * @author Gaëtan T.
+ */
 public class RegisterEmployeeForm
 {
+    /**
+     * Champ status de l'employer du formulaire.
+     */
     @NotNull(message = "Un statut est requis")
 //    @NotBlank( message = "Un statut ne peut être vide" )
     @Enumerated( EnumType.STRING )
     private Status status;
 
+    /**
+     * Champ pseudo de l'employer du formulaire.
+     */
     @NotNull(message = "Un pseudo est requis")
     @NotBlank(message = "Un pseudo ne peut être vide")
     private String username;
 
+    /**
+     * Champ nom de l'employer du formulaire.
+     */
     @NotNull(message = "Un nom d'utilisateur est requis")
     @NotBlank(message = "Un nom ne peut être vide")
     private String lastname;
 
+    /**
+     * Champ email de l'employer du formulaire.
+     */
     @NotBlank(message = "l'adresse mail ne peut être vide")
     @NotNull(message = "l'adresse mail est requise")
     @Email(message = "L'adresse n'est pas valide")
     private String email;
 
-
+    /**
+     * Champ succursale de l'employer du formulaire.
+     */
     private int succursale;
 
+    /**
+     * Champ mot de passe de l'employer du formulaire.
+     */
     @NotNull(message = "le mot de passe est requis")
     @Size(min = 7, message = "mot de passe trop court")
     private String password;
 
+    /**
+     * Champ de confirmation du mot de passe de l'employer du formulaire.
+     */
     @NotNull(message = "le mot de passe est requis")
     @NotBlank(message = "le mot de passe ne peut être vide")
     private String cpassword;

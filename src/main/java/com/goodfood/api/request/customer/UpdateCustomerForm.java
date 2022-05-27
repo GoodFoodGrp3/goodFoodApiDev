@@ -2,37 +2,77 @@ package com.goodfood.api.request.customer;
 
 import javax.validation.constraints.NotBlank;
 
-public class UpdateCustomerForm {
+/**
+ * <p>
+ *  Class qui permet de définir le formulaire de mise à jour des clients.
+ * </p>
+ * @author Gaëtan T.
+ */
+public class UpdateCustomerForm
+{
+    /**
+     * Champ pseudo du formulaire.
+     */
     @NotBlank(message = "Un pseudo ne peut être vide")
     private String customername;
 
+    /**
+     * Champ nom du formulaire.
+     */
     @NotBlank(message = "Un nom ne peut être vide")
     private String contact_lastname;
 
+    /**
+     * Champ prénom du formulaire.
+     */
     @NotBlank(message = "Un prénom ne peut être vide")
     private String contact_firstname;
 
+    /**
+     * Champ téléphone du formulaire.
+     */
     @NotBlank(message = "Un numéro ne peut être vide")
     private String phone;
 
+    /**
+     * Champ addressline1 du formulaire.
+     */
     @NotBlank(message = "Une addresse ne peut être vide")
     private String addressline1;
 
+    /**
+     * Champ addressline2 du formulaire.
+     */
     @NotBlank(message = "Une addresse ne peut être vide")
     private String addressline2;
 
+    /**
+     * Champ ville du formulaire.
+     */
     @NotBlank(message = "Une ville ne peut être vide")
     private String city;
 
+    /**
+     * Champ pays du formulaire.
+     */
     @NotBlank(message = "Un état ne peut être vide")
     private String state;
 
+    /**
+     * Champ code postal du formulaire.
+     */
     @NotBlank(message = "Un code postal ne peut être vide")
     private String postal_code;
 
+    /**
+     * Champ région du formulaire.
+     */
     @NotBlank(message = "Un pays ne peut être vide")
     private String country;
 
+    /**
+     * Champ email du formulaire.
+     */
     @NotBlank(message = "Un email ne peut être vide")
     private String email;
 

@@ -1,12 +1,20 @@
 package com.goodfood.api.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import org.springframework.http.HttpStatus;
 
 import java.sql.Timestamp;
 import java.util.List;
 import org.joda.time.DateTime;
 
+
+/**
+ * <p>
+ *  Class qui permet de customiser des exceptions.
+ * </p>
+ * @author Gaëtan T.
+ */
 public class ErrorResponse
 {
     @JsonFormat( shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm:ss", timezone = "Europe/Paris" )

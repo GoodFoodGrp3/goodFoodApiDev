@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * <p>
+ *  Class qui permet d'implémenter les méthodes du service des categories.
+ * </p>
+ * @author Gaëtan T.
+ */
 @Service(value = "CategoriesService")
 public class CategoriesServiceImpl implements CategoriesService
 {
@@ -21,9 +27,15 @@ public class CategoriesServiceImpl implements CategoriesService
     // VARIABLE DE CLASSE
     // ***************
 
+    /**
+     * Déclaration de l'objet CategoriesRepository qui représente la class CategoriesRepository.
+     */
     @Autowired
     CategoriesRepository categoriesRepository;
 
+    /**
+     * Déclaration de l'objet ErrorLogServices qui représente la class ErrorLogServices.
+     */
     @Autowired
     ErrorLogServices errorLogServices;
 

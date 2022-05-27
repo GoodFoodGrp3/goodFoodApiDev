@@ -1,12 +1,18 @@
 package com.goodfood.api.request.customer;
 
-import com.goodfood.api.entities.Status;
+
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * <p>
+ *  Class qui permet de définir le formulaire de l'enregistrement des clients.
+ * </p>
+ * @author Gaëtan T.
+ */
 public class RegisterCustomerForm
 {
     private int order;
@@ -14,50 +20,88 @@ public class RegisterCustomerForm
     private int comment;
 
     //private int employee;
-
+    /**
+     * Champ mot de passe du formulaire.
+     */
     @NotNull(message = "le mot de passe est requis")
     @Size(min = 7, message = "mot de passe trop court")
     private String password;
 
+    /**
+     * Champ confirmation du mot de passe du formulaire.
+     */
     @NotNull(message = "le mot de passe est requis")
     private String cpassword;
 
+    /**
+     * Champ pseudo du formulaire.
+     */
     @NotNull(message = "Un pseudo est requis")
     @NotBlank(message = "Un pseudo ne peut être vide")
     private String username;
 
+    /**
+     * Champ nom d'utilisateur du formulaire.
+     */
     @NotNull(message = "Un nom est requis")
     @NotBlank(message = "Un nom ne peut être vide")
     private String lastname;
 
+    /**
+     * Champ prénom d'utilisateur du formulaire.
+     */
     @NotNull(message = "Un prénom est requis")
     @NotBlank(message = "Un prénom ne peut être vide")
     private String firstname;
 
+    /**
+     * Champ téképhone de l'utilisateur du formulaire.
+     */
     @NotNull(message = "Un numéro est requis")
     @Size(max = 10, message = "Numéro trop long")
     private String phone;
 
+    /**
+     * Champ addressline1 de l'utilisateur du formulaire.
+     */
     @NotBlank(message = "l'adresse postal ne peut être vide")
     @NotNull(message = "l'adresse postal est requise")
     private String addressline1;
 
+    /**
+     * Champ addressline2 de l'utilisateur (non obligatoire) du formulaire.
+     */
     private String addressline2;
 
+    /**
+     * Champ ville de l'utilisateur du formulaire.
+     */
     @NotBlank(message = "la ville ne peut être vide")
     @NotNull(message = "la ville est requise")
     private String city;
 
+    /**
+     * Champ pays de l'utilisateur du formulaire.
+     */
     private String state;
 
+    /**
+     * Champ code postal de l'utilisateur du formulaire.
+     */
     @NotBlank(message = "le code postal ne peut être vide")
     @NotNull(message = "le code postal est requise")
     private String postalCode;
 
+    /**
+     * Champ région de l'utilisateur du formulaire.
+     */
     @NotBlank(message = "le pays ne peut être vide")
     @NotNull(message = "le pays est requis")
     private String country;
 
+    /**
+     * Champ email de l'utilisateur du formulaire.
+     */
     @NotBlank(message = "l'adresse mail ne peut être vide")
     @NotNull(message = "l'adresse mail est requise")
     @Email(message = "L'adresse n'est pas valide")
