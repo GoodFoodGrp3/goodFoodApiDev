@@ -9,7 +9,6 @@ import java.io.Serializable;
  * <p>
  *  Class qui permet de définir l'entité Products par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe Products est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -18,25 +17,49 @@ import java.io.Serializable;
 @Table(name = "products")
 public class Products implements Serializable
 {
+    /**
+     * Propriété id qui représente l'id du produit.
+     *
+     */
     @Id
     @org.springframework.data.annotation.Id
     @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /**
+     * Propriété categories qui représente l'id de la catégorie auquel appartient le produit.
+     *
+     */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private Categories categories;
 
+    /**
+     * Propriété product_name qui représente le nom du produit.
+     *
+     */
     @Column(name = "product_name")
     private String product_name;
 
+    /**
+     * Propriété product_description qui représente la description du produit.
+     *
+     */
     @Column(name = "product_description")
     private String product_description;
 
+    /**
+     * Propriété quantity_in_stock qui représente la quantité en stock du produit.
+     *
+     */
     @Column(name = "quantity_in_stock")
     private int quantity_in_stock;
 
+    /**
+     * Propriété buy_price qui représente le prix du produit.
+     *
+     */
     @Column(name = "buy_price")
     private double buy_price;
 

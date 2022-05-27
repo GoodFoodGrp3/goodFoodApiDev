@@ -32,7 +32,7 @@ import java.util.List;
  * @author Gaëtan T.
  */
 @RestController
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RequestMapping("/providers")
 public class ProviderController
 {

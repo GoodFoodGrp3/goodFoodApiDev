@@ -10,7 +10,6 @@ import java.util.Set;
  * <p>
  *  Class qui permet de définir l'entité Employees par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe Employees est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -21,32 +20,65 @@ import java.util.Set;
 @Table(name = "employees")
 public class Employees
 {
+
+    /**
+     * Propriété id qui représente l'id de l'employer.
+     *
+     */
     @Column(name = "employee_id")
     @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /**
+     * Propriété office_id qui représente l'id de l'office de l'employer.
+     *
+     */
     @ManyToOne
     @JoinColumn(name ="office_id")
     private Offices office_id;
 
+    /**
+     * Propriété order_commodity qui représente le numéro de la commande de matière première de l'employer.
+     *
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "employees")
     private Set<Order_commodity> order_commodity;
 
+    /**
+     * Propriété lastname qui représente le nom de l'employer.
+     *
+     */
     @Column(name = "lastname")
     private String lastname;
 
+    /**
+     * Propriété firstname qui représente le prénom de l'employer.
+     *
+     */
     @Column(name = "firstname")
     private String firstname;
 
+    /**
+     * Propriété private_number qui représente le numéro interne de l'employer.
+     *
+     */
     @Column(name = "private_number")
     private String private_number;
 
+    /**
+     * Propriété email qui représente l'email de l'employer.
+     *
+     */
     @Column(name = "email")
     private String email;
 
+    /**
+     * Propriété reports_to qui représente le supérieur hiérarchique de l'employer.
+     *
+     */
     @Column(name = "reports_to")
     private Integer reports_to;
 

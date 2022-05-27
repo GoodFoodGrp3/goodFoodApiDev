@@ -10,7 +10,6 @@ import java.util.Set;
  * <p>
  *  Class qui permet de définir l'entité Customers par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe Customers est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -23,48 +22,104 @@ import java.util.Set;
 public class Customers
 {
 
+    /**
+     * Propriété id qui représente l'id du client.
+     *
+     */
     @Column(name = "customer_id")
     @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+
     ///// RELATION /////
+
+    /**
+     * Propriété orders qui représente l'id de la commande client.
+     *
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Orders> orders;
+
+    /**
+     * Propriété comments qui représente l'id du commentaire client.
+     *
+     */
     @JsonIgnore
     @OneToMany(mappedBy = "customers")
     private Set<Comments> comments;
 
     ///// RELATION /////
+
+    /**
+     * Propriété lastname qui représente le nom du client.
+     *
+     */
     @Column(name = "contact_lastname")
     private String lastname;
 
+    /**
+     * Propriété firstname qui représente le prénom du client.
+     *
+     */
     @Column(name = "contact_firstname")
     private String firstname;
 
+    /**
+     * Propriété phone qui représente le numéro de téléphone du client.
+     *
+     */
     @Column(name = "phone")
     private String phone;
 
+    /**
+     * Propriété addressline1 qui représente l'addresse du client.
+     *
+     */
     @Column(name = "addressline1")
     private String addressline1;
 
+    /**
+     * Propriété addressline2 qui représente l'addresse du client.
+     *
+     */
     @Column(name = "addressline2")
     private String addressline2;
 
+    /**
+     * Propriété city qui représente la ville du client.
+     *
+     */
     @Column(name = "city")
     private String city;
 
+    /**
+     * Propriété state qui représente le pays du client.
+     *
+     */
     @Column(name = "state")
     private String state;
 
+    /**
+     * Propriété postal_code qui représente le code postal du client.
+     *
+     */
     @Column(name = "postal_code")
     private String postal_code;
 
+    /**
+     * Propriété country qui représente la région du client.
+     *
+     */
     @Column(name = "country")
     private String country;
 
+    /**
+     * Propriété email qui représente l'email du client.
+     *
+     */
     @Column(name = "email")
     private String email;
 

@@ -23,7 +23,7 @@ import java.util.List;
  * @author Gaëtan T.
  */
 @RestController
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RequestMapping( "/admin/errorLogs" )
 public class ErrorLogController
 {

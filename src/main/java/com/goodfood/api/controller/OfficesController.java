@@ -23,7 +23,7 @@ import java.util.List;
  * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /offices </p>
  * @author Gaëtan T.
  */
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RestController
 @RequestMapping("/offices")
 public class OfficesController

@@ -18,7 +18,7 @@ import java.util.List;
  * @author Gaëtan T.
  */
 @RestController
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RequestMapping("/orders")
 public class OrdersController
 {

@@ -8,7 +8,6 @@ import javax.validation.constraints.NotNull;
  * <p>
  *  Class qui permet de définir l'entité Commodity par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe Commodity est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -17,6 +16,12 @@ import javax.validation.constraints.NotNull;
 @Table(name = "commodity")
 public class Commodity
 {
+
+
+    /**
+     * Propriété id qui représente l'id de la matière première.
+     *
+     */
     @Column(name = "commodity_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,35 +29,67 @@ public class Commodity
 
     ///// RELATION /////
 
+    /**
+     * Propriété provider qui représente l'objet Provider.
+     *
+     */
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
+    /**
+     * Propriété employees qui représente l'objet Employees.
+     *
+     */
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "employee_id")
     private Employees employees;
 
     ///// RELATION /////
 
+    /**
+     * Propriété commodity_name qui représente le nom de la matière première.
+     *
+     */
     @Column(name = "commodity_name")
     @NotNull(message = "La matière première doit avoir un nom")
     @NotBlank(message = "le champ ne peut pas être vide")
     private String commodity_name;
 
+    /**
+     * Propriété commodity_description qui représente la description de la matière première.
+     *
+     */
     @Column(name = "commodity_description")
     @NotNull( message = "La matière première doit avoir une description")
     @NotBlank( message = "le champ ne peut pas être vide")
     private String commodity_description;
 
+    /**
+     * Propriété quantity_in_stock qui représente la quantité de la matière première en stock.
+     *
+     */
     @Column( name = "quantity_in_stock")
     private int quantity_in_stock;
 
+    /**
+     * Propriété buy_price qui représente le prix d'achat de la matière première.
+     *
+     */
     @Column( name = "buy_price" )
     private double buy_price;
 
+    /**
+     * Propriété vendor_provider qui représente le fourisseur qui vend la matière première.
+     *
+     */
     @Column( name = "vendor_provider" )
     private String vendor_provider;
 
+    /**
+     * Propriété quantity qui représente la quantité de la matière première.
+     *
+     */
     @Column( name = "quantity" )
     private int quantity;
 

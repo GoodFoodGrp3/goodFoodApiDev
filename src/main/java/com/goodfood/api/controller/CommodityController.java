@@ -24,7 +24,7 @@ import java.util.List;
  * <p><b>@RequestMapping</b> permet de spécifier la route principal de la classe est : /commoditys </p>
  * @author Gaëtan T.
  */
-@CrossOrigin( "http://localhost:4200" )
+@CrossOrigin( "*" )
 @RestController
 @RequestMapping("/commoditys")
 public class CommodityController

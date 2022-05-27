@@ -10,7 +10,6 @@ import java.sql.Timestamp;
  * <p>
  *  Class qui permet de définir l'entité ErrorLog par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe ErrorLog est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -19,22 +18,43 @@ import java.sql.Timestamp;
 @Table( name = "error_log" )
 public class ErrorLog
 {
+
+    /**
+     * Propriété error_log_id qui représente l'id de l'erreur.
+     *
+     */
     @Column(name = "error_log_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int error_log_id;
 
+    /**
+     * Propriété date qui représente la date de l'erreur.
+     *
+     */
     @Column(name = "date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp date;
 
+    /**
+     * Propriété source qui représente la source de l'erreur.
+     *
+     */
     @Column(name = "source")
     private String source;
 
+    /**
+     * Propriété error_status qui représente le status de l'erreur.
+     *
+     */
     @Column(name = "error_status")
     @Enumerated( EnumType.STRING )
     private HttpStatus error_status;
 
+    /**
+     * Propriété message qui représente le message de l'erreur.
+     *
+     */
     @Column(name = "message")
     private String  message;
 

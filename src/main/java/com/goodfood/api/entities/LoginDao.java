@@ -12,7 +12,6 @@ import java.util.Collection;
  * <p>
  *  Class qui permet de définir l'entité LoginDao par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe LoginDao est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -21,55 +20,111 @@ import java.util.Collection;
 //@SQLDelete(sql = "UPDATE login SET deleted = true WHERE employee_id= ?")
 //@Where(clause = "deleted=false")
 @Table(name="login")
-public class LoginDao implements UserDetails {
-
+public class LoginDao implements UserDetails
+{
+    /**
+     * Propriété login_id qui représente l'id de la personne logger.
+     *
+     */
     @Id
     @Column(name = "login_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long login_id;
 
+    /**
+     * Propriété customerNumber qui représente l'id du client.
+     *
+     */
     @OneToOne(targetEntity = Customers.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private Customers customerNumber;
 
+    /**
+     * Propriété employeeNumber qui représente l'id de l'employer.
+     *
+     */
     @OneToOne(targetEntity = Employees.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id")
     private Employees employeeNumber;
 
+    /**
+     * Propriété login qui représente le login de l'employer/du customer.
+     *
+     */
     @Column(name = "login")
     private String login;
 
+    /**
+     * Propriété password qui représente le mot de passe de l'employer/du customer.
+     *
+     */
     @Column(name = "password")
     private String password;
 
+    /**
+     * Propriété status qui représente le status de l'employer/du customer.
+     *
+     */
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    /**
+     * Propriété is_blocked qui représente le compte bloqué ou non de l'employer/du customer.
+     *
+     */
     @Column(name = "is_blocked")
     private boolean is_blocked;
 
+    /**
+     * Propriété blocked_date qui représente la date de blocage du compte de l'employer/du customer.
+     *
+     */
     @Column(name = "blocked_date")
     private Timestamp blocked_date;
 
+    /**
+     * Propriété counter qui représente la nombre de tentatives de connexion avant le blocage de l'employer/du customer.
+     *
+     */
     @Column(name = "counter")
     private int counter;
 
+    /**
+     * Propriété deleted qui représente si le compte a été supprimé de l'employer/du customer.
+     *
+     */
     @Column(name = "deleted")
     private boolean deleted = Boolean.FALSE;
 
+    /**
+     * Propriété activated_account qui représente si le compte est activer de l'employer/du customer.
+     *
+     */
     @Column(name = "activated_account")
     private boolean activated_account;
 
+    /**
+     * Propriété creation_time qui représente la date de création du compte de l'employer/du customer.
+     *
+     */
     @Column(name = "creation_time")
     private Timestamp creation_time;
 
   /*  @Column( name = "creation_time_utc" )
     private Timestamp creation_time_utc;*/
 
+    /**
+     * Propriété modification_time qui représente la date de modification du compte de l'employer/du customer.
+     *
+     */
     @Column(name = "modification_time")
     private Timestamp modification_time;
 
+    /**
+     * Propriété delete_time qui représente la date de suprpession du compte de l'employer/du customer.
+     *
+     */
     @Column(name = "delete_time")
     private Timestamp delete_time;
 

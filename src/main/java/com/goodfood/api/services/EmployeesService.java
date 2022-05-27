@@ -2,7 +2,6 @@ package com.goodfood.api.services;
 
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.LoginDao;
-import com.goodfood.api.exceptions.customers.CustomersNotFoundException;
 import com.goodfood.api.exceptions.employees.EmployeesNotFoundException;
 import com.goodfood.api.request.UpdateUserPasswordForm;
 import com.goodfood.api.request.employee.RegisterEmployeeForm;

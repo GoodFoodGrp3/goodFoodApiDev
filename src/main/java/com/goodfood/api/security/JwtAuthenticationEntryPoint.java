@@ -10,6 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * <p>
+ *  Class/composant qui permt l'authentification.
+ *
+ *  Elle intercepte la requête http et le servlet renvoi l'erreur si la requête n'est pas autorisé.
+ * </p>
+ * @author Gaëtan T.
+ */
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
 

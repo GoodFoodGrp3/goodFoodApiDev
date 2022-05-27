@@ -8,7 +8,6 @@ import java.sql.Timestamp;
  * <p>
  *  Class qui permet de définir l'entité Orders par rapport à la base de données.
  * </p>
- * <p><b>@CrossOrigin</b> pour choisir quel adresse url peux contacter l'api. (ici http://localhost:4200)</p>
  * <p><b>@Entity</b> permet de spécifier que la classe Orders est une entité</p>
  * <p><b>@Table</b> permet de nommer la classe comme dans la base de donnée pour faire une liaison.</p>
  * @author Gaëtan T.
@@ -17,27 +16,55 @@ import java.sql.Timestamp;
 @Table(name = "orders")
 public class Orders
 {
+    /**
+     * Propriété id qui représente l'id de la commande.
+     *
+     */
     @Column(name = "order_id")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    /**
+     * Propriété customers qui représente l'id du customer ayant fais la commande.
+     *
+     */
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customers customers;
 
+    /**
+     * Propriété order_date qui représente la date de la commande.
+     *
+     */
     @Column(name = "order_date")
     private Timestamp order_date;
 
+    /**
+     * Propriété delivery_date qui représente la date de livraison de la commande.
+     *
+     */
     @Column(name = "delivery_date")
     private Timestamp delivery_date;
 
+    /**
+     * Propriété delivery_date qui représente la date d'achat de la commande.
+     *
+     */
     @Column(name = "shipped_date")
     private Timestamp shipped_date;
 
+    /**
+     * Propriété status qui représente le status de la commande.
+     *
+     */
     @Column(name = "status")
     private String status;
 
+    /**
+     * Propriété comments qui représente le commentaire de la commande.
+     *
+     */
     @Column(name = "comments")
     private String comments;
 

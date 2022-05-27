@@ -19,6 +19,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedGrantedAuthoritiesUserDetailsService;
 import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
+
+/**
+ * <p>
+ *  Class qui permet de définir toutes les <b>routes</b> des categories.
+ * </p>
+ * <p><b>@Configuration</b> spécifie que la class s'occupe de la configuration du projet.</p>
+ * <p><b>@EnableWebSecurity</b> spécifie que la class s'occupe de la securité du projet.</p>
+ * <p><b>@EnableGlobalMethodSecurity</b> active la sécurité globale de la méthode Spring Security</p>
+ * @author Gaëtan T.
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -33,15 +43,27 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
     // api.security.httpPatternMatcher.disabled=true
     // ###########################################################################
 
+    /**
+     * Déclaration de l'objet JwtAuthenticationEntryPoint qui représente la class JwtAuthenticationEntryPoint.
+     */
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
+    /**
+     * Déclaration de l'objet UserDetailsService qui représente la class UserDetailsService.
+     */
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     * Déclaration de l'objet JWTAuthorizationFilter qui représente la class JWTAuthorizationFilter.
+     */
     @Autowired
     private JWTAuthorizationFilter jwtRequestFilter;
 
+    /**
+     * Déclaration de l'objet BCryptPasswordEncoder qui permet d'encoder un string avec bcrypt.
+     */
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder()
     {
@@ -101,7 +123,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/employees", "employees/status/{username}","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
-
 
 
                     .antMatchers(HttpMethod.DELETE,
