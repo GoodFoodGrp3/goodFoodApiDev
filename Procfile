@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/goodFoodApi-1.3.0-SNAPSHOT.war
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/goodFoodApi-0.0.1-SNAPSHOT.war
