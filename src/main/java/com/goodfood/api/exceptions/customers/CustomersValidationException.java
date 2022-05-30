@@ -7,7 +7,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux clients.
  * </p>
- * @exception CustomersValidationException si client non validé.
  * @author Gaëtan T.
  */
 public class CustomersValidationException extends ResponseStatusException

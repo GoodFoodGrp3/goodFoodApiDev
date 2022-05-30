@@ -62,7 +62,6 @@ public class ProviderController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /providers.</p>
-     * @apiNote méthode GET.
      * @return tous les fournisseurs.
      */
     @GetMapping(value = "")
@@ -76,7 +75,6 @@ public class ProviderController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /providers/{id}.</p>
-     * @apiNote méthode GET.
      * @param id du fournisseur.
      * @return un fournisseur selon l'id.
      */
@@ -96,7 +94,6 @@ public class ProviderController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /providers.</p>
-     * @apiNote méthode POST.
      * @param createProvidersForm formulaire de création d'un fournisseur.
      * @return un fournisseur créer.
      */
@@ -128,7 +125,6 @@ public class ProviderController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /providers/{id}.</p>
-     * @apiNote méthode PUT.
      * @param id du fournisseur.
      * @param provider_name du fournisseur.
      * @param addressline du fournisseur.

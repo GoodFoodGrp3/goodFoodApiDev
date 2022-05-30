@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux offices.
  * </p>
- * @exception OfficesNotFoundException si office n'a pas été trouvé.
  * @author Gaëtan T.
  */
 public class OfficesNotFoundException extends ResponseStatusException

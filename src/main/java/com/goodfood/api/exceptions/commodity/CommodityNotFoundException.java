@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux matières premières.
  * </p>
- * @exception CommodityNotFoundException si matière première non trouvée.
  * @author Gaëtan T.
  */
 public class CommodityNotFoundException extends ResponseStatusException

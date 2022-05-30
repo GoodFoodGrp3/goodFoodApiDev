@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux commandes.
  * </p>
- * @exception OrderNotFoundException si la commande n'a pas été trouvé.
  * @author Gaëtan T.
  */
 public class OrderNotFoundException extends ResponseStatusException

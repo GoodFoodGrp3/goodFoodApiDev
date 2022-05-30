@@ -38,7 +38,6 @@ public class ErrorLogController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /admin/errorLogs.</p>
-     * @apiNote méthode GET.
      * @return toutes les erreurs de logs.
      */
     @GetMapping( value = "" )

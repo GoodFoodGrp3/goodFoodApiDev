@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux employers.
  * </p>
- * @exception EmployeesNotFoundException si employer non validé.
  * @author Gaëtan T.
  */
 public class EmployeesNotFoundException extends ResponseStatusException

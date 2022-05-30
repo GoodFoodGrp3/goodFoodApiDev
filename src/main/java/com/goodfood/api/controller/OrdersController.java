@@ -42,7 +42,6 @@ public class OrdersController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /orders.</p>
-     * @apiNote méthode GET.
      * @return toutes les commandes.
      */
     @GetMapping(value = "")
@@ -56,7 +55,6 @@ public class OrdersController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /orders/{id}.</p>
-     * @apiNote méthode GET.
      * @param id de la commande.
      * @return une commande par son id.
      */

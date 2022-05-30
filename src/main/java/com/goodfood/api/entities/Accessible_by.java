@@ -6,6 +6,12 @@ import java.sql.Timestamp;
 
 //@Entity
 //Classe à terminer
+/**
+ * <p>
+ *
+ * </p>
+ * @author Gaëtan T.
+ */
 public class Accessible_by
 {
 

@@ -53,7 +53,6 @@ public class OfficesController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /offices.</p>
-     * @apiNote méthode GET.
      * @return tous les offices.
      */
     @GetMapping(value = "")
@@ -67,7 +66,6 @@ public class OfficesController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /offices/{id}.</p>
-     * @apiNote méthode GET.
      * @param id de l'office.
      * @return un office par son id.
      */
@@ -87,7 +85,6 @@ public class OfficesController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /offices.</p>
-     * @apiNote méthode POST.
      * @param createOfficesForm formulaire de création d'un office.
      * @return l'office créer.
      */
@@ -105,7 +102,6 @@ public class OfficesController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /offices/{id}.</p>
-     * @apiNote méthode PUT.
      * @param id de l'office à mettre à jour.
      * @param city de l'office à mettre à jour.
      * @param phone de l'office à mettre à jour.

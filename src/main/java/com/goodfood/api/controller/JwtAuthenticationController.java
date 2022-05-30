@@ -76,7 +76,6 @@ public class JwtAuthenticationController
      *
      * </p>
      * <p>La value = "/authenticate" spécifie que pour y accéder la route est : /authenticate.</p>
-     * @apiNote méthode POST.
      * @param credentials représente le formulaire de connexion.
      * @param request représente le type de requête.
      * @exception ResponseStatusException si l'utilisateur se connecte plus de 3 fois avec de mauvaises informations.

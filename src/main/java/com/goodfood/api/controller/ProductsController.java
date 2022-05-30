@@ -53,7 +53,6 @@ public class ProductsController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /products.</p>
-     * @apiNote méthode GET.
      * @return tous les produits.
      */
     @GetMapping("")
@@ -67,7 +66,6 @@ public class ProductsController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /products/{id}.</p>
-     * @apiNote méthode GET.
      * @param id du produit.
      * @return un produit par son id.
      */
@@ -87,7 +85,6 @@ public class ProductsController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /products.</p>
-     * @apiNote méthode POST.
      * @param createProductsForm formulaire pour créer un produit.
      * @return un produit créer.
      */
@@ -109,9 +106,7 @@ public class ProductsController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /products/{id}.</p>
-     * @apiNote méthode DELETE.
      * @param id du produit.
-     * @return un produit supprimer.
      */
     @DeleteMapping(value = "/{id}")
     @Transactional
@@ -129,7 +124,6 @@ public class ProductsController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /products/{id}.</p>
-     * @apiNote méthode PUT.
      * @param id du produit.
      * @param category_id du produit.
      * @param product_name du produit.

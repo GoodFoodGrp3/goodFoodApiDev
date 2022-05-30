@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux commentaires.
  * </p>
- * @exception CommentsNotFoundException si commentaire non trouvé.
  * @author Gaëtan T.
  */
 public class CommentsNotFoundException extends ResponseStatusException

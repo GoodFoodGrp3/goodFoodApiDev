@@ -21,6 +21,7 @@ public interface CommodityService
      *
      * </p>
      * @exception CommodityNotFoundException si matière première non trouvée.
+     * @return liste de matière première.
      */
     List<Commodity> getAllCommoditys() throws CommodityNotFoundException;
 
@@ -30,6 +31,7 @@ public interface CommodityService
      * </p>
      * @exception CommodityNotFoundException si matière première non trouvée.
      * @param id de la matière première.
+     * @return matière première
      */
     Commodity getCommodityById (int id) throws CommodityNotFoundException;
 

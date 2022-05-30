@@ -62,7 +62,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /employees.</p>
-     * @apiNote méthode GET.
      * @return tous les employers.
      */
     @GetMapping(value = "")
@@ -76,7 +75,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /employees/{id}.</p>
-     * @apiNote méthode GET.
      * @param id de l'employee.
      * @return l'employee par son id.
      */
@@ -92,7 +90,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/status/{username}" spécifie que pour y accéder la route est : /employees/status/{username}.</p>
-     * @apiNote méthode GET.
      * @param username de l'employee.
      * @return le status de l'employer connecté.
      */
@@ -107,7 +104,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/profile/search/{username}" spécifie que pour y accéder la route est : /employees/profile/search/{username}.</p>
-     * @apiNote méthode GET.
      * @param username de l'employee.
      * @return l'employer par son nom d'utilisateur.
      */
@@ -122,7 +118,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/current" spécifie que pour y accéder la route est : /employees/current.</p>
-     * @apiNote méthode GET.
      * @return l'employer actuellement connecté et le status http de la requête.
      */
     @GetMapping( "/current" )
@@ -141,7 +136,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/register" spécifie que pour y accéder la route est : /employees/register.</p>
-     * @apiNote méthode POST.
      * @param registerEmployeeForm formulaire de l'enregistrement d'un employer.
      * @return l'employer venant de s'enregistrer et le status http de la requête.
      */
@@ -159,7 +153,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/profile/{id}/password" spécifie que pour y accéder la route est : /employees/profile/{id}/password.</p>
-     * @apiNote méthode PUT.
      * @param id de l'employer.
      * @param updateEmployeePasswordForm formulaire de mise à jour du mot de passe.
      * @return l'employer venant de s'enregistrer et le status http de la requête.
@@ -177,7 +170,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /employees/profile/{id}.</p>
-     * @apiNote méthode PUT.
      * @param id de l'employer.
      * @param updateEmployeeForm formulaire de mise à jour du mot de l'employer.
      * @return l'id de l'employer et les nouvelles informations de l'employer.
@@ -195,7 +187,6 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/admin/{id}/status" spécifie que pour y accéder la route est : /employees/admin/{id}/status.</p>
-     * @apiNote méthode PUT.
      * @param id de l'employer.
      * @param updateEmployeeStatusForm formulaire de mise à jour du status de l'employer.
      * @return l'id de l'employer et le nouveau status de l'employer.
@@ -216,9 +207,7 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /employees/profile/{id}.</p>
-     * @apiNote méthode DELETE.
      * @param id de l'employer à supprimer.
-     * @return l'id de l'employer qui a été supprimer.
      */
     @DeleteMapping(value = "/profile/{id}")
     public void deleteEmployeeById(@PathVariable int id)

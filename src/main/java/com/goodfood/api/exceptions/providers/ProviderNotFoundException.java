@@ -8,7 +8,6 @@ import org.springframework.web.server.ResponseStatusException;
  * <p>
  *  Class qui permet de définir des exceptions lié aux fournisseurs.
  * </p>
- * @exception ProviderNotFoundException si le fournisseur n'a pas été trouvé.
  * @author Gaëtan T.
  */
 public class ProviderNotFoundException extends ResponseStatusException

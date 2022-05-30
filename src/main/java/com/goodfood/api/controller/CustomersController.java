@@ -72,7 +72,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/profile/search/{username}" spécifie que pour y accéder la route est : /customers/profile/search/{username}.</p>
-     * @apiNote méthode GET.
      * @param username du client.
      * @return un client par son nom d'utilisateur.
      */
@@ -87,7 +86,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "" spécifie que la route est la même que la route principal -> /customers.</p>
-     * @apiNote méthode GET.
      * @return tous les clients.
      */
     @GetMapping(value = "")
@@ -102,7 +100,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/status/{username}" spécifie que pour y accéder la route est : /customers/status/{username}.</p>
-     * @apiNote méthode GET.
      * @param username du client.
      * @return le status du client.
      */
@@ -118,7 +115,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/{id}" spécifie que pour y accéder la route est : /customers/{id}.</p>
-     * @apiNote méthode GET.
      * @param id du client.
      * @return le client par son id.
      */
@@ -134,7 +130,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/current" spécifie que pour y accéder la route est : /customers/current.</p>
-     * @apiNote méthode GET.
      * @return le client actuellemnt connecté.
      * @return le status http.
      */
@@ -152,7 +147,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/register" spécifie que pour y accéder la route est : /customers/register.</p>
-     * @apiNote méthode POST.
      * @param registerCustomerForm formulaire de création.
      * @return le client venant de s'enregistrer.
      * @return le status http.
@@ -170,7 +164,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /customers/profile/{id}.</p>
-     * @apiNote méthode DELETE.
      * @param id du client à supprimer.
      */
     @DeleteMapping(value = "/profile/{id}")
@@ -189,7 +182,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/profile/{id}" spécifie que pour y accéder la route est : /customers/profile/{id}.</p>
-     * @apiNote méthode PUT.
      * @param id du client à mettre à jour.
      * @param updateCustomerForm formulaire de mise à jour client.
      * @return l'id du client et les informations du formulaire du client,mise à jour.
@@ -205,7 +197,6 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/profile/{id}/password" spécifie que pour y accéder la route est : /profile/{id}/password.</p>
-     * @apiNote méthode PUT.
      * @param id du client dont le mot de passe doit se mettre à jour.
      * @param updateCustomerPassword formulaire de mise à jour du mot de passe client.
      * @return l'id du client et le mot de passe mise à jour du client.
