@@ -28,8 +28,8 @@ public class RegisterEmployeeForm
     /**
      * Champ pseudo de l'employer du formulaire.
      */
-    @NotNull(message = "Un pseudo est requis")
-    @NotBlank(message = "Un pseudo ne peut être vide")
+    @NotNull(message = "Un email est requis")
+    @NotBlank(message = "Un email ne peut être vide")
     private String username;
 
     /**

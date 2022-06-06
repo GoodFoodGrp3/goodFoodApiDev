@@ -116,7 +116,7 @@ public class EmployeesServiceImpl implements EmployeesService
         employees.setOrder_commodity(Collections.singleton(order_commodity));
         loginEntity.setStatus(registerEmployeeForm.getStatus());
 
-        loginEntity.setLogin(registerEmployeeForm.getUsername());
+        loginEntity.setLogin(registerEmployeeForm.getEmail());
 
         validationPasswords(registerEmployeeForm.getPassword(), registerEmployeeForm.getCpassword());
         loginEntity.setPassword(this.getBCryptPasswordEncoder().encode(registerEmployeeForm.getPassword()));

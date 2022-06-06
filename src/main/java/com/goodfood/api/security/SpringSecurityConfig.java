@@ -103,9 +103,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/customers/current","/customers/status/{username}")
                     .hasAnyAuthority(Status.UTILISATEUR.name())
 
-                    .antMatchers(HttpMethod.POST,
+                   /* .antMatchers(HttpMethod.POST,
                             "/employees/register"
-                            ).hasAnyAuthority(Status.RESTAURATEUR.name(),Status.ADMINISTRATEUR.name())
+                            ).hasAnyAuthority(Status.RESTAURATEUR.name(),Status.ADMINISTRATEUR.name())*/
 
                     .antMatchers(HttpMethod.POST,
                             "/categories",
