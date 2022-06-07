@@ -14,7 +14,6 @@ import com.goodfood.api.services.EmployeesService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -184,9 +183,9 @@ public class EmployeesServiceImpl implements EmployeesService
     }
 
     @Override
-    public Employees getEmployeeByUserName(String username)
+    public Employees getEmployeeByEmail(String email)
     {
-        return this.employeesRepository.findByFirstname(username);
+        return this.employeesRepository.findByEmail(email);
     }
 
     public LoginDao getLoginByEmployeeId(int id) throws CustomersNotFoundException
@@ -260,7 +259,7 @@ public class EmployeesServiceImpl implements EmployeesService
     public Employees getCurrentEmployee() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        return this.employeesService.getEmployeeByUserName((username));
+        return this.employeesService.getEmployeeByEmail((username));
     }
 
 

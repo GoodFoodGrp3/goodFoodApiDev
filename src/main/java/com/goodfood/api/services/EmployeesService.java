@@ -49,9 +49,9 @@ public interface EmployeesService
      * <p><b>Méthode</b> qui permet de get un employer par son nom d'utilisateur.
      *
      * </p>
-     * @param username de l'employer.
+     * @param email de l'employer.
      */
-    Employees getEmployeeByUserName(String username);
+    Employees getEmployeeByEmail(String email);
 
     /**
      * <p><b>Méthode</b> qui permet de supprimer un employer par son id.

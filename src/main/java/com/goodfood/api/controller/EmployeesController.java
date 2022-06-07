@@ -104,13 +104,13 @@ public class EmployeesController
      *
      * </p>
      * <p>La value = "/profile/search/{username}" spécifie que pour y accéder la route est : /employees/profile/search/{username}.</p>
-     * @param username de l'employee.
+     * @param email de l'employee.
      * @return l'employer par son nom d'utilisateur.
      */
     @GetMapping(value = "/profile/search/{username}")
-    public Employees getEmployeeByUsername( @PathVariable String username)
+    public Employees getEmployeeByEmail(@PathVariable String email)
     {
-        return employeesService.getEmployeeByUserName(username);
+        return employeesService.getEmployeeByEmail(email);
     }
 
     /**
@@ -121,7 +121,8 @@ public class EmployeesController
      * @return l'employer actuellement connecté et le status http de la requête.
      */
     @GetMapping( "/current" )
-    public ResponseEntity<Employees> getCurrentEmployee() {
+    public ResponseEntity<Employees> getCurrentEmployee()
+    {
         return new ResponseEntity<>( this.employeesService.getCurrentEmployee(), HttpStatus.OK );
     }
 
