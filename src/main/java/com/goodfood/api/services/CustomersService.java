@@ -49,9 +49,9 @@ public interface CustomersService
      * <p><b>Méthode</b> qui permet de get un client par son nom d'utilisateur.
      *
      * </p>
-     * @param username du client.
+     * @param email du client.
      */
-    Customers getCustomerByUserName(String username);
+    Customers getCustomerByEmail(String email);
 
     /**
      * <p><b>Méthode</b> qui permet de supprimer un client par son id.

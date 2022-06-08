@@ -165,9 +165,9 @@ public class CustomersServicesImpl implements CustomersService
     }
 
     @Override
-    public Customers getCustomerByUserName(String username)
+    public Customers getCustomerByEmail(String email)
     {
-        return this.customersRepository.findByFirstname(username);
+        return this.customersRepository.findByEmail(email);
     }
 
 
@@ -264,7 +264,7 @@ public class CustomersServicesImpl implements CustomersService
     public Customers getCurrentCustomer() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = ((UserDetails) principal).getUsername();
-        return this.customersService.getCustomerByUserName((username));
+        return this.customersService.getCustomerByEmail((username));
     }
 
     @Override

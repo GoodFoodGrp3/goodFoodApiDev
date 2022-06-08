@@ -72,13 +72,13 @@ public class CustomersController
      *
      * </p>
      * <p>La value = "/profile/search/{username}" spécifie que pour y accéder la route est : /customers/profile/search/{username}.</p>
-     * @param username du client.
+     * @param email du client.
      * @return un client par son nom d'utilisateur.
      */
     @GetMapping( value = "/profile/search/{username}" )
-    public Customers getCustomerByUsername(@PathVariable String username )
+    public Customers getCustomerByEmail(@PathVariable String email )
     {
-        return customersService.getCustomerByUserName(username);
+        return customersService.getCustomerByEmail(email);
     }
 
     /**
