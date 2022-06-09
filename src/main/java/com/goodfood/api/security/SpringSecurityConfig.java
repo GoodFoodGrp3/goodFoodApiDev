@@ -120,7 +120,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                             "/admin/errorLogs",
                             "/commoditys", "/commoditys/{id}",
                             "/orders", "/orders/{id}",
-                            "/offices", "/offices/{id}",
                             "/employees", "employees/status/{username}","/employees/current", "/employees/profile/search/{username}","/employees/{id}")
                     .hasAnyAuthority(Status.RESTAURATEUR.name()
                             ,Status.ADMINISTRATEUR.name(),Status.EMPLOYEE.name())
@@ -164,6 +163,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter
                       "/swagger-resources/**", "/configuration/security","/swagger-ui/*", "/swagger-ui.html",
                     "/webjars/**",// swagger
                     "/categories","/categories/{id}",
+                    "/offices", "/offices/{id}",
                     "/comments", "/comments/{id}",
                     "/products","/products/{id}",
                     "/customers", "/customers/profile/search/{username}").permitAll().anyRequest().authenticated();
