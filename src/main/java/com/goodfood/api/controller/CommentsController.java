@@ -56,8 +56,8 @@ public class CommentsController
     }
 
 
-   /* @GetMapping(value="/{name}")
-    public String getCommentsByName(){return "test";}*/
+    @GetMapping(value="/{name}")
+    public String getCommentsByName(){return "test";}
 
     /**
      * <p><b>Méthode/Route</b> qui retourne un commentaire par l'id.
