@@ -55,6 +55,10 @@ public class CommentsController
         return this.commentsService.getAllComments();
     }
 
+
+    @GetMapping(value="/{name}")
+    public String getCommentsByName(){return "d";}
+
     /**
      * <p><b>Méthode/Route</b> qui retourne un commentaire par l'id.
      * </p>
