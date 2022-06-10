@@ -1,8 +1,11 @@
 package com.goodfood.api.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 
 /**
@@ -43,6 +46,14 @@ public class Products implements Serializable
     private String product_name;
 
     /**
+     * Propriété taxe qui représente l'objet Taxe.
+     *
+     */
+    @ManyToOne
+    @JoinColumn(name ="taxe_id")
+    private Taxe taxe;
+
+    /**
      * Propriété product_description qui représente la description du produit.
      *
      */
@@ -73,6 +84,7 @@ public class Products implements Serializable
     {
         this.categories = categories;
         this.product_name = product_name;
+        this.taxe = taxe;
         this.product_description = product_description;
         this.quantity_in_stock = quantity_in_stock;
         this.buy_price = buy_price;
@@ -87,6 +99,17 @@ public class Products implements Serializable
     // ***************
     // GETTER AND SETTER
     // ***************
+
+
+    public Taxe getTaxe()
+    {
+        return taxe;
+    }
+
+    public void setTaxe(Taxe taxe)
+    {
+        this.taxe = taxe;
+    }
 
     public int getProduct_id()
     {

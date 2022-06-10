@@ -51,13 +51,13 @@ public interface CommodityService
      * @param employeeId d'un employer.
      * @param commodityName de la matière première.
      * @param commodityDescription de la matière première.
-     * @param quantityinStock de la matière première.
+     * @param unit de la matière première.
      * @param buyPrice de la matière première.
      * @param vendorProvider de la matière première.
      * @param quantity de la matière première.
      */
     Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
-                                String commodityDescription, int quantityinStock, double buyPrice,
+                                String commodityDescription, String unit, double buyPrice,
                                 String vendorProvider, int quantity);
 
     /**
@@ -68,10 +68,10 @@ public interface CommodityService
      * @param provider numéro fournisseur.
      * @param employees numéro employer.
      * @param commodity_name de la matière première.
-     * @param quantity_in_stock de la matière première.
+     * @param unit de la matière première.
      * @param buy_price de la matière première.
      * @param vendor_provider de la matière première.
      */
-    Commodity updateCommodity(int id, int provider, int employees, String commodity_name, int quantity_in_stock,
+    Commodity updateCommodity(int id, int provider, int employees, String commodity_name, String unit,
                               double buy_price, String vendor_provider);
 }

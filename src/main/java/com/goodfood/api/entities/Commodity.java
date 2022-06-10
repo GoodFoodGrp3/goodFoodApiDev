@@ -1,8 +1,11 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 /**
  * <p>
@@ -45,6 +48,14 @@ public class Commodity
     @JoinColumn(name = "employee_id")
     private Employees employees;
 
+    /**
+     * Propriété code_tva_id qui représente l'objet Taxe.
+     *
+     */
+    @ManyToOne
+    @JoinColumn(name ="taxe_id")
+    private Taxe taxe;
+
     ///// RELATION /////
 
     /**
@@ -66,11 +77,11 @@ public class Commodity
     private String commodity_description;
 
     /**
-     * Propriété quantity_in_stock qui représente la quantité de la matière première en stock.
+     * Propriété unit qui représente la mesure du produit.
      *
      */
-    @Column( name = "quantity_in_stock")
-    private int quantity_in_stock;
+    @Column( name = "unit")
+    private String unit;
 
     /**
      * Propriété buy_price qui représente le prix d'achat de la matière première.
@@ -104,13 +115,13 @@ public class Commodity
     }
 
 
-    public Commodity(Provider providerId, Employees employeeId, String commodityName, String commodityDescription, int quantityinStock, double buyPrice, String vendorProvider, int quantity)
+    public Commodity(Provider providerId, Employees employeeId, String commodityName, String commodityDescription, String unit, double buyPrice, String vendorProvider, int quantity)
     {
         this.provider = providerId;
         this.employees = employeeId;
         this.commodity_name = commodityName;
         this.commodity_description = commodityDescription;
-        this.quantity_in_stock = quantityinStock;
+        this.unit = unit;
         this.buy_price = buyPrice;
         this.vendor_provider=vendorProvider;
         this.quantity= quantity;
@@ -172,14 +183,14 @@ public class Commodity
         this.commodity_description = commodity_description;
     }
 
-    public int getQuantity_in_stock()
+    public String getUnit()
     {
-        return quantity_in_stock;
+        return unit;
     }
 
-    public void setQuantity_in_stock(int quantity_in_stock)
+    public void setUnit(String unit)
     {
-        this.quantity_in_stock = quantity_in_stock;
+        this.unit = unit;
     }
 
     public double getBuy_price()

@@ -100,7 +100,7 @@ public class CommodityController
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
                 createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(),
                 createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(),
-                createCommoditiesForm.getQuantityinStock(),createCommoditiesForm.getBuyPrice(),
+                createCommoditiesForm.getUnit(),createCommoditiesForm.getBuyPrice(),
                 createCommoditiesForm.getVendorProvider(),createCommoditiesForm.getQuantity());
     }
 
@@ -121,11 +121,11 @@ public class CommodityController
     @PutMapping( value = "/{id}" )
     @Transactional
     public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id,
-                                        int employee_id, String commodity_name, int quantity_in_stock, double buy_price,
+                                        int employee_id, String commodity_name, String unit, double buy_price,
                                                                                 String vendor_provider, int quantity)
     {
         return new ResponseEntity<>(this.commodityService.updateCommodity( id, provider_id, employee_id,
-                            commodity_name, quantity_in_stock,buy_price, vendor_provider), HttpStatus.OK);
+                            commodity_name, unit,buy_price, vendor_provider), HttpStatus.OK);
     }
 
     // ***************

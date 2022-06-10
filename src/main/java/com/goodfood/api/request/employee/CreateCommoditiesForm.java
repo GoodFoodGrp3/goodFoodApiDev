@@ -10,7 +10,7 @@ public class CreateCommoditiesForm
     private Employees employeeId;
     private String commodityName;
     private String commodityDescription;
-    private int quantityinStock;
+    private String unit;
     private double buyPrice;
     private String vendorProvider;
     private int quantity;
@@ -21,7 +21,7 @@ public class CreateCommoditiesForm
     // ***************
 
     public CreateCommoditiesForm(int id, Provider providerId, Employees employeeId, String commodityName,
-                                 String commodityDescription, int quantityinStock, double buyPrice,
+                                 String commodityDescription, String unit, double buyPrice,
                                  String vendorProvider, int quantity)
     {
         this.id = id;
@@ -29,7 +29,7 @@ public class CreateCommoditiesForm
         this.employeeId = employeeId;
         this.commodityName = commodityName;
         this.commodityDescription = commodityDescription;
-        this.quantityinStock = quantityinStock;
+        this.unit = unit;
         this.buyPrice = buyPrice;
         this.vendorProvider = vendorProvider;
         this.quantity = quantity;
@@ -90,14 +90,14 @@ public class CreateCommoditiesForm
         this.commodityDescription = commodityDescription;
     }
 
-    public int getQuantityinStock()
+    public String getUnit()
     {
-        return quantityinStock;
+        return unit;
     }
 
-    public void setQuantityinStock(int quantityinStock)
+    public void setUnit(String unit)
     {
-        this.quantityinStock = quantityinStock;
+        this.unit = unit;
     }
 
     public double getBuyPrice()

@@ -67,15 +67,14 @@ public class CommodityServicesImpl implements CommodityService
 
     @Override
     public Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
-                                       String commodityDescription, int quantityinStock, double buyPrice,
+                                       String commodityDescription, String unit, double buyPrice,
                                        String vendorProvider, int quantity)
     {
         final Commodity commodity = new Commodity(providerId,employeeId,commodityName,commodityDescription,
-                quantityinStock,buyPrice,vendorProvider,quantity);
+                unit,buyPrice,vendorProvider,quantity);
 
         return this.commodityRepository.save(commodity);
     }
-
 
     // ***************
     // PUT/UPDATE
@@ -83,7 +82,7 @@ public class CommodityServicesImpl implements CommodityService
 
     @Override
     public Commodity updateCommodity(int id, int provider_id, int employee_id, String commodity_name,
-                                     int quantity_in_stock, double buy_price, String vendor_provider)
+                                     String unit, double buy_price, String vendor_provider)
     {
         Commodity commodity = this.commodityRepository.findById(id);
 
@@ -97,7 +96,7 @@ public class CommodityServicesImpl implements CommodityService
         //commodity.setProvider(provider_id);
         //commodity.setEmployees(employees);
         commodity.setCommodity_name(commodity_name);
-        commodity.setQuantity_in_stock(quantity_in_stock);
+        commodity.setUnit(unit);
         commodity.setBuy_price(buy_price);
         commodity.setVendor_provider(vendor_provider);
         commodityRepository.save(commodity);
@@ -124,4 +123,6 @@ public class CommodityServicesImpl implements CommodityService
 
         this.commodityRepository.deleteById(id);
     }
+
+
 }
