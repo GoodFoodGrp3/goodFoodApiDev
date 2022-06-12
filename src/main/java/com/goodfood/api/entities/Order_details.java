@@ -69,6 +69,8 @@ public class Order_details
         this.order_line_number = order_line_number;
     }
 
+
+
     public Order_details()
     {
 
