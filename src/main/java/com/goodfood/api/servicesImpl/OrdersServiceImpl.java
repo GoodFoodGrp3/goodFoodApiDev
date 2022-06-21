@@ -71,7 +71,7 @@ public class OrdersServiceImpl implements OrdersService
 
     @Override
     public List<Order_details> getOneOrderDetails(int orderNumber) {
-        List<Order_details> getOrderDetailsOfOrder = orderDetailsRepository.findByOrder__id(orderNumber);
+        List<Order_details> getOrderDetailsOfOrder = orderDetailsRepository.findById(orderNumber);
 
         if(getOrderDetailsOfOrder == null || getOrderDetailsOfOrder.isEmpty()) {
             errorLogServices.recordLog( new ErrorLog(null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
