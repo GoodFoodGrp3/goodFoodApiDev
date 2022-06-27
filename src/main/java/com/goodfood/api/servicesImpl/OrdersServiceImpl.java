@@ -8,6 +8,7 @@ import com.goodfood.api.exceptions.orders.OrderNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.OrderDetailsRepository;
 import com.goodfood.api.repositories.OrdersRepository;
+import com.goodfood.api.request.orders.OrderTemplateForm;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,4 +81,10 @@ public class OrdersServiceImpl implements OrdersService
 
         return getOrderDetailsOfOrder;
     }
+
+    @Override
+    public OrderTemplateForm registerNewOrder(OrderTemplateForm newOrder) {
+        return null;
+    }
+
 }

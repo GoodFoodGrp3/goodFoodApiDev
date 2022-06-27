@@ -1,8 +1,11 @@
 package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Orders;
+import com.goodfood.api.request.orders.OrderTemplateForm;
 import com.goodfood.api.services.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,5 +65,10 @@ public class OrdersController
     public Orders getOrderById(@PathVariable int id )
     {
         return this.ordersService.getOrderById(id);
+    }
+
+    @PostMapping(value = "/new")
+    public ResponseEntity<OrderTemplateForm> sendNewOrder(@RequestBody OrderTemplateForm newOrder){
+        return  new ResponseEntity<OrderTemplateForm>(ordersService.registerNewOrder(newOrder), HttpStatus.OK);
     }
 }

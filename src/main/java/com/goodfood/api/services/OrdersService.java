@@ -4,6 +4,8 @@ import com.goodfood.api.entities.Order_details;
 import com.goodfood.api.entities.Orders;
 import com.goodfood.api.exceptions.offices.OfficesNotFoundException;
 import com.goodfood.api.exceptions.orders.OrderNotFoundException;
+import com.goodfood.api.request.orders.OrderTemplateForm;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -40,4 +42,12 @@ public interface OrdersService
      * @param orderNumber de la commande.
      */
     List<Order_details> getOneOrderDetails(int orderNumber);
+
+    /**
+     * <p><b>Méthode</b> qui permet d'enregistrer une nouvelle commande.
+     *
+     * </p>
+     * @param newOrder formulaire de commande.
+     */
+    OrderTemplateForm registerNewOrder(OrderTemplateForm newOrder);
 }
