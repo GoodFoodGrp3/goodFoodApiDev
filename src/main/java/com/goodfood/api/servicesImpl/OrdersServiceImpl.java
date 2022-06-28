@@ -1,5 +1,6 @@
 package com.goodfood.api.servicesImpl;
 
+import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Order_details;
 import com.goodfood.api.entities.Orders;
@@ -38,6 +39,11 @@ public class OrdersServiceImpl implements OrdersService
     // GET
     // ***************
 
+    //TODO getCurrentCustomerOrders(int CustomerId)
+
+    /*
+    Fonction pour les employes
+     */
     @Override
     public List<Orders> getAllOrders() throws OrderNotFoundException
     {
@@ -84,6 +90,28 @@ public class OrdersServiceImpl implements OrdersService
 
     @Override
     public OrderTemplateForm registerNewOrder(OrderTemplateForm newOrder) {
+        Orders order = new Orders();
+        Order_details orderDetails = new Order_details();
+        Customers customers = new Customers();
+
+
+        order.setOrder_date(newOrder.getOrder_date());
+        order.setComments(newOrder.getComments());
+
+        // Call customer profil
+        customers.setId(newOrder.getCustomerId());
+        order.setCustomers(customers);
+
+        //Generate order id INT
+        order.setId(000);
+
+        order.setStatus(newOrder.getStatus());
+
+        order.setDelivery_date(newOrder.getDelivery_date());
+        order.setShipped_date(newOrder.getShipped_date());
+
+
+
         return null;
     }
 
