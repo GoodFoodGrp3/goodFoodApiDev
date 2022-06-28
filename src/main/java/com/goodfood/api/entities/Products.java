@@ -50,7 +50,7 @@ public class Products implements Serializable
      *
      */
     @ManyToOne
-    @JoinColumn(name ="taxe_id")
+    @JoinColumn(name ="code_tva_id")
     private Taxe taxe;
 
     /**
