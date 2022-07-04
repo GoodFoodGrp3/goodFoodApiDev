@@ -120,11 +120,10 @@ public class CommodityController
      */
     @PutMapping( value = "/{id}" )
     @Transactional
-    public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id,
-                                        int employee_id, String commodity_name, String unit, double buy_price,
+    public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id, String commodity_name, String unit, double buy_price,
                                                                                 String vendor_provider, int quantity)
     {
-        return new ResponseEntity<>(this.commodityService.updateCommodity( id, provider_id, employee_id,
+        return new ResponseEntity<>(this.commodityService.updateCommodity( id, provider_id,
                             commodity_name, unit,buy_price, vendor_provider), HttpStatus.OK);
     }
 

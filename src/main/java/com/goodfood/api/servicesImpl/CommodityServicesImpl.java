@@ -81,7 +81,7 @@ public class CommodityServicesImpl implements CommodityService
     // ***************
 
     @Override
-    public Commodity updateCommodity(int id, int provider_id, int employee_id, String commodity_name,
+    public Commodity updateCommodity(int id, int provider_id, String commodity_name,
                                      String unit, double buy_price, String vendor_provider)
     {
         Commodity commodity = this.commodityRepository.findById(id);

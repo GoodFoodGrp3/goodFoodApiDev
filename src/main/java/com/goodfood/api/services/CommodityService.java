@@ -66,12 +66,11 @@ public interface CommodityService
      * </p>
      * @param id de la matière première.
      * @param provider numéro fournisseur.
-     * @param employees numéro employer.
      * @param commodity_name de la matière première.
      * @param unit de la matière première.
      * @param buy_price de la matière première.
      * @param vendor_provider de la matière première.
      */
-    Commodity updateCommodity(int id, int provider, int employees, String commodity_name, String unit,
+    Commodity updateCommodity(int id, int provider, String commodity_name, String unit,
                               double buy_price, String vendor_provider);
 }
