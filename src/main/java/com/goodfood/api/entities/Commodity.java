@@ -1,6 +1,8 @@
 package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +19,8 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "commodity")
+@SQLDelete(sql = "UPDATE commodity SET is_actif = false WHERE commodity_id=?")
+@Where(clause="is_actif=1")
 public class Commodity
 {
 
@@ -104,6 +108,12 @@ public class Commodity
     @Column( name = "quantity" )
     private int quantity;
 
+    /**
+     * Propriété is_actif qui représente si la commodity est actif.
+     *
+     */
+    @Column(name = "is_actif")
+    private boolean is_actif = Boolean.TRUE;
 
     // ***************
     // CONSTRUCTOR
@@ -221,5 +231,13 @@ public class Commodity
     public void setQuantity(int quantity)
     {
         this.quantity = quantity;
+    }
+
+    public boolean isIs_actif() {
+        return is_actif;
+    }
+
+    public void setIs_actif(boolean is_actif) {
+        this.is_actif = is_actif;
     }
 }
