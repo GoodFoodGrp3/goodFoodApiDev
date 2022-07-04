@@ -7,7 +7,7 @@ import java.util.List;
 
 public class OrderTemplateForm {
 
-    private int orderId;
+    private String orderId;
     private int customerId;
     private Timestamp order_date;
     private Timestamp delivery_date;
@@ -16,7 +16,7 @@ public class OrderTemplateForm {
     private String comments;
     private List<Order_details> orderDetails;
 
-    public OrderTemplateForm(int orderId, int customerId, Timestamp order_date,
+    public OrderTemplateForm(String orderId, int customerId, Timestamp order_date,
                              Timestamp delivery_date, Timestamp shipped_date, String status,
                              String comments, List<Order_details> orderDetails) {
         this.orderId = orderId;
@@ -29,11 +29,11 @@ public class OrderTemplateForm {
         this.orderDetails = orderDetails;
     }
 
-    public int getOrderId() {
+    public String getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(int orderId) {
+    public void setOrderId(String orderId) {
         this.orderId = orderId;
     }
 

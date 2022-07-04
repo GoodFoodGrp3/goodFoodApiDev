@@ -67,8 +67,13 @@ public class OrdersController
         return this.ordersService.getOrderById(id);
     }
 
+    /**
+     * <p><b>Méthode/Route</b> qui permet de creer une commande.
+     *
+     * </p>
+     */
     @PostMapping(value = "/new")
-    public ResponseEntity<OrderTemplateForm> sendNewOrder(@RequestBody OrderTemplateForm newOrder){
-        return  new ResponseEntity<OrderTemplateForm>(ordersService.registerNewOrder(newOrder), HttpStatus.OK);
+    public ResponseEntity<Orders> sendNewOrder(@RequestBody OrderTemplateForm newOrder){
+        return  new ResponseEntity<Orders>(ordersService.registerNewOrder(newOrder), HttpStatus.OK);
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service(value = "OrdersService")
 public class OrdersServiceImpl implements OrdersService
@@ -89,11 +90,10 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public OrderTemplateForm registerNewOrder(OrderTemplateForm newOrder) {
+    public Orders registerNewOrder(OrderTemplateForm newOrder) {
         Orders order = new Orders();
         Order_details orderDetails = new Order_details();
         Customers customers = new Customers();
-
 
         order.setOrder_date(newOrder.getOrder_date());
         order.setComments(newOrder.getComments());
@@ -103,16 +103,23 @@ public class OrdersServiceImpl implements OrdersService
         order.setCustomers(customers);
 
         //Generate order id INT
-        order.setId(000);
+        UUID orderUUID = UUID.randomUUID();
+        order.setId(orderUUID.toString());
 
         order.setStatus(newOrder.getStatus());
 
         order.setDelivery_date(newOrder.getDelivery_date());
         order.setShipped_date(newOrder.getShipped_date());
 
+        try {
+            ordersRepository.save(order);
+            orderDetailsRepository.save(orderDetails);
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
 
-
-        return null;
+        return order;
     }
 
 }

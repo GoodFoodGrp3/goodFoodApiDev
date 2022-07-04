@@ -49,5 +49,5 @@ public interface OrdersService
      * </p>
      * @param newOrder formulaire de commande.
      */
-    OrderTemplateForm registerNewOrder(OrderTemplateForm newOrder);
+    Orders registerNewOrder(OrderTemplateForm newOrder);
 }
