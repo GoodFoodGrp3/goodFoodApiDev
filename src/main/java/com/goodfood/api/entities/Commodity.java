@@ -44,13 +44,6 @@ public class Commodity
     @JoinColumn(name = "provider_id")
     private Provider provider;
 
-    /**
-     * Propriété employees qui représente l'objet Employees.
-     *
-     */
-    @ManyToOne(cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "employee_id")
-    private Employees employees;
 
     /**
      * Propriété code_tva_id qui représente l'objet Taxe.
@@ -125,10 +118,9 @@ public class Commodity
     }
 
 
-    public Commodity(Provider providerId, Employees employeeId, String commodityName, String commodityDescription, String unit, double buyPrice, String vendorProvider, int quantity)
+    public Commodity(Provider providerId,String commodityName, String commodityDescription, String unit, double buyPrice, String vendorProvider, int quantity)
     {
         this.provider = providerId;
-        this.employees = employeeId;
         this.commodity_name = commodityName;
         this.commodity_description = commodityDescription;
         this.unit = unit;
@@ -151,16 +143,6 @@ public class Commodity
     public void setProvider(Provider provider)
     {
         this.provider = provider;
-    }
-
-    public Employees getEmployees()
-    {
-        return employees;
-    }
-
-    public void setEmployees(Employees employees)
-    {
-        this.employees = employees;
     }
 
     public int getCommodity_id()

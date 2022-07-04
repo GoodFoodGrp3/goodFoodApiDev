@@ -66,11 +66,11 @@ public class CommodityServicesImpl implements CommodityService
     // ***************
 
     @Override
-    public Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
+    public Commodity createCommodities(int id, Provider providerId, String commodityName,
                                        String commodityDescription, String unit, double buyPrice,
                                        String vendorProvider, int quantity)
     {
-        final Commodity commodity = new Commodity(providerId,employeeId,commodityName,commodityDescription,
+        final Commodity commodity = new Commodity(providerId,commodityName,commodityDescription,
                 unit,buyPrice,vendorProvider,quantity);
 
         return this.commodityRepository.save(commodity);

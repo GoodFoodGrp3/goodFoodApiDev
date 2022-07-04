@@ -39,13 +39,6 @@ public class Employees
     @JoinColumn(name ="office_id")
     private Offices office_id;
 
-    /**
-     * Propriété order_commodity qui représente le numéro de la commande de matière première de l'employer.
-     *
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "employees")
-    private Set<Order_commodity> order_commodity;
 
     /**
      * Propriété lastname qui représente le nom de l'employer.
@@ -112,15 +105,6 @@ public class Employees
         this.office_id = office_id;
     }
 
-    public Set<Order_commodity> getOrder_commodity()
-    {
-        return order_commodity;
-    }
-
-    public void setOrder_commodity(Set<Order_commodity> order_commodity)
-    {
-        this.order_commodity = order_commodity;
-    }
 
     public String getLastname()
     {

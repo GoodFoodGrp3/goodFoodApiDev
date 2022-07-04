@@ -33,25 +33,6 @@ public class Customers
     private int id;
 
 
-    ///// RELATION /////
-
-    /**
-     * Propriété orders qui représente l'id de la commande client.
-     *
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "customers")
-    private Set<Orders> orders;
-
-    /**
-     * Propriété comments qui représente l'id du commentaire client.
-     *
-     */
-    @JsonIgnore
-    @OneToMany(mappedBy = "customers")
-    private Set<Comments> comments;
-
-    ///// RELATION /////
 
     /**
      * Propriété lastname qui représente le nom du client.
@@ -145,26 +126,6 @@ public class Customers
     public void setId(int id)
     {
         this.id = id;
-    }
-
-    public Set<Orders> getOrders()
-    {
-        return orders;
-    }
-
-    public void setOrders(Set<Orders> orders)
-    {
-        this.orders = orders;
-    }
-
-    public Set<Comments> getComments()
-    {
-        return comments;
-    }
-
-    public void setComments(Set<Comments> comments)
-    {
-        this.comments = comments;
     }
 
     public String getLastname()

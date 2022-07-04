@@ -112,7 +112,6 @@ public class EmployeesServiceImpl implements EmployeesService
         offices.setId(registerEmployeeForm.getSuccursale());
         employees.setOffice_id(offices);
 
-        employees.setOrder_commodity(Collections.singleton(order_commodity));
         loginEntity.setStatus(registerEmployeeForm.getStatus());
 
         loginEntity.setLogin(registerEmployeeForm.getEmail());

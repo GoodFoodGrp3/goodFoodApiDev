@@ -15,9 +15,6 @@ import javax.validation.constraints.Size;
  */
 public class RegisterCustomerForm
 {
-    private int order;
-
-    private int comment;
 
     //private int employee;
     /**
@@ -117,26 +114,6 @@ public class RegisterCustomerForm
     // ***************
     // GETTER AND SETTER
     // ***************
-
-    public int getOrder()
-    {
-        return order;
-    }
-
-    public void setOrder(int order)
-    {
-        this.order = order;
-    }
-
-    public int getComment()
-    {
-        return comment;
-    }
-
-    public void setComment(int comment)
-    {
-        this.comment = comment;
-    }
 
     /*public int getEmployee()
     {

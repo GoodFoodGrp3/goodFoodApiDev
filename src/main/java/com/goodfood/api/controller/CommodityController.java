@@ -98,7 +98,7 @@ public class CommodityController
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
-                createCommoditiesForm.getProviderId(), createCommoditiesForm.getEmployeeId(),
+                createCommoditiesForm.getProviderId(),
                 createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(),
                 createCommoditiesForm.getUnit(),createCommoditiesForm.getBuyPrice(),
                 createCommoditiesForm.getVendorProvider(),createCommoditiesForm.getQuantity());

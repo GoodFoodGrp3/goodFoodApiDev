@@ -56,7 +56,7 @@ public interface CommodityService
      * @param vendorProvider de la matière première.
      * @param quantity de la matière première.
      */
-    Commodity createCommodities(int id, Provider providerId, Employees employeeId, String commodityName,
+    Commodity createCommodities(int id, Provider providerId, String commodityName,
                                 String commodityDescription, String unit, double buyPrice,
                                 String vendorProvider, int quantity);
 

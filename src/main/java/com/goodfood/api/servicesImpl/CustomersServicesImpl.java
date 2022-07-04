@@ -65,15 +65,7 @@ public class CustomersServicesImpl implements CustomersService
     {
         Customers customers = new Customers();
 
-        Orders orders = new Orders();
-
-        Comments comments = new Comments();
-
         LoginDao loginEntity = new LoginDao();
-
-        // validation des attributs
-        customers.setOrders(Collections.singleton(orders));
-        customers.setComments(Collections.singleton(comments));
 
 
         validationUsername(registerCustomerForm.getUsername());

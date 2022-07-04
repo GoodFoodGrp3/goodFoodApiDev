@@ -7,7 +7,6 @@ public class CreateCommoditiesForm
 {
     private int id;
     private Provider providerId;
-    private Employees employeeId;
     private String commodityName;
     private String commodityDescription;
     private String unit;
@@ -20,13 +19,12 @@ public class CreateCommoditiesForm
     // CONSTRUCTOR
     // ***************
 
-    public CreateCommoditiesForm(int id, Provider providerId, Employees employeeId, String commodityName,
+    public CreateCommoditiesForm(int id, Provider providerId, String commodityName,
                                  String commodityDescription, String unit, double buyPrice,
                                  String vendorProvider, int quantity)
     {
         this.id = id;
         this.providerId = providerId;
-        this.employeeId = employeeId;
         this.commodityName = commodityName;
         this.commodityDescription = commodityDescription;
         this.unit = unit;
@@ -58,16 +56,6 @@ public class CreateCommoditiesForm
     public void setProviderId(Provider providerId)
     {
         this.providerId = providerId;
-    }
-
-    public Employees getEmployeeId()
-    {
-        return employeeId;
-    }
-
-    public void setEmployeeId(Employees employeeId)
-    {
-        this.employeeId = employeeId;
     }
 
     public String getCommodityName()
