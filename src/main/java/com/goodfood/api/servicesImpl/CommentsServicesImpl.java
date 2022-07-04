@@ -7,11 +7,14 @@ import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.CommentsRepository;
 import com.goodfood.api.services.CommentsService;
 import com.goodfood.api.services.ErrorLogServices;
+import org.hibernate.Filter;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityManager;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -21,6 +24,8 @@ public class CommentsServicesImpl implements CommentsService
     // ***************
     // VARIABLE DE CLASSE
     // ***************
+
+    EntityManager entityManager;
 
     @Autowired
     CommentsRepository commentsRepository;

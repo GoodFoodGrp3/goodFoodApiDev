@@ -3,7 +3,10 @@ package com.goodfood.api.services;
 import com.goodfood.api.entities.Comments;
 import com.goodfood.api.exceptions.categorie.CategorieNotFoundException;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -30,6 +33,8 @@ public interface CommentsService
      * @param id du commentaire.
      */
     Comments getCommentById(int id) throws CommentsNotFoundException;
+
+
 
     /**
      * <p><b>Méthode</b> qui permet de supprimer un commentaire par son id.

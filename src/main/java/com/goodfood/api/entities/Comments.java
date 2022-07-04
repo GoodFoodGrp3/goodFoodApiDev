@@ -1,8 +1,11 @@
 package com.goodfood.api.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -17,6 +20,8 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "comments")
+@SQLDelete(sql = "UPDATE comments SET is_actif = false WHERE comment_id=?")
+@Where(clause="is_actif=1")
 public class Comments implements Serializable
 {
 
@@ -44,7 +49,7 @@ public class Comments implements Serializable
      *
      */
     @Column(name = "is_actif")
-    private boolean is_actif;
+    private boolean is_actif = Boolean.TRUE;
 
     /**
      * Propriété date qui représente la date de création du commentaire.
