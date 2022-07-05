@@ -2,11 +2,13 @@ package com.goodfood.api.request.employee;
 
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.entities.Taxe;
 
 public class CreateCommoditiesForm
 {
     private int id;
-    private Provider providerId;
+    private int providerId;
+    private int taxe;
     private String commodityName;
     private String commodityDescription;
     private String unit;
@@ -19,17 +21,17 @@ public class CreateCommoditiesForm
     // CONSTRUCTOR
     // ***************
 
-    public CreateCommoditiesForm(int id, Provider providerId, String commodityName,
+    public CreateCommoditiesForm(int id, int providerId, int taxe, String commodityName,
                                  String commodityDescription, String unit, double buyPrice,
-                                 String vendorProvider, int quantity)
+                                 int quantity)
     {
         this.id = id;
         this.providerId = providerId;
+        this.taxe = taxe;
         this.commodityName = commodityName;
         this.commodityDescription = commodityDescription;
         this.unit = unit;
         this.buyPrice = buyPrice;
-        this.vendorProvider = vendorProvider;
         this.quantity = quantity;
     }
 
@@ -48,14 +50,22 @@ public class CreateCommoditiesForm
         this.id = id;
     }
 
-    public Provider getProviderId()
+    public int getProviderId()
     {
         return providerId;
     }
 
-    public void setProviderId(Provider providerId)
+    public void setProviderId(int providerId)
     {
         this.providerId = providerId;
+    }
+
+    public int getTaxe() {
+        return taxe;
+    }
+
+    public void setTaxe(int taxe) {
+        this.taxe = taxe;
     }
 
     public String getCommodityName()

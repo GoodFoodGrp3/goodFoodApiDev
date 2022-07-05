@@ -118,9 +118,10 @@ public class Commodity
     }
 
 
-    public Commodity(Provider providerId,String commodityName, String commodityDescription, String unit, double buyPrice, String vendorProvider, int quantity)
+    public Commodity(Provider providerId, Taxe taxe,String commodityName, String commodityDescription, String unit, double buyPrice, String vendorProvider, int quantity)
     {
         this.provider = providerId;
+        this.taxe= taxe;
         this.commodity_name = commodityName;
         this.commodity_description = commodityDescription;
         this.unit = unit;
@@ -135,15 +136,23 @@ public class Commodity
     // GETTER AND SETTER
     // ***************
 
-    public Provider getProvider()
-    {
+
+    public Provider getProvider() {
         return provider;
     }
 
-    public void setProvider(Provider provider)
-    {
+    public void setProvider(Provider provider) {
         this.provider = provider;
     }
+
+    public Taxe getTaxe() {
+        return taxe;
+    }
+
+    public void setTaxe(Taxe taxe) {
+        this.taxe = taxe;
+    }
+
 
     public int getCommodity_id()
     {

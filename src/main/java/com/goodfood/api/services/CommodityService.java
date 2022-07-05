@@ -3,6 +3,7 @@ package com.goodfood.api.services;
 import com.goodfood.api.entities.Commodity;
 import com.goodfood.api.entities.Employees;
 import com.goodfood.api.entities.Provider;
+import com.goodfood.api.entities.Taxe;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
 
@@ -48,7 +49,6 @@ public interface CommodityService
      *
      * </p>
      * @param id de la matière première.
-     * @param employeeId d'un employer.
      * @param commodityName de la matière première.
      * @param commodityDescription de la matière première.
      * @param unit de la matière première.
@@ -56,7 +56,7 @@ public interface CommodityService
      * @param vendorProvider de la matière première.
      * @param quantity de la matière première.
      */
-    Commodity createCommodities(int id, Provider providerId, String commodityName,
+    Commodity createCommodities(int id, int providerId, int taxe, String commodityName,
                                 String commodityDescription, String unit, double buyPrice,
                                 String vendorProvider, int quantity);
 
@@ -69,8 +69,7 @@ public interface CommodityService
      * @param commodity_name de la matière première.
      * @param unit de la matière première.
      * @param buy_price de la matière première.
-     * @param vendor_provider de la matière première.
      */
-    Commodity updateCommodity(int id, int provider, String commodity_name, String unit,
-                              double buy_price, String vendor_provider);
+    Commodity updateCommodity(int id, int provider,int taxe_id, String commodity_name, String commodity_description, String unit,
+                              double buy_price, int quantity);
 }

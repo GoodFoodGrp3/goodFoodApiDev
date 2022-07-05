@@ -2,6 +2,8 @@ package com.goodfood.api.controller;
 
 import com.goodfood.api.entities.Commodity;
 import com.goodfood.api.entities.ErrorLog;
+import com.goodfood.api.entities.Provider;
+import com.goodfood.api.entities.Taxe;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
 import com.goodfood.api.request.employee.CreateCommoditiesForm;
 import com.goodfood.api.services.CommodityService;
@@ -98,7 +100,7 @@ public class CommodityController
     public Commodity createCommoditys(@RequestBody CreateCommoditiesForm createCommoditiesForm )
     {
         return this.commodityService.createCommodities(createCommoditiesForm.getId(),
-                createCommoditiesForm.getProviderId(),
+                createCommoditiesForm.getProviderId(), createCommoditiesForm.getTaxe(),
                 createCommoditiesForm.getCommodityName(), createCommoditiesForm.getCommodityDescription(),
                 createCommoditiesForm.getUnit(),createCommoditiesForm.getBuyPrice(),
                 createCommoditiesForm.getVendorProvider(),createCommoditiesForm.getQuantity());
@@ -120,11 +122,11 @@ public class CommodityController
      */
     @PutMapping( value = "/{id}" )
     @Transactional
-    public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id, String commodity_name, String unit, double buy_price,
-                                                                                String vendor_provider, int quantity)
+    public ResponseEntity<Commodity> updateCommodity(@PathVariable( value = "id" ) int id, int provider_id, int taxe_id, String commodity_name, String commodity_description, String unit, double buy_price,
+                                                     int quantity)
     {
-        return new ResponseEntity<>(this.commodityService.updateCommodity( id, provider_id,
-                            commodity_name, unit,buy_price, vendor_provider), HttpStatus.OK);
+        return new ResponseEntity<>(this.commodityService.updateCommodity( id, provider_id,taxe_id,
+                            commodity_name, commodity_description, unit,buy_price, quantity), HttpStatus.OK);
     }
 
     // ***************
