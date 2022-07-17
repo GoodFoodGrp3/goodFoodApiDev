@@ -1,5 +1,8 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -21,8 +24,8 @@ public class Orders
      *
      */
     @Column(name = "order_id")
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(generator="system-uuid")
+    @GenericGenerator(name="system-uuid", strategy = "uuid")
     private String id;
 
     /**
@@ -38,6 +41,7 @@ public class Orders
      *
      */
     @Column(name = "order_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp order_date;
 
     /**
@@ -45,6 +49,7 @@ public class Orders
      *
      */
     @Column(name = "delivery_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp delivery_date;
 
     /**
@@ -52,6 +57,7 @@ public class Orders
      *
      */
     @Column(name = "shipped_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp shipped_date;
 
     /**

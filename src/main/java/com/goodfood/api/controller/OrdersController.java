@@ -67,6 +67,12 @@ public class OrdersController
         return this.ordersService.getOrderById(id);
     }
 
+    @GetMapping(value = "/customer/{id}")
+    public OrderTemplateForm getOrderByCustomerId(@PathVariable int id )
+    {
+        return this.ordersService.getOrderByCustomerId(id);
+    }
+
     /**
      * <p><b>Méthode/Route</b> qui permet de creer une commande.
      *

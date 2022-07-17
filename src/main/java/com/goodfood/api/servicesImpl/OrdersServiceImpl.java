@@ -9,6 +9,7 @@ import com.goodfood.api.exceptions.orders.OrderNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
 import com.goodfood.api.repositories.OrderDetailsRepository;
 import com.goodfood.api.repositories.OrdersRepository;
+import com.goodfood.api.request.orders.OrderDetailsForm;
 import com.goodfood.api.request.orders.OrderTemplateForm;
 import com.goodfood.api.services.ErrorLogServices;
 import com.goodfood.api.services.OrdersService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,10 +95,11 @@ public class OrdersServiceImpl implements OrdersService
     @Override
     public Orders registerNewOrder(OrderTemplateForm newOrder) {
         Orders order = new Orders();
-        Order_details orderDetails = new Order_details();
+        List<OrderDetailsForm> orderDetailsList = new ArrayList<>();
+        List<Order_details> order_detailsList = new ArrayList<>();
         Customers customers = new Customers();
 
-        order.setOrder_date(newOrder.getOrder_date());
+        order.setOrder_date(new Timestamp(System.currentTimeMillis()));
         order.setComments(newOrder.getComments());
 
         // Call customer profil
@@ -108,18 +112,34 @@ public class OrdersServiceImpl implements OrdersService
 
         order.setStatus(newOrder.getStatus());
 
-        order.setDelivery_date(newOrder.getDelivery_date());
-        order.setShipped_date(newOrder.getShipped_date());
+        order.setDelivery_date(new Timestamp(System.currentTimeMillis()));
+        order.setShipped_date(new Timestamp(System.currentTimeMillis()));
+
+        for (OrderDetailsForm orderDetailsRow : newOrder.getOrderDetails()) {
+            orderDetailsList.add(orderDetailsRow);
+        }
+
+        for (int i = 0; i < orderDetailsList.size(); i++) {
+            order_detailsList.add(new Order_details(orderDetailsList.get(i).getProduct_id(),order.getId(),
+                    orderDetailsList.get(i).getProduct_name(),orderDetailsList.get(i).getCode_tva_id(),
+                    orderDetailsList.get(i).getQuantity_ordered(),orderDetailsList.get(i).getPriceEach(),
+                    orderDetailsList.get(i).getOrder_line_number()));
+        }
 
         try {
             ordersRepository.save(order);
-            orderDetailsRepository.save(orderDetails);
+            orderDetailsRepository.saveAll(order_detailsList);
         } catch (Exception e) {
             e.getMessage();
             return null;
         }
 
         return order;
+    }
+
+    @Override
+    public OrderTemplateForm getOrderByCustomerId(int id) {
+        return null;
     }
 
 }

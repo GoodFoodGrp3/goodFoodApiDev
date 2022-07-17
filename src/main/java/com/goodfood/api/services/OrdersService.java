@@ -50,4 +50,6 @@ public interface OrdersService
      * @param newOrder formulaire de commande.
      */
     Orders registerNewOrder(OrderTemplateForm newOrder);
+
+    OrderTemplateForm getOrderByCustomerId(int id);
 }
