@@ -91,7 +91,7 @@ public class OfficesController
     @PostMapping(value = "")
     public Offices createOffices(@RequestBody CreateOfficesForm createOfficesForm)
     {
-        return this.officesService.createOffices(createOfficesForm.getId(), createOfficesForm.getCity(),
+        return this.officesService.createOffices(createOfficesForm.getId(), createOfficesForm.getName(), createOfficesForm.getCity(),
                 createOfficesForm.getPhone(), createOfficesForm.getAddressline1(),
                 createOfficesForm.getAddressline2(), createOfficesForm.getState(),
                 createOfficesForm.getCountry(),createOfficesForm.getPostal_code());
@@ -114,11 +114,11 @@ public class OfficesController
      */
     @PutMapping(value = "/{id}")
     @Transactional
-    public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String city, String phone,
+    public ResponseEntity<Offices> updateOffice(@PathVariable( value = "id" ) int id, String name, String city, String phone,
                                                 String addressLine1, String addressLine2, String state,
                                                 String country, String postal_code )
     {
-        return new ResponseEntity<>( this.officesService.updateOffice(id, city, phone, addressLine1, addressLine2,state,
+        return new ResponseEntity<>( this.officesService.updateOffice(id, name, city, phone, addressLine1, addressLine2,state,
                 country,postal_code), HttpStatus.OK);
     }
 

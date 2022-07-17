@@ -3,6 +3,7 @@ package com.goodfood.api.request.employee;
 public class CreateOfficesForm
 {
     private int id;
+    private String name;
     private String city;
     private String phone;
     private String addressline1;
@@ -16,10 +17,11 @@ public class CreateOfficesForm
     // CONSTRUCTOR
     // ***************
 
-    public CreateOfficesForm(int id, String city, String phone, String addressline1, String addressline2, String state,
+    public CreateOfficesForm(int id, String name, String city, String phone, String addressline1, String addressline2, String state,
                              String country, String postal_code)
     {
         this.id = id;
+        this.name = name;
         this.city = city;
         this.phone = phone;
         this.addressline1 = addressline1;
@@ -43,6 +45,10 @@ public class CreateOfficesForm
     {
         this.id = id;
     }
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
 
     public String getCity()
     {

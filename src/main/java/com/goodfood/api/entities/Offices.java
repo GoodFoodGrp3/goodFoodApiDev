@@ -26,6 +26,13 @@ public class Offices
     private int id;
 
     /**
+     * Propriété name qui représente le nom de l'office.
+     *
+     */
+    @Column(name = "name")
+    private String name;
+
+    /**
      * Propriété city qui représente la ville de l'office.
      *
      */
@@ -84,9 +91,9 @@ public class Offices
 
     }
 
-    public Offices(String city, String phone, String addressLine1, String addressLine2, String state, String country,
-                   String postalCode)
-    {
+    public Offices(int id, String name, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postalCode) {
+        this.id = id;
+        this.name = name;
         this.city = city;
         this.phone = phone;
         this.addressLine1 = addressLine1;
@@ -96,8 +103,7 @@ public class Offices
         this.postalCode = postalCode;
     }
 
-
-    // ***************
+// ***************
     // GETTER AND SETTER
     // ***************
 
@@ -181,4 +187,8 @@ public class Offices
     {
         this.postalCode = postalCode;
     }
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
 }

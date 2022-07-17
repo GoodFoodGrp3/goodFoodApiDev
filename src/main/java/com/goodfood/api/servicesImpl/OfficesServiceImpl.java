@@ -71,10 +71,10 @@ public class OfficesServiceImpl implements OfficesService
     // ***************
 
     @Override
-    public Offices createOffices(int id, String city, String phone, String addressline1, String addressline2,
+    public Offices createOffices(int id, String name, String city, String phone, String addressline1, String addressline2,
                                  String state, String country, String postal_code)
     {
-        final Offices offices = new Offices(city,phone,addressline1,addressline2,state,country,postal_code);
+        final Offices offices = new Offices(id, city, name, phone,addressline1,addressline2,state,country,postal_code);
         return  this.officesRepository.save(offices);
     }
 
@@ -84,7 +84,7 @@ public class OfficesServiceImpl implements OfficesService
     // ***************
 
     @Override
-    public Offices updateOffice(int id, String city, String phone, String addressLine1, String addressLine2,
+    public Offices updateOffice(int id,String name, String city, String phone, String addressLine1, String addressLine2,
                                 String state, String country, String postal_code)
     {
         Offices offices = this.officesRepository.findById(id);

@@ -43,7 +43,7 @@ public interface OfficesService
      * @param country de l'office.
      * @param postal_code de l'office.
      */
-    Offices createOffices(int id, String city, String phone, String addressline1 , String addressline2, String state,
+    Offices createOffices(int id, String name, String city, String phone, String addressline1 , String addressline2, String state,
                           String country, String postal_code);
 
     /**
@@ -59,6 +59,6 @@ public interface OfficesService
      * @param country de l'office.
      * @param postal_code de l'office.
      */
-    Offices updateOffice(int id, String city, String phone, String addressLine1, String addressLine2, String state,
+    Offices updateOffice(int id, String name, String city, String phone, String addressLine1, String addressLine2, String state,
                          String country, String postal_code);
 }
