@@ -24,8 +24,7 @@ public class Orders
      *
      */
     @Column(name = "order_id")
-    @Id @GeneratedValue(generator="system-uuid")
-    @GenericGenerator(name="system-uuid", strategy = "uuid")
+    @Id
     private String id;
 
     /**

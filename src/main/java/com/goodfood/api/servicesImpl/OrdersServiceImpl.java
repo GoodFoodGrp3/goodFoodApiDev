@@ -120,7 +120,7 @@ public class OrdersServiceImpl implements OrdersService
         }
 
         for (int i = 0; i < orderDetailsList.size(); i++) {
-            order_detailsList.add(new Order_details(orderDetailsList.get(i).getProduct_id(),order.getId(),
+            order_detailsList.add(new Order_details(orderDetailsList.get(i).getProduct_id(),orderUUID.toString(),
                     orderDetailsList.get(i).getProduct_name(),orderDetailsList.get(i).getCode_tva_id(),
                     orderDetailsList.get(i).getQuantity_ordered(),orderDetailsList.get(i).getPriceEach(),
                     orderDetailsList.get(i).getOrder_line_number()));

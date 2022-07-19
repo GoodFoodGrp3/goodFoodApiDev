@@ -1,5 +1,7 @@
 package com.goodfood.api.entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 /**
