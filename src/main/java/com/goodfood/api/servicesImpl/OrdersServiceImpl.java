@@ -38,6 +38,9 @@ public class OrdersServiceImpl implements OrdersService
     @Autowired
     ErrorLogServices errorLogServices;
 
+    @Autowired
+    CustomersServicesImpl customersServices;
+
 
     // ***************
     // GET
@@ -63,7 +66,7 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public Orders getOrderById(int id) throws OrderNotFoundException
+    public Orders getOrderById(String id) throws OrderNotFoundException
     {
         Orders orders = ordersRepository.findById(id);
 
@@ -81,15 +84,22 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public List<Order_details> getOneOrderDetails(int orderNumber) {
+    public OrderTemplateForm getOneOrderDetails(String orderNumber) {
+
+        Orders ordersTMP = ordersRepository.findById(orderNumber);
+
+        OrderTemplateForm finalOrder = new OrderTemplateForm(ordersTMP.getId(),ordersTMP.getOrder_date(), ordersTMP.getCustomers().getId();
+
         List<Order_details> getOrderDetailsOfOrder = orderDetailsRepository.findById(orderNumber);
 
         if(getOrderDetailsOfOrder == null || getOrderDetailsOfOrder.isEmpty()) {
             errorLogServices.recordLog( new ErrorLog(null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
-            throw new ProductsNotFoundException("Aucune commande trouvée");
+            throw new OrderNotFoundException("Aucune commande trouvée");
         }
 
-        return getOrderDetailsOfOrder;
+        finalOrder.setOrderDetails(getOrderDetailsOfOrder);
+
+        return finalOrder;
     }
 
     @Override
@@ -97,14 +107,9 @@ public class OrdersServiceImpl implements OrdersService
         Orders order = new Orders();
         List<OrderDetailsForm> orderDetailsList = new ArrayList<>();
         List<Order_details> order_detailsList = new ArrayList<>();
-        Customers customers = new Customers();
 
         order.setOrder_date(new Timestamp(System.currentTimeMillis()));
         order.setComments(newOrder.getComments());
-
-        // Call customer profil
-        customers.setId(newOrder.getCustomerId());
-        order.setCustomers(customers);
 
         //Generate order id INT
         UUID orderUUID = UUID.randomUUID();
@@ -127,6 +132,9 @@ public class OrdersServiceImpl implements OrdersService
         }
 
         try {
+
+            // Call customer profil
+            order.setCustomers(customersServices.getCustomerById(newOrder.getCustomerId()));
             ordersRepository.save(order);
             orderDetailsRepository.saveAll(order_detailsList);
         } catch (Exception e) {
@@ -138,8 +146,17 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public OrderTemplateForm getOrderByCustomerId(int id) {
-        return null;
+    public List<Orders> getOrderByCustomerId(int id) {
+
+        List<Orders> getAllOrdersByCustomerId = ordersRepository.findByCustomerId(id);
+
+        if (getAllOrdersByCustomerId == null || getAllOrdersByCustomerId.isEmpty()){
+            errorLogServices.recordLog( new ErrorLog(null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
+            throw new OrderNotFoundException( "Aucune commande trouvée" );
+        }
+        else {
+            return getAllOrdersByCustomerId;
+        }
     }
 
 }

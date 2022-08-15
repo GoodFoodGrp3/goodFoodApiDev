@@ -32,7 +32,7 @@ public interface OrdersService
      * @exception OrderNotFoundException si commande non trouvée.
      * @param id de la commande.
      */
-    Orders getOrderById(int id) throws OrderNotFoundException;
+    Orders getOrderById(String id) throws OrderNotFoundException;
 
     /**
      * <p><b>Méthode</b> qui permet de get une le détails d'une commande par son id.
@@ -41,7 +41,7 @@ public interface OrdersService
      * @exception OrderNotFoundException si commande non trouvée.
      * @param orderNumber de la commande.
      */
-    List<Order_details> getOneOrderDetails(int orderNumber);
+    OrderTemplateForm getOneOrderDetails(String orderNumber);
 
     /**
      * <p><b>Méthode</b> qui permet d'enregistrer une nouvelle commande.
@@ -51,5 +51,5 @@ public interface OrdersService
      */
     Orders registerNewOrder(OrderTemplateForm newOrder);
 
-    OrderTemplateForm getOrderByCustomerId(int id);
+    List<Orders> getOrderByCustomerId(int id);
 }

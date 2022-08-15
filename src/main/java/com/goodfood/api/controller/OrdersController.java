@@ -62,13 +62,13 @@ public class OrdersController
      * @return une commande par son id.
      */
     @GetMapping(value = "/{id}")
-    public Orders getOrderById(@PathVariable int id )
+    public Orders getOrderById(@PathVariable String id )
     {
         return this.ordersService.getOrderById(id);
     }
 
     @GetMapping(value = "/customer/{id}")
-    public OrderTemplateForm getOrderByCustomerId(@PathVariable int id )
+    public List<Orders> getOrderByCustomerId(@PathVariable int id )
     {
         return this.ordersService.getOrderByCustomerId(id);
     }
