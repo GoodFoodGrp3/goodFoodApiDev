@@ -1,12 +1,15 @@
 package com.goodfood.api.repositories;
 
 import com.goodfood.api.entities.Orders;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface OrdersRepository extends JpaRepository<Orders, String>
+@Repository
+public interface OrdersRepository extends CrudRepository<Orders, String>
 {
-    Orders findById(String id);
-    List<Orders> findByCustomerId(int id);
+    List<Orders> findByCustomers(int id);
+    Optional<Orders> findById(String id);
 }

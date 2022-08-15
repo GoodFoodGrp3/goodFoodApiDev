@@ -4,9 +4,9 @@ import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
 import com.goodfood.api.exceptions.products.ProductsNotFoundException;
-import com.goodfood.api.repositories.CommodityRepository;
-import com.goodfood.api.repositories.ProviderRepository;
-import com.goodfood.api.repositories.TaxeRepository;
+import com.goodfood.api.repositories.*;
+import com.goodfood.api.request.commodity.OrderCommodityDetailsForm;
+import com.goodfood.api.request.commodity.OrderCommodityForm;
 import com.goodfood.api.services.CommodityService;
 import com.goodfood.api.services.ErrorLogServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service(value = "CommodityService")
 public class CommodityServicesImpl implements CommodityService
@@ -23,10 +26,19 @@ public class CommodityServicesImpl implements CommodityService
     CommodityRepository commodityRepository;
 
     @Autowired
+    CommodityOrderRepository commodityOrderRepository;
+
+    @Autowired
+    CommodityOrderDetailsRepository commodityOrderDetailsRepository;
+
+    @Autowired
     ProviderRepository providerRepository;
 
     @Autowired
     TaxeRepository taxeRepository;
+
+    @Autowired
+    EmployeesServiceImpl employeesService;
 
     @Autowired
     ErrorLogServices errorLogServices;
@@ -151,6 +163,48 @@ public class CommodityServicesImpl implements CommodityService
         commodity.setQuantity(quantity);
         commodityRepository.save(commodity);
         return commodity;
+    }
+
+    /*
+    CREATION NOUVELLE COMMANDE DE MARCHANDISE
+     */
+    @Override
+    public Order_commodity registerCommodityNewOrder(OrderCommodityForm newOrder) {
+        Order_commodity order_commodity = new Order_commodity();
+        List<OrderCommodityDetailsForm> orderCommodityDetailsFormsList = new ArrayList<>();
+        List<Order_commodity_details> order_commodity_detailsList = new ArrayList<>();
+
+        order_commodity.setOrder_date(new Timestamp(System.currentTimeMillis()));
+        order_commodity.setDelivery_date(new Timestamp(System.currentTimeMillis()));
+        order_commodity.setShipped_date(new Timestamp(System.currentTimeMillis()));
+
+        //Generate order id
+        UUID orderUUID = UUID.randomUUID();
+        order_commodity.setOrder_commodity_id(orderUUID.toString());
+
+        order_commodity.setStatus(newOrder.getStatus());
+
+        for(OrderCommodityDetailsForm orderDetailsRow : newOrder.getOrderCommodityDetailsForms()){
+            orderCommodityDetailsFormsList.add(orderDetailsRow);
+        }
+
+        for (int i = 0; i < orderCommodityDetailsFormsList.size(); i++) {
+            order_commodity_detailsList.add(new Order_commodity_details(orderCommodityDetailsFormsList.get(i).getProduct_id(), orderUUID.toString(),
+                    orderCommodityDetailsFormsList.get(i).getCommodity_name(), orderCommodityDetailsFormsList.get(i).getUnit(), orderCommodityDetailsFormsList.get(i).getCode_tva_id(),
+                    orderCommodityDetailsFormsList.get(i).getQuantity_ordered(), orderCommodityDetailsFormsList.get(i).getPriceEach()));
+        }
+
+        try {
+
+            order_commodity.setEmployees(employeesService.getEmployeeById(newOrder.getEmployeeId()));
+            commodityOrderRepository.save(order_commodity);
+            commodityOrderDetailsRepository.saveAll(order_commodity_detailsList);
+
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        return order_commodity;
     }
 
 

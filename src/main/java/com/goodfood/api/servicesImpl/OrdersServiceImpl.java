@@ -1,6 +1,5 @@
 package com.goodfood.api.servicesImpl;
 
-import com.goodfood.api.entities.Customers;
 import com.goodfood.api.entities.ErrorLog;
 import com.goodfood.api.entities.Order_details;
 import com.goodfood.api.entities.Orders;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service(value = "OrdersService")
@@ -46,8 +46,6 @@ public class OrdersServiceImpl implements OrdersService
     // GET
     // ***************
 
-    //TODO getCurrentCustomerOrders(int CustomerId)
-
     /*
     Fonction pour les employes
      */
@@ -66,9 +64,9 @@ public class OrdersServiceImpl implements OrdersService
     }
 
     @Override
-    public Orders getOrderById(String id) throws OrderNotFoundException
+    public Optional<Orders> getOrderById(String id) throws OrderNotFoundException
     {
-        Orders orders = ordersRepository.findById(id);
+        Optional<Orders> orders = ordersRepository.findById(id);
 
         if(orders == null)
         {
@@ -86,19 +84,23 @@ public class OrdersServiceImpl implements OrdersService
     @Override
     public OrderTemplateForm getOneOrderDetails(String orderNumber) {
 
-        Orders ordersTMP = ordersRepository.findById(orderNumber);
+        Optional<Orders> ordersTMP = ordersRepository.findById(orderNumber);
 
-        OrderTemplateForm finalOrder = new OrderTemplateForm(ordersTMP.getId(),ordersTMP.getOrder_date(), ordersTMP.getCustomers().getId();
+        List<Order_details> oneOrderDetailsOfOrder = orderDetailsRepository.findById(orderNumber);
 
-        List<Order_details> getOrderDetailsOfOrder = orderDetailsRepository.findById(orderNumber);
+        List<OrderDetailsForm> oneOrderDetailsForm = new ArrayList<>();
 
-        if(getOrderDetailsOfOrder == null || getOrderDetailsOfOrder.isEmpty()) {
+        if(oneOrderDetailsOfOrder == null || oneOrderDetailsOfOrder.isEmpty()) {
             errorLogServices.recordLog( new ErrorLog(null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));
             throw new OrderNotFoundException("Aucune commande trouvée");
         }
 
-        finalOrder.setOrderDetails(getOrderDetailsOfOrder);
+        for (int i = 0; i < oneOrderDetailsOfOrder.size(); i++) {
+            oneOrderDetailsForm.add(new OrderDetailsForm(oneOrderDetailsOfOrder.get(i).getProduct_id(), oneOrderDetailsOfOrder.get(i).getProduct_name(),
+                    oneOrderDetailsOfOrder.get(i).getCode_tva_id(), oneOrderDetailsOfOrder.get(i).getQuantity_ordered(), oneOrderDetailsOfOrder.get(i).getPriceEach()));
+        }
 
+        OrderTemplateForm finalOrder = new OrderTemplateForm(ordersTMP.get().getId(), ordersTMP.get().getCustomers().getId(),ordersTMP.get().getStatus(), ordersTMP.get().getComments(),oneOrderDetailsForm);
         return finalOrder;
     }
 
@@ -109,16 +111,15 @@ public class OrdersServiceImpl implements OrdersService
         List<Order_details> order_detailsList = new ArrayList<>();
 
         order.setOrder_date(new Timestamp(System.currentTimeMillis()));
+        order.setDelivery_date(new Timestamp(System.currentTimeMillis()));
+        order.setShipped_date(new Timestamp(System.currentTimeMillis()));
         order.setComments(newOrder.getComments());
 
-        //Generate order id INT
+        //Generate order id
         UUID orderUUID = UUID.randomUUID();
         order.setId(orderUUID.toString());
 
         order.setStatus(newOrder.getStatus());
-
-        order.setDelivery_date(new Timestamp(System.currentTimeMillis()));
-        order.setShipped_date(new Timestamp(System.currentTimeMillis()));
 
         for (OrderDetailsForm orderDetailsRow : newOrder.getOrderDetails()) {
             orderDetailsList.add(orderDetailsRow);
@@ -127,8 +128,7 @@ public class OrdersServiceImpl implements OrdersService
         for (int i = 0; i < orderDetailsList.size(); i++) {
             order_detailsList.add(new Order_details(orderDetailsList.get(i).getProduct_id(),orderUUID.toString(),
                     orderDetailsList.get(i).getProduct_name(),orderDetailsList.get(i).getCode_tva_id(),
-                    orderDetailsList.get(i).getQuantity_ordered(),orderDetailsList.get(i).getPriceEach(),
-                    orderDetailsList.get(i).getOrder_line_number()));
+                    orderDetailsList.get(i).getQuantity_ordered(),orderDetailsList.get(i).getPriceEach()));
         }
 
         try {
@@ -139,7 +139,6 @@ public class OrdersServiceImpl implements OrdersService
             orderDetailsRepository.saveAll(order_detailsList);
         } catch (Exception e) {
             e.getMessage();
-            return null;
         }
 
         return order;
@@ -148,7 +147,7 @@ public class OrdersServiceImpl implements OrdersService
     @Override
     public List<Orders> getOrderByCustomerId(int id) {
 
-        List<Orders> getAllOrdersByCustomerId = ordersRepository.findByCustomerId(id);
+        List<Orders> getAllOrdersByCustomerId = ordersRepository.findByCustomers(id);
 
         if (getAllOrdersByCustomerId == null || getAllOrdersByCustomerId.isEmpty()){
             errorLogServices.recordLog( new ErrorLog(null, HttpStatus.NOT_FOUND, "Aucune commande trouvée"));

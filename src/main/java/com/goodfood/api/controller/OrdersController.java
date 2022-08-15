@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -62,7 +63,7 @@ public class OrdersController
      * @return une commande par son id.
      */
     @GetMapping(value = "/{id}")
-    public Orders getOrderById(@PathVariable String id )
+    public Optional<Orders> getOrderById(@PathVariable String id )
     {
         return this.ordersService.getOrderById(id);
     }

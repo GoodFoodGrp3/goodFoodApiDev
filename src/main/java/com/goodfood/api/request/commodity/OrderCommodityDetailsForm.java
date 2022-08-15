@@ -1,10 +1,12 @@
-package com.goodfood.api.request.orders;
+package com.goodfood.api.request.commodity;
 
-public class OrderDetailsForm {
+public class OrderCommodityDetailsForm {
 
     private int product_id;
 
-    private String product_name;
+    private String commodity_name;
+
+    private String unit;
 
     private int code_tva_id;
 
@@ -12,10 +14,11 @@ public class OrderDetailsForm {
 
     private double priceEach;
 
-    public OrderDetailsForm(int product_id, String product_name, int code_tva_id,
-                            int quantity_ordered, double priceEach) {
+    public OrderCommodityDetailsForm(int product_id, String commodity_name, String unit,
+                                     int code_tva_id, int quantity_ordered, double priceEach) {
         this.product_id = product_id;
-        this.product_name = product_name;
+        this.commodity_name = commodity_name;
+        this.unit = unit;
         this.code_tva_id = code_tva_id;
         this.quantity_ordered = quantity_ordered;
         this.priceEach = priceEach;
@@ -29,12 +32,20 @@ public class OrderDetailsForm {
         this.product_id = product_id;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getCommodity_name() {
+        return commodity_name;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setCommodity_name(String commodity_name) {
+        this.commodity_name = commodity_name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 
     public int getCode_tva_id() {
@@ -60,5 +71,4 @@ public class OrderDetailsForm {
     public void setPriceEach(double priceEach) {
         this.priceEach = priceEach;
     }
-
 }

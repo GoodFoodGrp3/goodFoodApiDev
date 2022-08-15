@@ -1,5 +1,7 @@
 package com.goodfood.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -22,8 +24,7 @@ public class Order_commodity
      */
     @Column(name = "order_commodity_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int order_commodity_id;
+    private String order_commodity_id;
 
     /**
      * Propriété employees qui représente l'id de l'employee qui a fais la commande.
@@ -38,6 +39,7 @@ public class Order_commodity
      *
      */
     @Column(name = "order_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp order_date;
 
     /**
@@ -45,6 +47,7 @@ public class Order_commodity
      *
      */
     @Column(name = "delivery_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp delivery_date;
 
     /**
@@ -52,6 +55,7 @@ public class Order_commodity
      *
      */
     @Column(name = "shipped_date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", timezone = "Europe/Paris")
     private Timestamp shipped_date;
 
     /**
@@ -71,63 +75,51 @@ public class Order_commodity
 
     }
 
-    public int getOrder_commodity_id()
-    {
+    public String getOrder_commodity_id() {
         return order_commodity_id;
     }
 
-    public void setOrder_commodity_id(int order_commodity_id)
-    {
+    public void setOrder_commodity_id(String order_commodity_id) {
         this.order_commodity_id = order_commodity_id;
     }
 
-    public Employees getEmployees()
-    {
+    public Employees getEmployees() {
         return employees;
     }
 
-    public void setEmployees(Employees employees)
-    {
+    public void setEmployees(Employees employees) {
         this.employees = employees;
     }
 
-    public Timestamp getOrder_date()
-    {
+    public Timestamp getOrder_date() {
         return order_date;
     }
 
-    public void setOrder_date(Timestamp order_date)
-    {
+    public void setOrder_date(Timestamp order_date) {
         this.order_date = order_date;
     }
 
-    public Timestamp getDelivery_date()
-    {
+    public Timestamp getDelivery_date() {
         return delivery_date;
     }
 
-    public void setRequired_date(Timestamp delivery_date)
-    {
+    public void setDelivery_date(Timestamp delivery_date) {
         this.delivery_date = delivery_date;
     }
 
-    public Timestamp getShipped_date()
-    {
+    public Timestamp getShipped_date() {
         return shipped_date;
     }
 
-    public void setShipped_date(Timestamp shipped_date)
-    {
+    public void setShipped_date(Timestamp shipped_date) {
         this.shipped_date = shipped_date;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(String status)
-    {
+    public void setStatus(String status) {
         this.status = status;
     }
 }

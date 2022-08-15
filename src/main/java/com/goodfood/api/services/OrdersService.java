@@ -1,13 +1,11 @@
 package com.goodfood.api.services;
 
-import com.goodfood.api.entities.Order_details;
 import com.goodfood.api.entities.Orders;
-import com.goodfood.api.exceptions.offices.OfficesNotFoundException;
 import com.goodfood.api.exceptions.orders.OrderNotFoundException;
 import com.goodfood.api.request.orders.OrderTemplateForm;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -31,8 +29,9 @@ public interface OrdersService
      * </p>
      * @exception OrderNotFoundException si commande non trouvée.
      * @param id de la commande.
+     * @return
      */
-    Orders getOrderById(String id) throws OrderNotFoundException;
+    Optional<Orders> getOrderById(String id) throws OrderNotFoundException;
 
     /**
      * <p><b>Méthode</b> qui permet de get une le détails d'une commande par son id.

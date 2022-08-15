@@ -20,19 +20,21 @@ public class Order_commodity_details
      * Propriété id qui représente l'id de Order_commodity_details.
      *
      */
-    @Column(name = "commodity_id")
+    @Column(name = "order_commodity_details_id")
     @org.springframework.data.annotation.Id
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "commodity_id")
+    private int commodity_id;
+
     /**
      * Propriété order_commodity qui représente l'id de order_commodity.
      *
      */
-    @ManyToOne
-    @JoinColumn(name = "order_commodity")
-    private Order_commodity order_commodity;
+    @Column(name = "order_commodity_id")
+    private String order_commodity_id;
 
     @Column(name = "commodity_name")
     private String commodity_name;
@@ -46,33 +48,24 @@ public class Order_commodity_details
     @Column(name = "quantity_ordered")
     private int quantity_ordered;
 
-    @Column(name = "priceEach")
+    @Column(name = "price_each")
     private double priceEach;
-
-    @Column(name = "orderLine_number")
-    private int orderLine_number;
-
 
     // ***************
     // CONSTRUCTOR
     // ***************
 
+    public Order_commodity_details() {}
 
-    public Order_commodity_details(int id, Order_commodity order_commodity, String commodity_name, String unit, int code_tva_id, int quantity_ordered, double priceEach, int orderLine_number)
-    {
-        this.id = id;
-        this.order_commodity = order_commodity;
+    public Order_commodity_details(int commodity_id, String order_commodity_id, String commodity_name,
+                                   String unit, int code_tva_id, int quantity_ordered, double priceEach) {
+        this.commodity_id = commodity_id;
+        this.order_commodity_id = order_commodity_id;
         this.commodity_name = commodity_name;
         this.unit = unit;
         this.code_tva_id = code_tva_id;
         this.quantity_ordered = quantity_ordered;
         this.priceEach = priceEach;
-        this.orderLine_number = orderLine_number;
-    }
-
-    public Order_commodity_details()
-    {
-
     }
 
     // ***************
@@ -80,83 +73,67 @@ public class Order_commodity_details
     // ***************
 
 
-    public int getId()
-    {
+    public int getId() {
         return id;
     }
 
-    public void setId(int id)
-    {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Order_commodity getOrder_commodity()
-    {
-        return order_commodity;
+    public int getCommodity_id() {
+        return commodity_id;
     }
 
-    public void setOrder_commodity(Order_commodity order_commodity)
-    {
-        this.order_commodity = order_commodity;
+    public void setCommodity_id(int commodity_id) {
+        this.commodity_id = commodity_id;
     }
 
-    public String getCommodity_name()
-    {
+    public String getOrder_commodity_id() {
+        return order_commodity_id;
+    }
+
+    public void setOrder_commodity_id(String order_commodity_id) {
+        this.order_commodity_id = order_commodity_id;
+    }
+
+    public String getCommodity_name() {
         return commodity_name;
     }
 
-    public void setCommodity_name(String commodity_name)
-    {
+    public void setCommodity_name(String commodity_name) {
         this.commodity_name = commodity_name;
     }
 
-    public String getUnit()
-    {
+    public String getUnit() {
         return unit;
     }
 
-    public void setUnit(String unit)
-    {
+    public void setUnit(String unit) {
         this.unit = unit;
     }
 
-    public int getCode_tva_id()
-    {
+    public int getCode_tva_id() {
         return code_tva_id;
     }
 
-    public void setCode_tva_id(int code_tva_id)
-    {
+    public void setCode_tva_id(int code_tva_id) {
         this.code_tva_id = code_tva_id;
     }
 
-    public int getQuantity_ordered()
-    {
+    public int getQuantity_ordered() {
         return quantity_ordered;
     }
 
-    public void setQuantity_ordered(int quantity_ordered)
-    {
+    public void setQuantity_ordered(int quantity_ordered) {
         this.quantity_ordered = quantity_ordered;
     }
 
-    public double getPriceEach()
-    {
+    public double getPriceEach() {
         return priceEach;
     }
 
-    public void setPriceEach(double priceEach)
-    {
+    public void setPriceEach(double priceEach) {
         this.priceEach = priceEach;
-    }
-
-    public int getOrderLine_number()
-    {
-        return orderLine_number;
-    }
-
-    public void setOrderLine_number(int orderLine_number)
-    {
-        this.orderLine_number = orderLine_number;
     }
 }

@@ -2,6 +2,7 @@ package com.goodfood.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
@@ -11,7 +12,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * </p>
  * @author Gaëtan T.
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = { RedisRepositoriesAutoConfiguration.class })
 public class GoodFoodApiApplication extends SpringBootServletInitializer
 {
     @Override

@@ -1,11 +1,9 @@
 package com.goodfood.api.services;
 
-import com.goodfood.api.entities.Commodity;
-import com.goodfood.api.entities.Employees;
-import com.goodfood.api.entities.Provider;
-import com.goodfood.api.entities.Taxe;
+import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.comments.CommentsNotFoundException;
 import com.goodfood.api.exceptions.commodity.CommodityNotFoundException;
+import com.goodfood.api.request.commodity.OrderCommodityForm;
 
 import java.util.List;
 
@@ -72,4 +70,11 @@ public interface CommodityService
      */
     Commodity updateCommodity(int id, int provider,int taxe_id, String commodity_name, String commodity_description, String unit,
                               double buy_price, int quantity);
+
+    /**
+     * <p><b>Méthode</b> qui permet de passer une nouvelle commande de matière première.
+     *
+     * </p>
+     */
+    Order_commodity registerCommodityNewOrder(OrderCommodityForm newOrder);
 }

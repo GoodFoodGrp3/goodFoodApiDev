@@ -10,9 +10,6 @@ public class OrderTemplateForm {
 
     private String orderId;
     private int customerId;
-//    private Timestamp order_date;
-//    private Timestamp delivery_date;
-//    private Timestamp shipped_date;
     private String status;
     private String comments;
     private List<OrderDetailsForm> orderDetails;
@@ -24,19 +21,6 @@ public class OrderTemplateForm {
         this.comments = comments;
         this.orderDetails = orderDetails;
     }
-
-    //    public OrderTemplateForm(String orderId, int customerId, Timestamp order_date,
-//                             Timestamp delivery_date, Timestamp shipped_date, String status,
-//                             String comments, List<OrderDetailsForm> orderDetails) {
-//        this.orderId = orderId;
-//        this.customerId = customerId;
-//        this.order_date = order_date;
-//        this.delivery_date = delivery_date;
-//        this.shipped_date = shipped_date;
-//        this.status = status;
-//        this.comments = comments;
-//        this.orderDetails = orderDetails;
-//    }
 
     public String getOrderId() {
         return orderId;
@@ -53,30 +37,6 @@ public class OrderTemplateForm {
     public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
-
-//    public Timestamp getOrder_date() {
-//        return order_date;
-//    }
-//
-//    public void setOrder_date(Timestamp order_date) {
-//        this.order_date = order_date;
-//    }
-//
-//    public Timestamp getDelivery_date() {
-//        return delivery_date;
-//    }
-//
-//    public void setDelivery_date(Timestamp delivery_date) {
-//        this.delivery_date = delivery_date;
-//    }
-//
-//    public Timestamp getShipped_date() {
-//        return shipped_date;
-//    }
-//
-//    public void setShipped_date(Timestamp shipped_date) {
-//        this.shipped_date = shipped_date;
-//    }
 
     public String getStatus() {
         return status;

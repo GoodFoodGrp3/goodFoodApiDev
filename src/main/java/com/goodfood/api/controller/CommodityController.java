@@ -1,10 +1,8 @@
 package com.goodfood.api.controller;
 
-import com.goodfood.api.entities.Commodity;
-import com.goodfood.api.entities.ErrorLog;
-import com.goodfood.api.entities.Provider;
-import com.goodfood.api.entities.Taxe;
+import com.goodfood.api.entities.*;
 import com.goodfood.api.exceptions.employees.EmployeeStatusException;
+import com.goodfood.api.request.commodity.OrderCommodityForm;
 import com.goodfood.api.request.employee.CreateCommoditiesForm;
 import com.goodfood.api.services.CommodityService;
 import com.goodfood.api.services.ErrorLogServices;
@@ -105,6 +103,18 @@ public class CommodityController
                 createCommoditiesForm.getUnit(),createCommoditiesForm.getBuyPrice(),
                 createCommoditiesForm.getVendorProvider(),createCommoditiesForm.getQuantity());
     }
+
+    /**
+     * <p><b>Méthode/Route</b> qui permet de creer une commande de marchandises.
+     *
+     * </p>
+     */
+    @PostMapping(value = "/newCommodityOrder")
+    public ResponseEntity<Order_commodity> sendNewCommodityOrder(@RequestBody OrderCommodityForm newOrder){
+        return  new ResponseEntity<Order_commodity>(commodityService.registerCommodityNewOrder(newOrder), HttpStatus.OK);
+    }
+
+
 
 
     // ***************

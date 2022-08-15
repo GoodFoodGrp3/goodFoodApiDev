@@ -49,43 +49,21 @@ public class Order_details
     @Column(name = "price_each")
     private double priceEach;
 
-    @Column(name = "order_line_number")
-    private int order_line_number;
-
-
     // ***************
     // CONSTRUCTOR
     // ***************
 
-
-    public Order_details(int id, int product_id, String order_id, String product_name,
-                         int code_tva_id, int quantity_ordered, double priceEach, int order_line_number)
-    {
-        this.id = id;
-        this.product_id = product_id;
-        this.order_id = order_id;
-        this.product_name = product_name;
-        this.code_tva_id = code_tva_id;
-        this.quantity_ordered = quantity_ordered;
-        this.priceEach = priceEach;
-        this.order_line_number = order_line_number;
-    }
-
     public Order_details(int product_id, String order_id, String product_name, int code_tva_id,
-                         int quantity_ordered, double priceEach, int order_line_number) {
+                         int quantity_ordered, double priceEach) {
         this.product_id = product_id;
         this.order_id = order_id;
         this.product_name = product_name;
         this.code_tva_id = code_tva_id;
         this.quantity_ordered = quantity_ordered;
         this.priceEach = priceEach;
-        this.order_line_number = order_line_number;
     }
 
-    public Order_details()
-    {
-
-    }
+    public Order_details() {}
 
     // ***************
     // GETTER AND SETTER
@@ -160,13 +138,4 @@ public class Order_details
         this.priceEach = priceEach;
     }
 
-    public int getOrder_line_number()
-    {
-        return order_line_number;
-    }
-
-    public void setOrder_line_number(int order_line_number)
-    {
-        this.order_line_number = order_line_number;
-    }
 }
