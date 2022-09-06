@@ -34,7 +34,7 @@ public class CategoriesControllerTest
     @Test
     public void testGetAllCategories() throws Exception
     {
-
+//s
         mockMvc.perform(get("/categories").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
 
