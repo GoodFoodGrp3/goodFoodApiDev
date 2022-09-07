@@ -3,6 +3,7 @@ package com.goodfood.api.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.goodfood.api.request.CreateCommentForm;
 import com.goodfood.api.request.LoginForm;
+import com.goodfood.api.security.JwtTokenUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.Collection;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -36,26 +41,52 @@ public class CommentsControllerTest
     Object token;
     String token2;
 
-/*    @BeforeEach
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @BeforeEach
     public void setUp()
     {
-        LoginForm loginform = new LoginForm("gaetan.taltavull@gmail.com","test");
+        token = jwtTokenUtil.generateToken(new UserDetails() {
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return null;
+            }
 
-        try
-        {
-            token =  jwtAuthenticationController.createAuthenticationToken(loginform, null).getBody();
-           //token = test
-        }
+            @Override
+            public String getPassword() {
+                return "test";
+            }
 
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+            @Override
+            public String getUsername() {
+                return "gaetan.taltavull@gmail.com";
+            }
 
-       *//* LoginForm loginform2 = new LoginForm("gaetan","test");
+            @Override
+            public boolean isAccountNonExpired() {
+                return true;
+            }
 
-        token2 = employeesController.login(loginform2, null).getBody().getToken();*//*
-    }*/
+            @Override
+            public boolean isAccountNonLocked() {
+                return true;
+            }
+
+            @Override
+            public boolean isCredentialsNonExpired() {
+                return true;
+            }
+
+            @Override
+            public boolean isEnabled() {
+                return true;
+            }
+        });
+//        LoginForm loginform = new LoginForm("gaetan","test");
+
+//        token = employeesController.login(loginform, null).getBody().getToken();
+    }
 
     @Autowired
     private MockMvc mockMvc;
@@ -63,7 +94,7 @@ public class CommentsControllerTest
     @Test
     public void testGetAllComment() throws Exception
     {
-        mockMvc.perform(get("/comments").header("Authorization", "Bearer "))
+        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 
@@ -73,7 +104,6 @@ public class CommentsControllerTest
         mockMvc.perform(get("/comments/1"))
                 .andExpect(status().isOk());
     }
-/*
     @Test
     public void testGetCommentByIdError() throws Exception
     {
@@ -81,7 +111,7 @@ public class CommentsControllerTest
                 .andExpect(status().is(404));
     }
 
-    @Test
+/*    @Test
     public void testCreateComment() throws Exception
     {
         CreateCommentForm createCommentForm = new CreateCommentForm(8,"test");
@@ -90,13 +120,13 @@ public class CommentsControllerTest
                         .content(mapper.writeValueAsString(createCommentForm)))
                 .andExpect( status().is( 200 ))
                 .andExpect( jsonPath( "$.content", is("test")));
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void testCreateCommentError() throws Exception
     {
         CreateCommentForm createCommentForm = new CreateCommentForm(0,"test");
-        mockMvc.perform(post("/comments").header("Authorization", "Bearer " + token2)
+        mockMvc.perform(post("/comments").header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON )
                         .content(mapper.writeValueAsString(createCommentForm)))
                 .andExpect( status().is( 404 ));
