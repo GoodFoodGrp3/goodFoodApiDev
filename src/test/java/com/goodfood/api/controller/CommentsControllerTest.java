@@ -63,7 +63,7 @@ public class CommentsControllerTest
     @Test
     public void testGetAllComment() throws Exception
     {
-        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/comments").header("Authorization", "Bearer "))
                 .andExpect(status().isOk());
     }
 
