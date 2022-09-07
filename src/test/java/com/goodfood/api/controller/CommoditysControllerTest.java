@@ -75,24 +75,24 @@ public class CommoditysControllerTest
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+  /*  @Test
     public void testGetAllCommoditys() throws Exception
     {
-        mockMvc.perform(get("/commoditys").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/commoditys").header("Authorization", "Bearer "))
                 .andExpect(status().isOk());
-    }
+    }*/
 
-    @Test
+ /*   @Test
     public void testGetCommodityById() throws  Exception
     {
-        mockMvc.perform(get("/commoditys/1").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/commoditys/1").header("Authorization", "Bearer " ))
                 .andExpect(status().isOk());
-    }
-
+    }*/
+/*
     @Test
     public void testGetCommodityByIdError() throws  Exception
     {
-        mockMvc.perform(get("/commoditys/50").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/commoditys/50").header("Authorization", "Bearer " ))
                 .andExpect(status().is(404));
-    }
+    }*/
 }

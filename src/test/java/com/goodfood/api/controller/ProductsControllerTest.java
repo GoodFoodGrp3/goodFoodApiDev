@@ -34,11 +34,11 @@ public class ProductsControllerTest
     @Test
     public void testGetAllProducts() throws Exception
     {
-        mockMvc.perform(get("/products").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/products").header("Authorization", "Bearer " ))
                 .andExpect(status().isOk());
     }
 
-    @Test
+/*    @Test
     public void testGetProductById() throws  Exception
     {
         mockMvc.perform(get("/products/1").header("Authorization", "Bearer " + token))
@@ -50,5 +50,5 @@ public class ProductsControllerTest
     {
         mockMvc.perform(get("/products/50").header("Authorization", "Bearer " + token))
                 .andExpect(status().is(404));
-    }
+    }*/
 }

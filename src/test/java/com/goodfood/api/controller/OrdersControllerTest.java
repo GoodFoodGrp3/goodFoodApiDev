@@ -31,10 +31,10 @@ public class OrdersControllerTest
     @Autowired
     private MockMvc mockMvc;
 
-    @Test
+/*    @Test
     public void testGetAllOrders() throws Exception
     {
-        mockMvc.perform(get("/orders").header("Authorization", "Bearer " + token))
+        mockMvc.perform(get("/orders").header("Authorization", "Bearer "))
                 .andExpect(status().isOk());
     }
 
@@ -50,5 +50,5 @@ public class OrdersControllerTest
     {
         mockMvc.perform(get("/orders/1").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
-    }
+    }*/
 }
