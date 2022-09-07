@@ -21,13 +21,13 @@ jobs:
         heroku_app_name: ${{secrets.HEROKU_APP_DEV}}
         
     - name: Build
-    - run: mvn --batch-mode -DskipTests package
+      run: mvn --batch-mode -DskipTests package
 
     - name: Test
-    - run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
+      run: mvn --batch-mode -Dmaven.test.failure.ignore=true test
 
     - name: Report
-    - uses: dorny/test-reporter@v1
+      uses: dorny/test-reporter@v1
       if: always()
       with:
         name: Maven Tests
