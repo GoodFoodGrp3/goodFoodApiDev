@@ -18,8 +18,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @see <a href="http://localhost:8080/v2/api-docs">Api basique accessible ici</a>
  * @author Gaëtan T.
  */
-@Configuration
-@EnableSwagger2
+
+
 public class SwaggerConfig
 {
     /**
