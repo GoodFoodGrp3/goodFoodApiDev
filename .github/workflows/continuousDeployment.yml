@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: Build
-        run: mvn --batch-mode -DskipTests package
+      run: mvn --batch-mode -DskipTests package
 
     - name: Test
       run: mvn --batch-mode -Dmaven.test.failure.ignore=false test
