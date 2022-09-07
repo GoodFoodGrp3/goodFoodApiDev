@@ -19,8 +19,7 @@ public class CategoriesControllerTest
     EmployeesController employeesController;
 
     String token;
-/*
-    @BeforeEach
+  /*  @BeforeEach
     public void setUp()
     {
         LoginForm loginform = new LoginForm("gaetan","test");

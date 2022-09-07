@@ -9,7 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+
+import javax.servlet.http.HttpServletRequest;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
@@ -25,25 +28,34 @@ public class CommentsControllerTest
     private ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
-    CustomersController customersController;
+    JwtAuthenticationController jwtAuthenticationController;
 
    /* @Autowired
     EmployeesController employeesController;*/
 
-    String token;
+    Object token;
     String token2;
 
-//    @BeforeEach
-//    public void setUp()
-//    {
-//        LoginForm loginform = new LoginForm("Melissa06","test");
-//
-//        token = customersController.login(loginform, null).getBody().getToken();
-///*
-//        LoginForm loginform2 = new LoginForm("gaetan","test");
-//
-//        token2 = employeesController.login(loginform2, null).getBody().getToken();*/
-//    }
+/*    @BeforeEach
+    public void setUp()
+    {
+        LoginForm loginform = new LoginForm("gaetan.taltavull@gmail.com","test");
+
+        try
+        {
+            token =  jwtAuthenticationController.createAuthenticationToken(loginform, null).getBody();
+           //token = test
+        }
+
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+       *//* LoginForm loginform2 = new LoginForm("gaetan","test");
+
+        token2 = employeesController.login(loginform2, null).getBody().getToken();*//*
+    }*/
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +63,7 @@ public class CommentsControllerTest
     @Test
     public void testGetAllComment() throws Exception
     {
-        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token2))
+        mockMvc.perform(get("/comments").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
     }
 
@@ -61,7 +73,7 @@ public class CommentsControllerTest
         mockMvc.perform(get("/comments/1"))
                 .andExpect(status().isOk());
     }
-
+/*
     @Test
     public void testGetCommentByIdError() throws Exception
     {
@@ -89,5 +101,5 @@ public class CommentsControllerTest
                         .content(mapper.writeValueAsString(createCommentForm)))
                 .andExpect( status().is( 404 ));
                 //.andExpect( jsonPath( "$.content", is("test")));
-    }
+    }*/
 }
