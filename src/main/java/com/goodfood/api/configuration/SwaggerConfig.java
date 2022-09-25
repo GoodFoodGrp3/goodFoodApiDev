@@ -19,7 +19,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author Gaëtan T.
  */
 
-
+@Configuration
+@EnableSwagger2
 public class SwaggerConfig
 {
     /**
@@ -28,6 +29,7 @@ public class SwaggerConfig
      * </p>
      * @return l'api graphique en swagger 2
      */
+
     @Bean
     public Docket api()
     {
